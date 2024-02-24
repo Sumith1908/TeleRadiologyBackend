@@ -5,14 +5,14 @@ import lombok.Data;
 @Data
 public class Credentials {
 
-    private int id;
+    private int id = -1;
 
-    private String email;
+    private String email = "";
 
-    private String password;
+    private String password = "";
 
-    private int active;
+    private int active = 0;
 
-    private int role;
+    private int role = -1;
 
 }

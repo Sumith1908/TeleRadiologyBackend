@@ -28,7 +28,7 @@ public class LabEntity {
     private String pinCode;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
     private CredentialsEntity userId;
 
     @Column(name = "rating")

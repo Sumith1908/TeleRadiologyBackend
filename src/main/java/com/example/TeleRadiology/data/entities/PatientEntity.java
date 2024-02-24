@@ -14,7 +14,7 @@ public class PatientEntity {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
     private CredentialsEntity userId;
 
     @Column(name = "first_name", nullable = false)
