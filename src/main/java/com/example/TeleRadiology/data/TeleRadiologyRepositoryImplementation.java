@@ -1,29 +1,40 @@
 package com.example.TeleRadiology.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
+import com.example.TeleRadiology.data.dao.ConsentDao;
 import com.example.TeleRadiology.data.dao.CredentialsDao;
 import com.example.TeleRadiology.data.dao.DoctorDao;
 import com.example.TeleRadiology.data.dao.LabDao;
 import com.example.TeleRadiology.data.dao.PatientDao;
 import com.example.TeleRadiology.data.dao.RadiologistDao;
+import com.example.TeleRadiology.data.dao.ReportDao;
 import com.example.TeleRadiology.data.dao.RoleDao;
+import com.example.TeleRadiology.data.entities.ConsentEntity;
 import com.example.TeleRadiology.data.entities.CredentialsEntity;
 import com.example.TeleRadiology.data.entities.DoctorEntity;
 import com.example.TeleRadiology.data.entities.LabEntity;
 import com.example.TeleRadiology.data.entities.PatientEntity;
 import com.example.TeleRadiology.data.entities.RadiologistEntity;
+import com.example.TeleRadiology.data.entities.ReportEntity;
 import com.example.TeleRadiology.data.entities.RoleEntity;
 import com.example.TeleRadiology.domain.TeleRadiologyRepository;
+import com.example.TeleRadiology.domain.model.Consent;
 import com.example.TeleRadiology.domain.model.Credentials;
 import com.example.TeleRadiology.domain.model.Doctor;
 import com.example.TeleRadiology.domain.model.Lab;
 import com.example.TeleRadiology.domain.model.Patient;
 import com.example.TeleRadiology.domain.model.Radiologist;
+import com.example.TeleRadiology.domain.model.Report;
+import com.example.TeleRadiology.exception.ConsentNotFoundException;
 import com.example.TeleRadiology.exception.DoctoNotFoundException;
 import com.example.TeleRadiology.exception.GlobalException;
 import com.example.TeleRadiology.exception.LabNotFoundException;
 import com.example.TeleRadiology.exception.PatientNotFoundException;
+import com.example.TeleRadiology.exception.ReportsNotFoundException;
 import com.example.TeleRadiology.exception.UserNotFoundException;
 
 import lombok.RequiredArgsConstructor;
@@ -37,6 +48,8 @@ public class TeleRadiologyRepositoryImplementation implements TeleRadiologyRepos
     private final DoctorDao docDao;
     private final RadiologistDao radDao;
     private final LabDao labDao;
+    private final ReportDao repDao;
+    private final ConsentDao consentDao;
 
     @Override
     public Credentials checkLoginCredentials(String email, int role) {
@@ -82,6 +95,18 @@ public class TeleRadiologyRepositoryImplementation implements TeleRadiologyRepos
         LabEntity labEnt = labDao.findByUserIdId(id).orElseThrow(
                 () -> new LabNotFoundException("No such lab"));
         return mapToDomainLabEntity(labEnt);
+    }
+
+    public List<Report> getReportsOfPatient(int id) {
+        List<ReportEntity> reportList = repDao.findAllByPatientIdId(id).orElseThrow(
+                () -> new ReportsNotFoundException("No reports for given patient id"));
+        return mapAllToDomainReportEntity(reportList);
+    }
+
+    public Consent checkConsent(int viewerId, int reportId) {
+        ConsentEntity consEnt = consentDao.findByViewerIdIdAndReportIdId(viewerId, reportId).orElseThrow(
+                () -> new ConsentNotFoundException("You do not have consent for this report"));
+        return mapToDomainConsentEntity(consEnt);
     }
 
     private Credentials mapToDomainCredentialsEntity(CredentialsEntity credEntity) {
@@ -170,6 +195,38 @@ public class TeleRadiologyRepositoryImplementation implements TeleRadiologyRepos
         lab.setPhoneNumber(labEnt.getPhoneNumber());
 
         return lab;
+    }
+
+    private List<Report> mapAllToDomainReportEntity(List<ReportEntity> reportList) {
+        List<Report> domainReports = new ArrayList<>();
+
+        for (ReportEntity reportEntity : reportList) {
+            domainReports.add(mapToDomainReportEntity(reportEntity));
+        }
+
+        return domainReports;
+    }
+
+    private Report mapToDomainReportEntity(ReportEntity reportEntity) {
+        Report report = new Report();
+        report.setId(reportEntity.getId());
+        report.setReportType(reportEntity.getReportType());
+        report.setPatientId(reportEntity.getPatientId().getId());
+        report.setLabId(reportEntity.getLabId().getId());
+        report.setDateOfIssue(reportEntity.getDateOfIssue());
+        report.setInitialRemarks(reportEntity.getInitialRemarks());
+        return report;
+    }
+
+    private Consent mapToDomainConsentEntity(ConsentEntity consEnt) {
+        Consent cons = new Consent();
+        cons.setId(consEnt.getId());
+        cons.setReportId(consEnt.getReportId().getId());
+        cons.setViewerId(consEnt.getViewerId().getId());
+        cons.setPatientId(consEnt.getPatientId().getId());
+        cons.setConsentDate(consEnt.getConsentDate());
+
+        return cons;
     }
 
 }

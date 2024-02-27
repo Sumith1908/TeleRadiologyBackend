@@ -20,7 +20,7 @@ public class ConsentEntity {
 
     @ManyToOne
     @JoinColumn(name = "patient_id", nullable = false)
-    private PatientEntity patienId;
+    private PatientEntity patientId;
 
     @ManyToOne
     @JoinColumn(name = "viewer_id", nullable = false)

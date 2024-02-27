@@ -1,5 +1,7 @@
 package com.example.TeleRadiology.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -7,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.TeleRadiology.domain.TeleRadiologyService;
+import com.example.TeleRadiology.dto.ConsentRequest;
+import com.example.TeleRadiology.dto.ConsentResult;
 import com.example.TeleRadiology.dto.CredentialsRequest;
 import com.example.TeleRadiology.dto.CredentialsResult;
 import com.example.TeleRadiology.dto.DetailsRequest;
@@ -14,6 +18,7 @@ import com.example.TeleRadiology.dto.DoctorResult;
 import com.example.TeleRadiology.dto.LabResult;
 import com.example.TeleRadiology.dto.PatientResult;
 import com.example.TeleRadiology.dto.RadiologistResult;
+import com.example.TeleRadiology.dto.ReportResult;
 
 import lombok.RequiredArgsConstructor;
 
@@ -53,5 +58,17 @@ public class TeleRadiologyController {
     public LabResult getLab(@RequestBody DetailsRequest detReq) {
         LabResult lab = teleRadService.getLab(detReq.getId());
         return lab;
+    }
+
+    @PostMapping("/getPatientReports")
+    public List<ReportResult> getReportsOfPatients(@RequestBody DetailsRequest detReq) {
+        List<ReportResult> reports = teleRadService.getAllReportsOfPatient(detReq.getId());
+        return reports;
+    }
+
+    @PostMapping("/checkConsent")
+    public ConsentResult checkConsent(@RequestBody ConsentRequest consReq) {
+        ConsentResult consRes = teleRadService.checkConsent(consReq.getViewerId(), consReq.getReportId());
+        return consRes;
     }
 }
