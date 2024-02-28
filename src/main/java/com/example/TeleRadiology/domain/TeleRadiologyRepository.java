@@ -32,4 +32,6 @@ public interface TeleRadiologyRepository {
 
     public int uploadPatientReport(UploadRequest upreq);
 
+    public int giveConsent(int doctorId, int reportId, int patientId);
+
 }

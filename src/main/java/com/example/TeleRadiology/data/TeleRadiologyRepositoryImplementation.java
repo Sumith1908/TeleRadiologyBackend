@@ -1,7 +1,9 @@
 package com.example.TeleRadiology.data;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
@@ -127,6 +129,24 @@ public class TeleRadiologyRepositoryImplementation implements TeleRadiologyRepos
             repDao.save(mapToRepEntity(upreq));
 
         return mapToRepEntity(upreq).getId();
+    }
+
+    public int giveConsent(int doctorId, int reportId, int patientId) {
+        DoctorEntity doc = docDao.findById(doctorId).orElseThrow(
+                () -> new DoctoNotFoundException("No such doctor"));
+        ConsentEntity consent = new ConsentEntity();
+        ReportEntity rep = repDao.findById(reportId).orElseThrow(
+                () -> new ReportsNotFoundException("No such Report"));
+        PatientEntity pat = patDao.findById(patientId).orElseThrow(
+                () -> new PatientNotFoundException("No such patient"));
+        consent.setPatientId(pat);
+        consent.setViewerId(doc.getUserId());
+        consent.setReportId(rep);
+        LocalDate currentDate = LocalDate.now();
+        consent.setConsentDate(currentDate);
+        Optional.ofNullable(consentDao.save(consent)).orElseThrow(
+                () -> new GlobalException("Failed to save"));
+        return doc.getUserId().getId();
     }
 
     public ReportEntity mapToRepEntity(UploadRequest upreq) {

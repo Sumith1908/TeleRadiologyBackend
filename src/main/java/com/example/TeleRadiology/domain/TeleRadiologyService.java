@@ -19,6 +19,8 @@ import com.example.TeleRadiology.dto.ConsentResult;
 import com.example.TeleRadiology.dto.CredentialsRequest;
 import com.example.TeleRadiology.dto.CredentialsResult;
 import com.example.TeleRadiology.dto.DoctorResult;
+import com.example.TeleRadiology.dto.GiveConsentReq;
+import com.example.TeleRadiology.dto.GiveConsentResult;
 import com.example.TeleRadiology.dto.LabResult;
 import com.example.TeleRadiology.dto.PatientResult;
 import com.example.TeleRadiology.dto.RadiologistResult;
@@ -89,6 +91,14 @@ public class TeleRadiologyService {
         int reportId = teleRep.uploadPatientReport(upreq);
         upRes.setRid(reportId);
         return upRes;
+    }
+
+    public GiveConsentResult giveConsent(GiveConsentReq req) {
+        GiveConsentResult res = new GiveConsentResult();
+        int viewerId = teleRep.giveConsent(req.getDoctorId(), req.getReportId(), req.getPatientId());
+        res.setSuccess(1);
+        res.setViewerId(viewerId);
+        return res;
     }
 
     private DoctorResult mapToDtoDoctor(Doctor doc) {

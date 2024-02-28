@@ -17,6 +17,8 @@ import com.example.TeleRadiology.dto.CredentialsRequest;
 import com.example.TeleRadiology.dto.CredentialsResult;
 import com.example.TeleRadiology.dto.DetailsRequest;
 import com.example.TeleRadiology.dto.DoctorResult;
+import com.example.TeleRadiology.dto.GiveConsentReq;
+import com.example.TeleRadiology.dto.GiveConsentResult;
 import com.example.TeleRadiology.dto.LabResult;
 import com.example.TeleRadiology.dto.PatientResult;
 import com.example.TeleRadiology.dto.RadiologistResult;
@@ -93,5 +95,10 @@ public class TeleRadiologyController {
         UploadResult upRes = teleRadService.uploadReport(upreq);
 
         return upRes;
+    }
+
+    @PostMapping("/giveConsent")
+    public GiveConsentResult giveConsent(@RequestBody GiveConsentReq consentReq) {
+        return teleRadService.giveConsent(consentReq);
     }
 }
