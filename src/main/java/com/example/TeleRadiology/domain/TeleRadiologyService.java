@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.TeleRadiology.data.entities.CredentialsEntity;
 import com.example.TeleRadiology.domain.model.Consent;
 import com.example.TeleRadiology.domain.model.Credentials;
 import com.example.TeleRadiology.domain.model.Doctor;
@@ -15,12 +16,15 @@ import com.example.TeleRadiology.domain.model.Patient;
 import com.example.TeleRadiology.domain.model.Radiologist;
 import com.example.TeleRadiology.domain.model.Report;
 import com.example.TeleRadiology.dto.ConsentResult;
+import com.example.TeleRadiology.dto.CredentialsRequest;
 import com.example.TeleRadiology.dto.CredentialsResult;
 import com.example.TeleRadiology.dto.DoctorResult;
 import com.example.TeleRadiology.dto.LabResult;
 import com.example.TeleRadiology.dto.PatientResult;
 import com.example.TeleRadiology.dto.RadiologistResult;
 import com.example.TeleRadiology.dto.ReportResult;
+import com.example.TeleRadiology.dto.UploadRequest;
+import com.example.TeleRadiology.dto.UploadResult;
 import com.example.TeleRadiology.exception.WrongPasswordException;
 
 import lombok.RequiredArgsConstructor;
@@ -71,6 +75,20 @@ public class TeleRadiologyService {
     public ConsentResult checkConsent(int viewerId, int reportId) {
         Consent cons = teleRep.checkConsent(viewerId, reportId);
         return mapToDtoConsent(cons);
+    }
+
+    public CredentialsResult addPatient(CredentialsRequest cred) {
+        CredentialsResult credRes = new CredentialsResult();
+        credRes.setUser(teleRep.addPatient(cred));
+        credRes.setPassword(1);
+        return credRes;
+    }
+
+    public UploadResult uploadReport(UploadRequest upreq) {
+        UploadResult upRes = new UploadResult();
+        int reportId = teleRep.uploadPatientReport(upreq);
+        upRes.setRid(reportId);
+        return upRes;
     }
 
     private DoctorResult mapToDtoDoctor(Doctor doc) {

@@ -29,6 +29,8 @@ import com.example.TeleRadiology.domain.model.Lab;
 import com.example.TeleRadiology.domain.model.Patient;
 import com.example.TeleRadiology.domain.model.Radiologist;
 import com.example.TeleRadiology.domain.model.Report;
+import com.example.TeleRadiology.dto.CredentialsRequest;
+import com.example.TeleRadiology.dto.UploadRequest;
 import com.example.TeleRadiology.exception.ConsentNotFoundException;
 import com.example.TeleRadiology.exception.DoctoNotFoundException;
 import com.example.TeleRadiology.exception.GlobalException;
@@ -107,6 +109,55 @@ public class TeleRadiologyRepositoryImplementation implements TeleRadiologyRepos
         ConsentEntity consEnt = consentDao.findByViewerIdIdAndReportIdId(viewerId, reportId).orElseThrow(
                 () -> new ConsentNotFoundException("You do not have consent for this report"));
         return mapToDomainConsentEntity(consEnt);
+    }
+
+    public int addPatient(CredentialsRequest cred) {
+        if (credDao.existsByEmail(cred.getEmail())) {
+            throw new GlobalException("EmailID Already Exists");
+        }
+        CredentialsEntity newUser = credDao.save(mapToCredEntity(cred));
+
+        return newUser.getId();
+    }
+
+    public int uploadPatientReport(UploadRequest upreq) {
+        if (!patDao.existsByEmail(upreq.getPatEmail()))
+            throw new PatientNotFoundException("No such patient");
+        else
+            repDao.save(mapToRepEntity(upreq));
+
+        return mapToRepEntity(upreq).getId();
+    }
+
+    public ReportEntity mapToRepEntity(UploadRequest upreq) {
+
+        PatientEntity patEnt = patDao.findByEmail(upreq.getPatEmail());
+
+        LabEntity labEnt = labDao.findByUserIdId(upreq.getLid()).orElseThrow(
+                () -> new LabNotFoundException("No such Lab"));
+
+        ReportEntity newRepEnt = new ReportEntity();
+
+        newRepEnt.setDateOfIssue(upreq.getDateOfIssue());
+        newRepEnt.setInitialRemarks(upreq.getInitialRemarks());
+        newRepEnt.setReportType(upreq.getReportType());
+        newRepEnt.setLabId(labEnt);
+        newRepEnt.setPatientId(patEnt);
+
+        return newRepEnt;
+    }
+
+    public CredentialsEntity mapToCredEntity(CredentialsRequest cred) {
+
+        RoleEntity roleEntity = roleDao.findById(cred.getRole()).orElseThrow(
+                () -> new GlobalException("Wrong role"));
+        CredentialsEntity newCred = new CredentialsEntity();
+        newCred.setEmail(cred.getEmail());
+        newCred.setPassword(cred.getPassword());
+        newCred.setActive(1);
+        newCred.setRole(roleEntity);
+
+        return newCred;
     }
 
     private Credentials mapToDomainCredentialsEntity(CredentialsEntity credEntity) {

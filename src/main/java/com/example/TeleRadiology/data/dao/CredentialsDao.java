@@ -9,4 +9,6 @@ import com.example.TeleRadiology.data.entities.RoleEntity;
 
 public interface CredentialsDao extends JpaRepository<CredentialsEntity, Integer> {
     Optional<CredentialsEntity> findByEmailAndRole(String email, RoleEntity role);
+
+    boolean existsByEmail(String email);
 }

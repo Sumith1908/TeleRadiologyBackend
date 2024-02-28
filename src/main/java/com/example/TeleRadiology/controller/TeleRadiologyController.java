@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.TeleRadiology.domain.TeleRadiologyService;
 import com.example.TeleRadiology.dto.ConsentRequest;
@@ -19,6 +21,8 @@ import com.example.TeleRadiology.dto.LabResult;
 import com.example.TeleRadiology.dto.PatientResult;
 import com.example.TeleRadiology.dto.RadiologistResult;
 import com.example.TeleRadiology.dto.ReportResult;
+import com.example.TeleRadiology.dto.UploadRequest;
+import com.example.TeleRadiology.dto.UploadResult;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,6 +38,11 @@ public class TeleRadiologyController {
         CredentialsResult credRes = teleRadService.checkCredentials(credReq.getEmail(), credReq.getRole(),
                 credReq.getPassword());
         return credRes;
+    }
+
+    @PostMapping("/uploadImage")
+    public void upload(@RequestParam("file") MultipartFile file) {
+
     }
 
     @PostMapping("/getPatient")
@@ -70,5 +79,19 @@ public class TeleRadiologyController {
     public ConsentResult checkConsent(@RequestBody ConsentRequest consReq) {
         ConsentResult consRes = teleRadService.checkConsent(consReq.getViewerId(), consReq.getReportId());
         return consRes;
+    }
+
+    @PostMapping("/createPatientCred")
+    public CredentialsResult createPatientCred(@RequestBody CredentialsRequest cred) {
+        CredentialsResult credRes = teleRadService.addPatient(cred);
+        return credRes;
+    }
+
+    @PostMapping("/uploadReport")
+    public UploadResult uploadReport(@RequestBody UploadRequest upreq) {
+
+        UploadResult upRes = teleRadService.uploadReport(upreq);
+
+        return upRes;
     }
 }

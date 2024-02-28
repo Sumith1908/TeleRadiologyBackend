@@ -8,4 +8,8 @@ import com.example.TeleRadiology.data.entities.PatientEntity;
 
 public interface PatientDao extends JpaRepository<PatientEntity, Integer> {
     Optional<PatientEntity> findByUserIdId(int id);
+
+    boolean existsByEmail(String email);
+
+    PatientEntity findByEmail(String email);
 }
