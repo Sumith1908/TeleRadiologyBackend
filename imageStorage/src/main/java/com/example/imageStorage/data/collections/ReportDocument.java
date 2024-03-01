@@ -9,7 +9,7 @@ import lombok.Data;
 @Document(collection = "reports")
 public class ReportDocument {
     @Field("report_id")
-    private int reportID;
+    private int reportId;
 
     @Field("report")
     private String report;

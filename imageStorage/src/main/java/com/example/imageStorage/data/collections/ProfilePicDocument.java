@@ -9,7 +9,7 @@ import lombok.Data;
 @Document(collection = "profilePics")
 public class ProfilePicDocument {
     @Field("user_id")
-    private int userID;
+    private int userId;
 
     @Field("profic_pic")
     private String profilePic;

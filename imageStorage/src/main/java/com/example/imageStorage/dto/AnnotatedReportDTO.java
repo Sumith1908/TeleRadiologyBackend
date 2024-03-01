@@ -3,7 +3,7 @@ package com.example.imageStorage.dto;
 import lombok.Data;
 
 @Data
-public class AddAnnotatedReportReq {
+public class AnnotatedReportDTO {
     private int annotationId;
 
     private String annotation;

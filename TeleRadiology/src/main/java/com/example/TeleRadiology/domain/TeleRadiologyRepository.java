@@ -2,7 +2,6 @@ package com.example.TeleRadiology.domain;
 
 import java.util.List;
 
-import com.example.TeleRadiology.data.entities.CredentialsEntity;
 import com.example.TeleRadiology.domain.model.Consent;
 import com.example.TeleRadiology.domain.model.Credentials;
 import com.example.TeleRadiology.domain.model.Doctor;
