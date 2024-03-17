@@ -51,4 +51,9 @@ public class ImageController {
     public ProfilePicDTO getProfilePic(@PathVariable int id) {
         return imageService.getProfilePic(id);
     }
+
+    @GetMapping("/test")
+    public String test() {
+        return "Hello";
+    }
 }
