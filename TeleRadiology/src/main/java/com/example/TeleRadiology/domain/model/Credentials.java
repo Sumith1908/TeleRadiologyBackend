@@ -13,6 +13,6 @@ public class Credentials {
 
     private int active = 0;
 
-    private int role = -1;
+    private String role = "";
 
 }

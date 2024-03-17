@@ -35,4 +35,8 @@ public class TeleRadiologyService {
         return credRes;
     }
 
+    public Credentials getDoctorByEmail(String email) {
+        return teleRep.getUserByEmail(email);
+    }
+
 }

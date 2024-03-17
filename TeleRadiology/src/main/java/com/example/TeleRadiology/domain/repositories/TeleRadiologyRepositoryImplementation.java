@@ -40,6 +40,11 @@ public class TeleRadiologyRepositoryImplementation implements TeleRadiologyRepos
         return mapToDomainCredentialsEntity(credEnt);
     }
 
+    public Credentials getUserByEmail(String email) {
+        return mapToDomainCredentialsEntity(
+                credDao.findByEmail(email).orElseThrow(() -> new UserNotFoundException("No such User")));
+    }
+
     public int addPatient(CredentialsRequest cred) {
         if (credDao.existsByEmail(cred.getEmail())) {
             throw new GlobalException("EmailID Already Exists");
@@ -68,7 +73,7 @@ public class TeleRadiologyRepositoryImplementation implements TeleRadiologyRepos
         cred.setEmail(credEntity.getEmail());
         cred.setActive(credEntity.getActive());
         cred.setPassword(credEntity.getPassword());
-        cred.setRole(credEntity.getRole().getId());
+        cred.setRole(credEntity.getRole().getRole());
         return cred;
     }
 

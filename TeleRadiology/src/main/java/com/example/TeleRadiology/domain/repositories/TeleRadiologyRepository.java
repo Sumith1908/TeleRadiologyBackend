@@ -8,4 +8,5 @@ public interface TeleRadiologyRepository {
 
     public int addPatient(CredentialsRequest cred);
 
+    public Credentials getUserByEmail(String email);
 }

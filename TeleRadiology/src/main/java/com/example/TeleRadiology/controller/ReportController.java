@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/teleRadiology")
 @RequiredArgsConstructor
-@CrossOrigin(originPatterns = "*localhost*")
+// @CrossOrigin(originPatterns = "*localhost*")
 public class ReportController {
     private final ReportService repService;
 
