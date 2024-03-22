@@ -26,9 +26,9 @@ public class SecurityConfig {
         http.csrf(config -> config.disable());
         http.authorizeHttpRequests(
                 configure -> configure
-                        .requestMatchers("/teleRadiology/getPatientReports").hasRole("DOC")
-                        .requestMatchers("/test").hasRole("USER")
-                        .anyRequest().authenticated());
+                        // .requestMatchers("/teleRadiology/getPatientReports").hasRole("DOC")
+                        // .requestMatchers("/test").hasRole("USER")
+                        .anyRequest().permitAll());
 
         http.httpBasic(Customizer.withDefaults());
 

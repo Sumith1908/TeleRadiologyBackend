@@ -25,9 +25,8 @@ public class TeleRadiologyController {
 
     @PostMapping("/loginCredentials")
     public CredentialsResult checkCredentials(@RequestBody CredentialsRequest credReq) {
-        // CredentialsResult credRes =
-        // teleRadService.checkCredentials(credReq.getEmail(), credReq.getRole(),
-        // credReq.getPassword());
+        CredentialsResult credRes = teleRadService.checkCredentials(credReq.getEmail(), credReq.getRole(),
+                credReq.getPassword());
         // return credRes;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String token = jwt.generateToken(authentication);
