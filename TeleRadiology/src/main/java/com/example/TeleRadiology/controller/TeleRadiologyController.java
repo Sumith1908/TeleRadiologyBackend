@@ -1,7 +1,11 @@
 package com.example.TeleRadiology.controller;
 
+import java.util.ArrayList;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,11 +32,22 @@ public class TeleRadiologyController {
         CredentialsResult credRes = teleRadService.checkCredentials(credReq.getEmail(), credReq.getRole(),
                 credReq.getPassword());
         // return credRes;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String token = jwt.generateToken(authentication);
-        CredentialsResult cred = new CredentialsResult();
-        cred.setToken(token);
-        return cred;
+        String role = "";
+        switch (credReq.getRole()) {
+            case 3:
+                role = "ROLE_DOC";
+                break;
+
+            default:
+                break;
+        }
+        ArrayList<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(role));
+        Authentication auth = new UsernamePasswordAuthenticationToken(
+                credReq.getEmail(), null, authorities);
+        String token = jwt.generateToken(auth);
+        credRes.setToken(token);
+        return credRes;
     }
 
     @PostMapping("/createPatientCred")

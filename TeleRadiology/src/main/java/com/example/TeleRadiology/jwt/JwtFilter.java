@@ -33,8 +33,9 @@ public class JwtFilter extends OncePerRequestFilter {
 
     }
 
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return request.getRequestURI().equals("/teleRadiology/loginCredentials");
-    }
+    // @Override
+    // protected boolean shouldNotFilter(HttpServletRequest request) throws
+    // ServletException {
+    // return request.getRequestURI().equals("/teleRadiology/loginCredentials");
+    // }
 }

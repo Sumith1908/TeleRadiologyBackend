@@ -3,7 +3,6 @@ package com.example.TeleRadiology.jwt;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.hibernate.mapping.Collection;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
