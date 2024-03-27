@@ -6,7 +6,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,8 +43,6 @@ public class TeleRadiologyController {
 
     @PostMapping("/createPatientCred")
     public CredentialsResult createPatientCred(@RequestBody CredentialsRequest cred) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        cred.setPassword(encoder.encode(cred.getPassword()));
         CredentialsResult credRes = teleRadService.addPatient(cred);
         return credRes;
     }
