@@ -4,7 +4,7 @@ import com.example.TeleRadiology.domain.model.Credentials;
 import com.example.TeleRadiology.dto.CredentialsRequest;
 
 public interface TeleRadiologyRepository {
-    public Credentials checkLoginCredentials(String email, int role);
+    public Credentials checkLoginCredentials(String email, String role);
 
     public int addPatient(CredentialsRequest cred);
 

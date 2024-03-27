@@ -6,6 +6,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,16 +32,7 @@ public class TeleRadiologyController {
     public CredentialsResult checkCredentials(@RequestBody CredentialsRequest credReq) {
         CredentialsResult credRes = teleRadService.checkCredentials(credReq.getEmail(), credReq.getRole(),
                 credReq.getPassword());
-        // return credRes;
-        String role = "";
-        switch (credReq.getRole()) {
-            case 3:
-                role = "ROLE_DOC";
-                break;
-
-            default:
-                break;
-        }
+        String role = credReq.getRole();
         ArrayList<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(role));
         Authentication auth = new UsernamePasswordAuthenticationToken(
@@ -52,6 +44,8 @@ public class TeleRadiologyController {
 
     @PostMapping("/createPatientCred")
     public CredentialsResult createPatientCred(@RequestBody CredentialsRequest cred) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        cred.setPassword(encoder.encode(cred.getPassword()));
         CredentialsResult credRes = teleRadService.addPatient(cred);
         return credRes;
     }

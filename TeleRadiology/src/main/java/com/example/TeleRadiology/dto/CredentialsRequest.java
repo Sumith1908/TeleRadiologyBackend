@@ -6,5 +6,5 @@ import lombok.Data;
 public class CredentialsRequest {
     String email;
     String password;
-    int role;
+    String role;
 }

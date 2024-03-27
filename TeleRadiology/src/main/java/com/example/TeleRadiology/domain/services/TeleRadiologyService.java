@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 public class TeleRadiologyService {
     private final TeleRadiologyRepository teleRep;
 
-    public CredentialsResult checkCredentials(String email, int role, String password) {
+    public CredentialsResult checkCredentials(String email, String role, String password) {
         Credentials cred = teleRep.checkLoginCredentials(email, role);
         CredentialsResult credRes = new CredentialsResult();
         credRes.setUser(cred.getId());

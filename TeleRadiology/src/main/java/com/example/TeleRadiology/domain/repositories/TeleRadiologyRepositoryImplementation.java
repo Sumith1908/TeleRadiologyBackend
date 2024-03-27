@@ -20,7 +20,7 @@ public class TeleRadiologyRepositoryImplementation implements TeleRadiologyRepos
     private final RoleDao roleDao;
 
     @Override
-    public Credentials checkLoginCredentials(String email, int role) {
+    public Credentials checkLoginCredentials(String email, String role) {
         // RoleEntity roleEntity = roleDao.findById(role).orElse(null);
         // Credentials cred = new Credentials();
         // if (roleEntity != null) {
@@ -33,7 +33,7 @@ public class TeleRadiologyRepositoryImplementation implements TeleRadiologyRepos
         // return cred;
         // }
         // return cred;
-        RoleEntity roleEntity = roleDao.findById(role).orElseThrow(
+        RoleEntity roleEntity = roleDao.findByRole(role).orElseThrow(
                 () -> new GlobalException("Wrong role"));
         CredentialsEntity credEnt = credDao.findByEmailAndRole(email, roleEntity).orElseThrow(
                 () -> new UserNotFoundException("User not found"));
@@ -56,7 +56,7 @@ public class TeleRadiologyRepositoryImplementation implements TeleRadiologyRepos
 
     public CredentialsEntity mapToCredEntity(CredentialsRequest cred) {
 
-        RoleEntity roleEntity = roleDao.findById(cred.getRole()).orElseThrow(
+        RoleEntity roleEntity = roleDao.findByRole(cred.getRole()).orElseThrow(
                 () -> new GlobalException("Wrong role"));
         CredentialsEntity newCred = new CredentialsEntity();
         newCred.setEmail(cred.getEmail());
