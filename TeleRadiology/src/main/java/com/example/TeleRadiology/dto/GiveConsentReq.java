@@ -7,4 +7,5 @@ public class GiveConsentReq {
     private int doctorId;
     private int patientId;
     private int reportId;
+    private int otp;
 }

@@ -1,6 +1,7 @@
 package com.example.TeleRadiology.domain.repositories;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -10,11 +11,13 @@ import org.springframework.stereotype.Component;
 import com.example.TeleRadiology.data.dao.ConsentDao;
 import com.example.TeleRadiology.data.dao.DoctorDao;
 import com.example.TeleRadiology.data.dao.LabDao;
+import com.example.TeleRadiology.data.dao.OtpDao;
 import com.example.TeleRadiology.data.dao.PatientDao;
 import com.example.TeleRadiology.data.dao.ReportDao;
 import com.example.TeleRadiology.data.entities.ConsentEntity;
 import com.example.TeleRadiology.data.entities.DoctorEntity;
 import com.example.TeleRadiology.data.entities.LabEntity;
+import com.example.TeleRadiology.data.entities.OtpEntity;
 import com.example.TeleRadiology.data.entities.PatientEntity;
 import com.example.TeleRadiology.data.entities.ReportEntity;
 import com.example.TeleRadiology.domain.model.Consent;
@@ -38,6 +41,7 @@ public class ReportRepositoryImplementation implements ReportRepository {
     private final PatientDao patDao;
     private final DoctorDao docDao;
     private final LabDao labDao;
+    private final OtpDao otpDao;
 
     public List<Report> getReportsOfPatient(int id) {
         List<ReportEntity> reportList = repDao.findAllByPatientIdId(id).orElseThrow(
@@ -58,6 +62,25 @@ public class ReportRepositoryImplementation implements ReportRepository {
             repDao.save(mapToRepEntity(upreq));
 
         return mapToRepEntity(upreq).getId();
+    }
+
+    @Override
+    public String setOtp(int otp, int id) {
+        PatientEntity pat = patDao.findById(id).orElse(null);
+        OtpEntity otpEnt = otpDao.findByPatientIdId(id).orElse(null);
+        LocalDateTime time = LocalDateTime.now();
+        if (otpEnt == null) {
+            OtpEntity newOtpEntity = new OtpEntity();
+            newOtpEntity.setOtp(otp);
+            newOtpEntity.setPatientId(pat);
+            newOtpEntity.setTime(time);
+            otpDao.save(newOtpEntity);
+        } else {
+            otpEnt.setOtp(otp);
+            otpEnt.setTime(time);
+            otpDao.save(otpEnt);
+        }
+        return pat.getEmail();
     }
 
     public int giveConsent(int doctorId, int reportId, int patientId) {

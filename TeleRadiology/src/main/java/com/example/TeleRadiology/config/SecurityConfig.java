@@ -26,6 +26,8 @@ public class SecurityConfig {
                 configure -> configure
                         .requestMatchers("/teleRadiology/loginCredentials").permitAll()
                         .requestMatchers("/teleRadiology/createPatientCred").permitAll()
+                        .requestMatchers("/teleRadiology/otpVerification/*").permitAll()
+                        .requestMatchers("/teleRadiology/giveConsent").permitAll()
                         .anyRequest().authenticated());
 
         http.httpBasic(Customizer.withDefaults());
