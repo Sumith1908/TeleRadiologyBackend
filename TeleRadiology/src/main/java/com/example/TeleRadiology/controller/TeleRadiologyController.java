@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.example.TeleRadiology.domain.services.TeleRadiologyService;
 import com.example.TeleRadiology.dto.CredentialsRequest;
@@ -24,11 +26,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @CrossOrigin(originPatterns = "*localhost*")
 public class TeleRadiologyController {
+    private static final Logger logger = LoggerFactory.getLogger(TeleRadiologyController.class);
     private final TeleRadiologyService teleRadService;
     private final JwtService jwt;
 
     @PostMapping("/loginCredentials")
     public CredentialsResult checkCredentials(@RequestBody CredentialsRequest credReq) {
+        logger.info("User '{}' tried to login", credReq.getEmail());
         CredentialsResult credRes = teleRadService.checkCredentials(credReq.getEmail(), credReq.getRole(),
                 credReq.getPassword());
         String role = credReq.getRole();
