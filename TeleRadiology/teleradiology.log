@@ -698,3 +698,19 @@ Caused by: org.hibernate.HibernateException: Unable to determine Dialect without
 2024-03-29T15:38:51.472+05:30  INFO 9580 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
 2024-03-29T15:42:36.185+05:30  WARN 9580 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=52s18ms602µs300ns).
 2024-03-29T16:18:14.619+05:30  WARN 9580 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=35m8s429ms615µs800ns).
+2024-03-29T16:36:36.949+05:30  WARN 9580 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=8m22s183ms97µs800ns).
+2024-03-29T16:47:44.829+05:30  WARN 9580 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=7m7s807ms569µs500ns).
+2024-03-29T19:30:55.997+05:30  WARN 9580 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2h43m11s168ms878µs900ns).
+2024-03-29T19:35:51.157+05:30  INFO 9580 --- [http-nio-8080-exec-7] c.e.T.c.TeleRadiologyController          : User 'patient1@example.com' tried to login
+2024-03-29T19:36:10.520+05:30  INFO 9580 --- [http-nio-8080-exec-3] c.e.T.c.TeleRadiologyController          : User 'patient1@example.com' tried to login
+2024-03-29T19:36:38.553+05:30  INFO 9580 --- [http-nio-8080-exec-2] c.e.T.c.TeleRadiologyController          : User 'patient1@example.com' tried to login
+2024-03-29T19:39:26.209+05:30  INFO 9580 --- [http-nio-8080-exec-9] c.e.T.c.TeleRadiologyController          : User 'patient1@example.com' tried to login
+2024-03-29T19:39:57.054+05:30  INFO 9580 --- [http-nio-8080-exec-10] c.e.T.c.TeleRadiologyController          : User 'patient1@example.com' tried to login
+2024-03-29T19:40:20.389+05:30  INFO 9580 --- [http-nio-8080-exec-4] c.e.T.c.TeleRadiologyController          : User 'patient1@example.com' tried to login
+2024-03-29T19:45:54.157+05:30  INFO 9580 --- [http-nio-8080-exec-5] c.e.T.c.TeleRadiologyController          : User 'patient1@example.com' tried to login
+2024-03-29T19:46:04.057+05:30  INFO 9580 --- [http-nio-8080-exec-6] c.e.T.c.TeleRadiologyController          : User 'patient1@example.com' tried to login
+2024-03-29T19:46:24.856+05:30  INFO 9580 --- [http-nio-8080-exec-7] c.e.T.c.TeleRadiologyController          : User 'patient1@example.com' tried to login
+2024-03-29T19:52:56.071+05:30  INFO 9580 --- [http-nio-8080-exec-3] c.e.T.c.TeleRadiologyController          : User 'patient1@example.com' tried to login
+2024-03-29T19:54:13.667+05:30  INFO 9580 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-03-29T19:54:13.725+05:30  INFO 9580 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-03-29T19:54:13.778+05:30  INFO 9580 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
