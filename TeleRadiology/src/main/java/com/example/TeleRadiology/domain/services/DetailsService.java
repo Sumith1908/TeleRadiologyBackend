@@ -1,5 +1,6 @@
 package com.example.TeleRadiology.domain.services;
 
+import java.util.*;
 import org.springframework.stereotype.Service;
 
 import com.example.TeleRadiology.domain.model.Doctor;
@@ -37,6 +38,12 @@ public class DetailsService {
     public LabResult getLab(int id) {
         Lab lab = detRep.getLab(id);
         return mapToDtoLabResult(lab);
+    }
+
+    public List<Doctor> getListOfDoctors(){
+        List <Doctor> doctorList=new ArrayList<>();
+        doctorList=detRep.getDoctors();
+        return doctorList;
     }
 
     private DoctorResult mapToDtoDoctor(Doctor doc) {

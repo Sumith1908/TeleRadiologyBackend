@@ -1,5 +1,6 @@
 package com.example.TeleRadiology.domain.repositories;
 
+import java.util.*;
 import com.example.TeleRadiology.domain.model.Doctor;
 import com.example.TeleRadiology.domain.model.Lab;
 import com.example.TeleRadiology.domain.model.Patient;
@@ -13,4 +14,6 @@ public interface DetailsRepository {
     public Radiologist getRadiologist(int id);
 
     public Lab getLab(int id);
+
+    public List<Doctor> getDoctors();
 }

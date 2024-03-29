@@ -24,12 +24,12 @@ public class SecurityConfig {
         http.csrf(config -> config.disable());
         http.authorizeHttpRequests(
                 configure -> configure
-                        .requestMatchers("/teleRadiology/loginCredentials").permitAll()
-                        .requestMatchers("/teleRadiology/createPatientCred").permitAll()
-                        .requestMatchers("/teleRadiology/otpVerification/*").permitAll()
-                        .requestMatchers("/teleRadiology/giveConsent").permitAll()
-                        .anyRequest().authenticated());
-
+//                        .requestMatchers("/teleRadiology/loginCredentials").permitAll()
+//                        .requestMatchers("/teleRadiology/createPatientCred").permitAll()
+//                        .requestMatchers("/teleRadiology/otpVerification/*").permitAll()
+//                        .requestMatchers("/teleRadiology/giveConsent").permitAll()
+//                        .anyRequest().authenticated());
+                        .anyRequest().permitAll());
         http.httpBasic(Customizer.withDefaults());
 
         http.addFilterBefore(jwtFilter, BasicAuthenticationFilter.class);

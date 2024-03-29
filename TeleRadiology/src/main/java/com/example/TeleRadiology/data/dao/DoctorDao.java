@@ -8,4 +8,6 @@ import com.example.TeleRadiology.data.entities.DoctorEntity;
 
 public interface DoctorDao extends JpaRepository<DoctorEntity, Integer> {
     Optional<DoctorEntity> findByUserIdId(int id);
+
+
 }

@@ -1,5 +1,6 @@
 package com.example.TeleRadiology.domain.repositories;
 
+import java.util.*;
 import org.springframework.stereotype.Component;
 
 import com.example.TeleRadiology.data.dao.DoctorDao;
@@ -50,6 +51,23 @@ public class DetailsRepositoryImplementation implements DetailsRepository {
         LabEntity labEnt = labDao.findByUserIdId(id).orElseThrow(
                 () -> new LabNotFoundException("No such lab"));
         return mapToDomainLabEntity(labEnt);
+    }
+
+    public List<Doctor> getDoctors(){
+        List <DoctorEntity> doctorEntityList=new ArrayList<>();
+        doctorEntityList=docDao.findAll();
+
+        return mapAllToDomainDoctorEntity(doctorEntityList);
+    }
+
+    private List <Doctor> mapAllToDomainDoctorEntity(List <DoctorEntity> doctorEntityList){
+
+        List <Doctor> doctorList=new ArrayList<>();
+
+        for(DoctorEntity docEntity:doctorEntityList)
+            doctorList.add(mapToDomainDoctorEntity(docEntity));
+
+        return doctorList;
     }
 
     private Patient mapToDomainPatientEntity(PatientEntity patEnt) {
@@ -129,5 +147,4 @@ public class DetailsRepositoryImplementation implements DetailsRepository {
 
         return lab;
     }
-
 }
