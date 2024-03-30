@@ -5,11 +5,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class TestController {
-    @GetMapping(value = "/test")
-    public String test() throws Exception {
 
-        // throw new Exception("This is a test exception");
-        return "Hello, World!";
+    @GetMapping(value = "/test")
+    public Boolean test() throws Exception {
+        return true;
     }
 
     @GetMapping(value = "/secure")

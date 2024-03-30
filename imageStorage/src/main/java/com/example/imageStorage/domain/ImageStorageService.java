@@ -2,7 +2,11 @@ package com.example.imageStorage.domain;
 
 import java.util.Optional;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.example.imageStorage.data.collections.AnnotationDocument;
 import com.example.imageStorage.data.collections.ProfilePicDocument;
@@ -15,6 +19,7 @@ import com.example.imageStorage.dto.ProfilePicDTO;
 import com.example.imageStorage.dto.ReportDTO;
 import com.example.imageStorage.exception.FailedToRetrieveException;
 import com.example.imageStorage.exception.FailedToSaveException;
+import com.example.imageStorage.exception.GlobalException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,8 +29,33 @@ public class ImageStorageService {
     private final ReportDao repDao;
     private final AnnotationDao annDao;
     private final ProfilePicDao profileDao;
+    private final WebClient webClient;
+
+    // private static ExchangeFilterFunction clientRegistrationId(String authToken)
+    // {
+    // return (clientRequest, next) -> {
+    // // Add authentication token as a header
+    // clientRequest.headers(headers -> {
+    // headers.add("Authorization", "Bearer " + authToken);
+    // });
+    // // Continue the chain
+    // return next.exchange(clientRequest);
+    // };
+    // }
 
     public boolean addReport(String image, int id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String authToken = auth.getPrincipal().toString();
+        Boolean authenticated = false;
+        authenticated = webClient.get()
+                .uri("http://localhost:8081/test")
+                .headers(headers -> headers.setBearerAuth(authToken))
+                .retrieve()
+                .bodyToMono(Boolean.class)
+                .block();
+
+        System.out.println("Authenticated");
+        System.out.println(authenticated);
         ReportDocument repDoc = new ReportDocument();
         repDoc.setReport(image);
         repDoc.setReportId(id);
