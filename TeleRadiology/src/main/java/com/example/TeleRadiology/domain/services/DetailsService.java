@@ -45,6 +45,11 @@ public class DetailsService {
         doctorList=detRep.getDoctors();
         return doctorList;
     }
+    public List<Patient> getListOfPatients(){
+        List <Patient> patientList=new ArrayList<>();
+        patientList=detRep.getPatients();
+        return patientList;
+    }
 
     private DoctorResult mapToDtoDoctor(Doctor doc) {
         DoctorResult docRes = new DoctorResult();
