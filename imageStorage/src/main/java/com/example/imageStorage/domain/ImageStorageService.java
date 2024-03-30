@@ -18,6 +18,7 @@ import com.example.imageStorage.dto.ProfilePicDTO;
 import com.example.imageStorage.dto.ReportDTO;
 import com.example.imageStorage.exception.FailedToRetrieveException;
 import com.example.imageStorage.exception.FailedToSaveException;
+import com.example.imageStorage.exception.GlobalException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,31 +30,26 @@ public class ImageStorageService {
     private final ProfilePicDao profileDao;
     private final WebClient webClient;
 
-    // private static ExchangeFilterFunction clientRegistrationId(String authToken)
-    // {
-    // return (clientRequest, next) -> {
-    // // Add authentication token as a header
-    // clientRequest.headers(headers -> {
-    // headers.add("Authorization", "Bearer " + authToken);
-    // });
-    // // Continue the chain
-    // return next.exchange(clientRequest);
-    // };
-    // }
-
-    public boolean addReport(String image, int id) {
+    private boolean authenticate() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String authToken = auth.getPrincipal().toString();
         Boolean authenticated = false;
-        authenticated = webClient.get()
-                .uri("http://localhost:8081/test")
-                .headers(headers -> headers.setBearerAuth(authToken))
-                .retrieve()
-                .bodyToMono(Boolean.class)
-                .block();
+        try {
+            authenticated = webClient.get()
+                    .uri("http://localhost:8081/authenticate")
+                    .headers(headers -> headers.setBearerAuth(authToken))
+                    .retrieve()
+                    .bodyToMono(Boolean.class)
+                    .block();
+        } catch (Exception e) {
+            throw new GlobalException("Unauthorized");
+        }
 
-        System.out.println("Authenticated");
-        System.out.println(authenticated);
+        return authenticated;
+    }
+
+    public boolean addReport(String image, int id) {
+        authenticate();
         ReportDocument repDoc = new ReportDocument();
         repDoc.setReport(image);
         repDoc.setReportId(id);
@@ -63,12 +59,14 @@ public class ImageStorageService {
     }
 
     public ReportDTO getReport(int id) {
+        authenticate();
         ReportDocument repDoc = repDao.findByReportId(id).orElseThrow(
                 () -> new FailedToRetrieveException("Failed to find entity from MongoDB"));
         return mapToDTOReportDocument(repDoc);
     }
 
     public boolean addAnnotatedReport(String image, int id) {
+        authenticate();
         AnnotationDocument annDoc = new AnnotationDocument();
         annDoc.setAnnotation(image);
         annDoc.setAnnotationId(id);
@@ -78,18 +76,21 @@ public class ImageStorageService {
     }
 
     public AnnotatedReportDTO getAnnotation(int id) {
+        authenticate();
         AnnotationDocument annDoc = annDao.findByAnnotationId(id).orElseThrow(
                 () -> new FailedToRetrieveException("Failed to find entity from MongoDB"));
         return mapToDTOAnnotationDocument(annDoc);
     }
 
     public ProfilePicDTO getProfilePic(int id) {
+        authenticate();
         ProfilePicDocument profileDoc = profileDao.findByUserId(id).orElseThrow(
                 () -> new FailedToRetrieveException("Failed to find entity from MongoDB"));
         return mapToDTOProfilePicDocument(profileDoc);
     }
 
     public boolean addProfilePic(String image, int id) {
+        authenticate();
         ProfilePicDocument profilePic = new ProfilePicDocument();
         profilePic.setProfilePic(image);
         profilePic.setUserId(id);

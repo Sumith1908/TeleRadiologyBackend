@@ -12,7 +12,6 @@ import com.example.imageStorage.domain.ImageStorageService;
 import com.example.imageStorage.dto.AnnotatedReportDTO;
 import com.example.imageStorage.dto.ProfilePicDTO;
 import com.example.imageStorage.dto.ReportDTO;
-import com.example.imageStorage.exception.GlobalException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,11 +24,7 @@ public class ImageController {
 
     @PostMapping("/uploadReport")
     public boolean addReport(@RequestBody ReportDTO addRep) {
-        try {
-            imageService.addReport(addRep.getReport(), addRep.getReportId());
-        } catch (Exception e) {
-            throw new GlobalException("Unauthorized");
-        }
+        imageService.addReport(addRep.getReport(), addRep.getReportId());
         return true;
     }
 
