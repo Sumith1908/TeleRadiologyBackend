@@ -37,7 +37,7 @@ public class ImageStorageService {
         try {
             authenticated = webClient.get()
                     .uri("http://localhost:8081/authenticate")
-                    .headers(headers -> headers.setBearerAuth(authToken))
+                    // .headers(headers -> headers.setBearerAuth(authToken))
                     .retrieve()
                     .bodyToMono(Boolean.class)
                     .block();
