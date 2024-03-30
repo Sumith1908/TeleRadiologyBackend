@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.example.imageStorage.data.collections.AnnotationDocument;
@@ -19,7 +18,6 @@ import com.example.imageStorage.dto.ProfilePicDTO;
 import com.example.imageStorage.dto.ReportDTO;
 import com.example.imageStorage.exception.FailedToRetrieveException;
 import com.example.imageStorage.exception.FailedToSaveException;
-import com.example.imageStorage.exception.GlobalException;
 
 import lombok.RequiredArgsConstructor;
 
