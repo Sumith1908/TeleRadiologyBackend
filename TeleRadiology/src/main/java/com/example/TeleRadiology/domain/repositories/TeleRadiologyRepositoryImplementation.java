@@ -35,7 +35,7 @@ public class TeleRadiologyRepositoryImplementation implements TeleRadiologyRepos
         // return cred;
         RoleEntity roleEntity = roleDao.findByRole(role).orElseThrow(
                 () -> new GlobalException("Wrong role"));
-        CredentialsEntity credEnt = credDao.findByEmailAndRole(email, roleEntity.getId()).orElseThrow(
+        CredentialsEntity credEnt = credDao.findByEmailAndRoleId(email, roleEntity.getId()).orElseThrow(
                 () -> new UserNotFoundException("User not found"));
         return mapToDomainCredentialsEntity(credEnt);
     }
