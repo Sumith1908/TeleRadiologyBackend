@@ -1,11 +1,13 @@
 package com.example.TeleRadiology.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
 
 import com.example.TeleRadiology.domain.services.EmailOtpService;
 import com.example.TeleRadiology.domain.services.ReportService;
+import com.example.TeleRadiology.domain.model.Consent;
 import com.example.TeleRadiology.dto.ConsentRequest;
 import com.example.TeleRadiology.dto.ConsentResult;
 import com.example.TeleRadiology.dto.DetailsRequest;
@@ -59,4 +61,11 @@ public class ReportController {
         return consRes;
     }
 
+    @GetMapping("/getReportViewers/{id}")
+    public List<Consent> getViewers(@PathVariable("id") int id) {
+        List<Consent> ConsentList=new ArrayList<>();
+        ConsentList=repService.getReportViewers(id);
+
+        return ConsentList;
+    }
 }

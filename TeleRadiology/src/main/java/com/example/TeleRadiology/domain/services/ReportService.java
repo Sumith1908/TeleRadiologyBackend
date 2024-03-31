@@ -47,6 +47,12 @@ public class ReportService {
         return upRes;
     }
 
+    public List<Consent> getReportViewers(int reportId) {
+        List <Consent> ConsentList=new ArrayList<>();
+        ConsentList=reportRepo.getViewers(reportId);
+        return ConsentList;
+    }
+
     public GiveConsentResult giveConsent(GiveConsentReq req) {
         OtpEntity otp = otpDao.findByPatientIdId(req.getPatientId()).orElseThrow(
                 () -> new NoOtpException("Wrong Otp"));
