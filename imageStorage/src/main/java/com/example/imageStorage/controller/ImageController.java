@@ -24,7 +24,8 @@ public class ImageController {
 
     @PostMapping("/uploadReport")
     public boolean addReport(@RequestBody ReportDTO addRep) {
-        return imageService.addReport(addRep.getReport(), addRep.getReportId());
+        imageService.addReport(addRep.getReport(), addRep.getReportId());
+        return true;
     }
 
     @PostMapping("/uploadAnnotatedReport")

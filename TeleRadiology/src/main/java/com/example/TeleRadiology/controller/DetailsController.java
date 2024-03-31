@@ -15,6 +15,7 @@ import com.example.TeleRadiology.dto.LabResult;
 import com.example.TeleRadiology.dto.PatientResult;
 import com.example.TeleRadiology.dto.RadiologistResult;
 import com.example.TeleRadiology.domain.model.Doctor;
+import com.example.TeleRadiology.domain.model.Patient;
 
 import lombok.RequiredArgsConstructor;
 
@@ -55,5 +56,12 @@ public class DetailsController {
         doctorList=detService.getListOfDoctors();
 
         return doctorList;
+    }
+    @GetMapping("/getAllPatients")
+    public List<Patient> getAllPatients() {
+        List <Patient> patientList=new ArrayList<>();
+        patientList=detService.getListOfPatients();
+
+        return patientList;
     }
 }
