@@ -53,35 +53,39 @@ public class DetailsRepositoryImplementation implements DetailsRepository {
         return mapToDomainLabEntity(labEnt);
     }
 
-    public List<Doctor> getDoctors(){
-        List <DoctorEntity> doctorEntityList=new ArrayList<>();
-        doctorEntityList=docDao.findAll();
+    public List<Doctor> getDoctors() {
+        List<DoctorEntity> doctorEntityList = new ArrayList<>();
+        doctorEntityList = docDao.findAll();
 
         return mapAllToDomainDoctorEntity(doctorEntityList);
     }
-    public List<Patient> getPatients(){
-        List <PatientEntity> patientEntityList=new ArrayList<>();
-        patientEntityList=patDao.findAll();
+
+    public List<Patient> getPatients() {
+        List<PatientEntity> patientEntityList = new ArrayList<>();
+        patientEntityList = patDao.findAll();
 
         return mapAllToDomainPatientEntity(patientEntityList);
     }
 
-    private List <Doctor> mapAllToDomainDoctorEntity(List <DoctorEntity> doctorEntityList){
+    private List<Doctor> mapAllToDomainDoctorEntity(List<DoctorEntity> doctorEntityList) {
 
-        List <Doctor> doctorList=new ArrayList<>();
+        List<Doctor> doctorList = new ArrayList<>();
 
-        for(DoctorEntity docEntity:doctorEntityList)
+        for (DoctorEntity docEntity : doctorEntityList) {
             doctorList.add(mapToDomainDoctorEntity(docEntity));
 
+        }
         return doctorList;
     }
-    private List <Patient> mapAllToDomainPatientEntity(List <PatientEntity> patientEntityList){
 
-        List <Patient> patientList=new ArrayList<>();
+    private List<Patient> mapAllToDomainPatientEntity(List<PatientEntity> patientEntityList) {
 
-        for(PatientEntity patEntity:patientEntityList)
-        patientList.add(mapToDomainPatientEntity(patEntity));
+        List<Patient> patientList = new ArrayList<>();
 
+        for (PatientEntity patEntity : patientEntityList) {
+            patientList.add(mapToDomainPatientEntity(patEntity));
+
+        }
         return patientList;
     }
 

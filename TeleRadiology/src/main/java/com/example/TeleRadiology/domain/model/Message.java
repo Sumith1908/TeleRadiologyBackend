@@ -7,8 +7,6 @@ import lombok.Data;
 @Data
 public class Message {
 
-    private int id;
-
     private int chatId;
 
     private String message;

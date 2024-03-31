@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class ChatReq {
-    private int id;
+    private int user1Id;
+    private int user2Id;
     private int reportId;
 }
