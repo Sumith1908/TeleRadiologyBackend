@@ -25,12 +25,14 @@ import com.example.TeleRadiology.data.entities.ReportEntity;
 import com.example.TeleRadiology.domain.model.Consent;
 import com.example.TeleRadiology.domain.model.Report;
 import com.example.TeleRadiology.dto.UploadRequest;
+import com.example.TeleRadiology.dto.RemoveConsentReq;
 import com.example.TeleRadiology.exception.ConsentNotFoundException;
 import com.example.TeleRadiology.exception.DoctoNotFoundException;
 import com.example.TeleRadiology.exception.GlobalException;
 import com.example.TeleRadiology.exception.LabNotFoundException;
 import com.example.TeleRadiology.exception.PatientNotFoundException;
 import com.example.TeleRadiology.exception.ReportsNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
@@ -74,6 +76,11 @@ public class ReportRepositoryImplementation implements ReportRepository {
         return mapAllToDomainConsentEntity(ConsentList);
     }
 
+    @Transactional
+    public int removeConsent(RemoveConsentReq removeConsentReq) {
+        consentDao.deleteByReportIdIdAndViewerIdId(removeConsentReq.getReportId(),removeConsentReq.getViewerId());
+        return 0;
+    }
     @Override
     public String setOtp(int otp, int id) {
         PatientEntity pat = patDao.findById(id).orElse(null);

@@ -17,6 +17,8 @@ import com.example.TeleRadiology.dto.ReportList;
 import com.example.TeleRadiology.dto.ReportResult;
 import com.example.TeleRadiology.dto.UploadRequest;
 import com.example.TeleRadiology.dto.UploadResult;
+import com.example.TeleRadiology.dto.RemoveConsentReq;
+
 
 import lombok.RequiredArgsConstructor;
 
@@ -63,9 +65,16 @@ public class ReportController {
 
     @GetMapping("/getReportViewers/{id}")
     public List<Consent> getViewers(@PathVariable("id") int id) {
-        List<Consent> ConsentList=new ArrayList<>();
-        ConsentList=repService.getReportViewers(id);
+        List<Consent> ConsentList = new ArrayList<>();
+        ConsentList = repService.getReportViewers(id);
 
         return ConsentList;
+    }
+
+    @PostMapping("/removeConsent")
+    public int removeConsent(@RequestBody RemoveConsentReq removeConsentReq) {
+        repService.deleteConsent(removeConsentReq);
+
+        return 0;
     }
 }
