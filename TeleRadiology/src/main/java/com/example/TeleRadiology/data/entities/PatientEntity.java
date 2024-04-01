@@ -65,4 +65,24 @@ public class PatientEntity {
     @Column(name = "profile_photo")
     private String profilePhoto;
 
+    @Column(name = "allergies")
+    private String allergies;
+
+    @Column(name = "current_medication")
+    private String currentMedication;
+
+    @Column(name = "past_medication")
+    private String pastMedication;
+
+    @Column(name = "chronic_diseases")
+    private String chronicDiseases;
+
+    @Column(name = "smoking_habits")
+    private String smokingHabits;
+
+    @Column(name = "drinking_habits")
+    private String drinkingHabits;
+
+    @Column(name = "food_preferences")
+    private String foodPreferences;
 }
