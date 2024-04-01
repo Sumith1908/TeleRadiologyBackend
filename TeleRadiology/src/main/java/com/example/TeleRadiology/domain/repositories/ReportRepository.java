@@ -16,4 +16,6 @@ public interface ReportRepository {
     public Consent checkConsent(int viewerId, int reportId);
 
     public String setOtp(int otp, int id);
+
+    public List<Consent> getViewers(int id);
 }
