@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.TeleRadiology.domain.repositories.ChatRepository;
+import com.example.TeleRadiology.dto.GetChatsResult;
 import com.example.TeleRadiology.domain.model.Message;
 import lombok.RequiredArgsConstructor;
 
@@ -37,5 +38,9 @@ public class ChatService {
         int user2 = Math.max(reciever, sender);
         int chatId = chatRepo.getChatId(user1, user2, reportId);
         chatRepo.addMessage(sender, chatId, message);
+    }
+
+    public GetChatsResult getChats(int userId) {
+        return chatRepo.getChats(userId);
     }
 }
