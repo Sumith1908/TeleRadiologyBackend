@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.example.TeleRadiology.domain.model.Doctor;
 import org.springframework.stereotype.Component;
 
 import com.example.TeleRadiology.data.dao.ConsentDao;
@@ -15,7 +14,6 @@ import com.example.TeleRadiology.data.dao.LabDao;
 import com.example.TeleRadiology.data.dao.OtpDao;
 import com.example.TeleRadiology.data.dao.PatientDao;
 import com.example.TeleRadiology.data.dao.ReportDao;
-import com.example.TeleRadiology.data.dao.ConsentDao;
 import com.example.TeleRadiology.data.entities.ConsentEntity;
 import com.example.TeleRadiology.data.entities.DoctorEntity;
 import com.example.TeleRadiology.data.entities.LabEntity;
@@ -69,10 +67,9 @@ public class ReportRepositoryImplementation implements ReportRepository {
     }
 
     public List<Consent> getViewers(int id) {
-    List<ConsentEntity> ConsentList=new ArrayList<>();
-        ConsentList=consentDao.findAllByReportIdId(id).orElseThrow(
-                ()->new GlobalException("Viewers Not Found")
-        );
+        List<ConsentEntity> ConsentList = new ArrayList<>();
+        ConsentList = consentDao.findAllByReportIdId(id).orElseThrow(
+                () -> new GlobalException("Viewers Not Found"));
         return mapAllToDomainConsentEntity(ConsentList);
     }
 
@@ -158,9 +155,9 @@ public class ReportRepositoryImplementation implements ReportRepository {
     }
 
     private List<Consent> mapAllToDomainConsentEntity(List<ConsentEntity> ConsentEntityList) {
-        List <Consent> ConsentList=new ArrayList<>();
+        List<Consent> ConsentList = new ArrayList<>();
 
-        for(ConsentEntity consEnt: ConsentEntityList) {
+        for (ConsentEntity consEnt : ConsentEntityList) {
             ConsentList.add(mapToDomainConsentEntity(consEnt));
         }
         return ConsentList;

@@ -505,3 +505,38 @@ Caused by: org.hibernate.query.SemanticException: Cannot compare left expression
 2024-04-02T01:55:16.381+05:30  INFO 21760 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2024-04-02T01:55:16.384+05:30  INFO 21760 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2024-04-02T01:55:16.404+05:30  INFO 21760 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-04-02T01:55:23.560+05:30  INFO 7412 --- [main] c.e.T.TeleRadiologyApplication           : Starting TeleRadiologyApplication using Java 21.0.1 with PID 7412 (D:\TeleRadiologyBackend\TeleRadiology\target\classes started by SOUVIK GHOSH in D:\TeleRadiologyBackend\TeleRadiology)
+2024-04-02T01:55:23.562+05:30  INFO 7412 --- [main] c.e.T.TeleRadiologyApplication           : No active profile set, falling back to 1 default profile: "default"
+2024-04-02T01:55:24.403+05:30  INFO 7412 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-04-02T01:55:24.521+05:30  INFO 7412 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 107 ms. Found 13 JPA repository interfaces.
+2024-04-02T01:55:25.175+05:30  INFO 7412 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-04-02T01:55:25.190+05:30  INFO 7412 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-04-02T01:55:25.191+05:30  INFO 7412 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.19]
+2024-04-02T01:55:25.295+05:30  INFO 7412 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-04-02T01:55:25.296+05:30  INFO 7412 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1685 ms
+2024-04-02T01:55:25.538+05:30  INFO 7412 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-04-02T01:55:25.645+05:30  INFO 7412 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2024-04-02T01:55:25.698+05:30  INFO 7412 --- [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-04-02T01:55:26.055+05:30  INFO 7412 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-04-02T01:55:26.102+05:30  INFO 7412 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-04-02T01:55:26.632+05:30  INFO 7412 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5d96d434
+2024-04-02T01:55:26.635+05:30  INFO 7412 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-04-02T01:55:28.210+05:30  INFO 7412 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-04-02T01:55:28.214+05:30  INFO 7412 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-04-02T01:55:28.991+05:30  WARN 7412 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-04-02T01:55:29.315+05:30  INFO 7412 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4fe8ac61, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@665e18d5, org.springframework.security.web.context.SecurityContextHolderFilter@64a9fca7, org.springframework.security.web.header.HeaderWriterFilter@31aee6d9, org.springframework.security.web.authentication.logout.LogoutFilter@67915454, com.example.TeleRadiology.jwt.JwtFilter@76ff68c5, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@6a486afb, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@485a5c9, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1d397e87, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4795876e, org.springframework.security.web.access.ExceptionTranslationFilter@79c4454, org.springframework.security.web.access.intercept.AuthorizationFilter@1407b93f]
+2024-04-02T01:55:29.645+05:30  INFO 7412 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2024-04-02T01:55:29.655+05:30  INFO 7412 --- [main] c.e.T.TeleRadiologyApplication           : Started TeleRadiologyApplication in 6.596 seconds (process running for 7.589)
+2024-04-02T01:56:05.644+05:30  INFO 7412 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-04-02T01:56:05.645+05:30  INFO 7412 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-04-02T01:56:05.646+05:30  INFO 7412 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2024-04-02T02:02:43.962+05:30  WARN 7412 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3m17s159ms881µs900ns).
+2024-04-02T02:08:58.518+05:30  INFO 7412 --- [http-nio-8080-exec-4] c.e.T.c.TeleRadiologyController          : User 'patient2@example.com' tried to login
+2024-04-02T02:23:10.213+05:30  WARN 7412 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=4m26s18ms867µs800ns).
+2024-04-02T02:25:45.803+05:30  INFO 7412 --- [http-nio-8080-exec-3] c.e.T.c.TeleRadiologyController          : User 'patient2@example.com' tried to login
+2024-04-02T02:28:25.240+05:30  INFO 7412 --- [http-nio-8080-exec-6] c.e.T.c.TeleRadiologyController          : User 'patient2@example.com' tried to login
+2024-04-02T02:30:14.335+05:30  INFO 7412 --- [http-nio-8080-exec-9] c.e.T.c.TeleRadiologyController          : User 'souvikpappu.kgp@gmail.com' tried to login
+2024-04-02T02:32:15.622+05:30  INFO 7412 --- [http-nio-8080-exec-3] c.e.T.c.TeleRadiologyController          : User 'patient2@example.com' tried to login
+2024-04-02T02:47:52.027+05:30  INFO 7412 --- [http-nio-8080-exec-2] c.e.T.c.TeleRadiologyController          : User 'souvikpappu.kgp@gmail.com' tried to login
+2024-04-02T03:00:04.004+05:30  WARN 7412 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=8m23s368ms806µs).
+2024-04-02T03:07:42.234+05:30  INFO 7412 --- [http-nio-8080-exec-7] c.e.T.c.TeleRadiologyController          : User 'souvikpappu.kgp@gmail.com' tried to login
