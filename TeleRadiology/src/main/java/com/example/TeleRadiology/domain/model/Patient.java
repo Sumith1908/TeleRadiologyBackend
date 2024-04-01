@@ -2,7 +2,6 @@ package com.example.TeleRadiology.domain.model;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Column;
 import lombok.Data;
 
 @Data

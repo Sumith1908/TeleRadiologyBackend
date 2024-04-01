@@ -33,3 +33,5 @@ build/
 .vscode/
 
 application.properties
+teleradiology.log
+teleradiology.log.*
