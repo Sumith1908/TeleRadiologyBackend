@@ -3,11 +3,11 @@ package com.example.TeleRadiology.controller;
 import com.example.TeleRadiology.domain.model.Patient;
 import com.example.TeleRadiology.domain.services.PatientService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/teleRadiology")
+@CrossOrigin(originPatterns = "*localhost*")
 @RequiredArgsConstructor
 public class PatientController {
     private final PatientService patService;
