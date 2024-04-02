@@ -2,8 +2,8 @@ package com.example.imageStorage.domain;
 
 import java.util.Optional;
 
-// import org.springframework.security.core.Authentication;
-// import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -31,12 +31,12 @@ public class ImageStorageService {
     private final WebClient webClient;
 
     private boolean authenticate() {
-        // Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        // String authToken = auth.getPrincipal().toString();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String authToken = auth.getPrincipal().toString();
         Boolean authenticated = false;
         try {
             authenticated = webClient.get()
-                    .uri("http://localhost:8081/teleradiology/authenticate")
+                    .uri("http://localhost:8081/teleRadiology/authenticate")
                     // .headers(headers -> headers.setBearerAuth(authToken))
                     .retrieve()
                     .bodyToMono(Boolean.class)
