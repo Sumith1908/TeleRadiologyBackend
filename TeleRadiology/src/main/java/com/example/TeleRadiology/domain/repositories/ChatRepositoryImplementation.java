@@ -122,17 +122,18 @@ public class ChatRepositoryImplementation implements ChatRepository {
                     pair.role = chat.getUser2Id().getRole().getRole();
                     pair.setReportId(chat.getReportId().getId());
                     users.add(pair);
-                } else {
-                    if (chat.getUser1Id().getActive() == 1) {
-                        Pair pair = new Pair();
-                        pair.id = chat.getUser1Id().getId();
-                        pair.role = chat.getUser1Id().getRole().getRole();
-                        pair.setReportId(chat.getReportId().getId());
-                        users.add(pair);
-                    }
+                }
+            } else {
+                if (chat.getUser1Id().getActive() == 1) {
+                    Pair pair = new Pair();
+                    pair.id = chat.getUser1Id().getId();
+                    pair.role = chat.getUser1Id().getRole().getRole();
+                    pair.setReportId(chat.getReportId().getId());
+                    users.add(pair);
                 }
             }
         }
+
         HashMap<Integer, List<Integer>> map = new HashMap<>();
         for (Pair pair : users) {
             List<Integer> list;
