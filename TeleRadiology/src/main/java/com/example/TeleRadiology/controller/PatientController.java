@@ -3,6 +3,8 @@ package com.example.TeleRadiology.controller;
 import com.example.TeleRadiology.domain.model.Patient;
 import com.example.TeleRadiology.domain.services.PatientService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;

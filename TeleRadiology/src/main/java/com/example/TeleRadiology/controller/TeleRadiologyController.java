@@ -32,7 +32,7 @@ public class TeleRadiologyController {
 
     @PostMapping("/loginCredentials")
     public CredentialsResult checkCredentials(@RequestBody CredentialsRequest credReq) {
-        logger.info("User '{}' tried to login", credReq.getEmail());
+//        logger.info("User '{}' tried to login", credReq.getEmail());
         CredentialsResult credRes = teleRadService.checkCredentials(credReq.getEmail(), credReq.getRole(),
                 credReq.getPassword());
         String role = credReq.getRole();
