@@ -32,5 +32,6 @@ build/
 ### VS Code ###
 .vscode/
 
-TeleRadiology/src/main/resources/application.properties
-TeleRadiology/teleradiology.log.*
+!**/TeleRadiology/src/main/resources/application.properties
+!**/TeleRadiology/teleradiology.log.*
+!**/teleradiology.log.*
