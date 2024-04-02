@@ -1,5 +1,6 @@
 package com.example.imageStorage.domain;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.security.core.Authentication;
@@ -14,6 +15,8 @@ import com.example.imageStorage.data.dao.AnnotationDao;
 import com.example.imageStorage.data.dao.ProfilePicDao;
 import com.example.imageStorage.data.dao.ReportDao;
 import com.example.imageStorage.dto.AnnotatedReportDTO;
+import com.example.imageStorage.dto.GetAllReportsReq;
+import com.example.imageStorage.dto.GetAllReportsRes;
 import com.example.imageStorage.dto.ProfilePicDTO;
 import com.example.imageStorage.dto.ReportDTO;
 import com.example.imageStorage.exception.FailedToRetrieveException;
@@ -36,7 +39,7 @@ public class ImageStorageService {
         Boolean authenticated = false;
         try {
             authenticated = webClient.get()
-                    .uri("http://localhost:8081/authenticate")
+                    .uri("http://localhost:8081/teleRadiology/authenticate")
                     // .headers(headers -> headers.setBearerAuth(authToken))
                     .retrieve()
                     .bodyToMono(Boolean.class)
@@ -87,6 +90,18 @@ public class ImageStorageService {
         ProfilePicDocument profileDoc = profileDao.findByUserId(id).orElseThrow(
                 () -> new FailedToRetrieveException("Failed to find entity from MongoDB"));
         return mapToDTOProfilePicDocument(profileDoc);
+    }
+
+    public GetAllReportsRes getAllReports(GetAllReportsReq req) {
+        authenticate();
+        GetAllReportsRes res = new GetAllReportsRes();
+        res.setReports(new ArrayList<>());
+        for (Integer reportId : req.getReportIds()) {
+            ReportDocument repDoc = repDao.findByReportId(reportId).orElseThrow(
+                    () -> new FailedToRetrieveException("Failed to find entity from MongoDB"));
+            res.getReports().add(mapToDTOReportDocument(repDoc));
+        }
+        return res;
     }
 
     public boolean addProfilePic(String image, int id) {

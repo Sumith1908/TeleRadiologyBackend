@@ -5,6 +5,7 @@ import java.util.List;
 import com.example.TeleRadiology.domain.model.Consent;
 import com.example.TeleRadiology.domain.model.Report;
 import com.example.TeleRadiology.dto.UploadRequest;
+import com.example.TeleRadiology.dto.RemoveConsentReq;
 
 public interface ReportRepository {
     public int uploadPatientReport(UploadRequest upreq);
@@ -18,4 +19,6 @@ public interface ReportRepository {
     public String setOtp(int otp, int id);
 
     public List<Consent> getViewers(int id);
+
+    public int removeConsent(RemoveConsentReq removeConsentReq);
 }

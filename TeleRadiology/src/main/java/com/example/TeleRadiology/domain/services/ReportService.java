@@ -19,6 +19,7 @@ import com.example.TeleRadiology.dto.GiveConsentResult;
 import com.example.TeleRadiology.dto.ReportResult;
 import com.example.TeleRadiology.dto.UploadRequest;
 import com.example.TeleRadiology.dto.UploadResult;
+import com.example.TeleRadiology.dto.RemoveConsentReq;
 import com.example.TeleRadiology.exception.NoOtpException;
 
 import lombok.RequiredArgsConstructor;
@@ -71,6 +72,12 @@ public class ReportService {
         res.setSuccess(1);
         res.setViewerId(viewerId);
         return res;
+    }
+
+    public int deleteConsent(RemoveConsentReq removeConsentReq) {
+        reportRepo.removeConsent(removeConsentReq);
+
+        return 0;
     }
 
     private ConsentResult mapToDtoConsent(Consent cons) {

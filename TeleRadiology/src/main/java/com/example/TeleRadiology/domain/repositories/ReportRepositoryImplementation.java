@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.example.TeleRadiology.domain.model.Doctor;
 import org.springframework.stereotype.Component;
 
 import com.example.TeleRadiology.data.dao.ConsentDao;
@@ -15,7 +14,6 @@ import com.example.TeleRadiology.data.dao.LabDao;
 import com.example.TeleRadiology.data.dao.OtpDao;
 import com.example.TeleRadiology.data.dao.PatientDao;
 import com.example.TeleRadiology.data.dao.ReportDao;
-import com.example.TeleRadiology.data.dao.ConsentDao;
 import com.example.TeleRadiology.data.entities.ConsentEntity;
 import com.example.TeleRadiology.data.entities.DoctorEntity;
 import com.example.TeleRadiology.data.entities.LabEntity;
@@ -25,12 +23,14 @@ import com.example.TeleRadiology.data.entities.ReportEntity;
 import com.example.TeleRadiology.domain.model.Consent;
 import com.example.TeleRadiology.domain.model.Report;
 import com.example.TeleRadiology.dto.UploadRequest;
+import com.example.TeleRadiology.dto.RemoveConsentReq;
 import com.example.TeleRadiology.exception.ConsentNotFoundException;
 import com.example.TeleRadiology.exception.DoctoNotFoundException;
 import com.example.TeleRadiology.exception.GlobalException;
 import com.example.TeleRadiology.exception.LabNotFoundException;
 import com.example.TeleRadiology.exception.PatientNotFoundException;
 import com.example.TeleRadiology.exception.ReportsNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
@@ -67,13 +67,17 @@ public class ReportRepositoryImplementation implements ReportRepository {
     }
 
     public List<Consent> getViewers(int id) {
-    List<ConsentEntity> ConsentList=new ArrayList<>();
-        ConsentList=consentDao.findAllByReportIdId(id).orElseThrow(
-                ()->new GlobalException("Viewers Not Found")
-        );
+        List<ConsentEntity> ConsentList = new ArrayList<>();
+        ConsentList = consentDao.findAllByReportIdId(id).orElseThrow(
+                () -> new GlobalException("Viewers Not Found"));
         return mapAllToDomainConsentEntity(ConsentList);
     }
 
+    @Transactional
+    public int removeConsent(RemoveConsentReq removeConsentReq) {
+        consentDao.deleteByReportIdIdAndViewerIdId(removeConsentReq.getReportId(),removeConsentReq.getViewerId());
+        return 0;
+    }
     @Override
     public String setOtp(int otp, int id) {
         PatientEntity pat = patDao.findById(id).orElse(null);
@@ -151,9 +155,9 @@ public class ReportRepositoryImplementation implements ReportRepository {
     }
 
     private List<Consent> mapAllToDomainConsentEntity(List<ConsentEntity> ConsentEntityList) {
-        List <Consent> ConsentList=new ArrayList<>();
+        List<Consent> ConsentList = new ArrayList<>();
 
-        for(ConsentEntity consEnt: ConsentEntityList) {
+        for (ConsentEntity consEnt : ConsentEntityList) {
             ConsentList.add(mapToDomainConsentEntity(consEnt));
         }
         return ConsentList;
