@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.imageStorage.domain.ImageStorageService;
 import com.example.imageStorage.dto.AnnotatedReportDTO;
+import com.example.imageStorage.dto.GetAllReportsReq;
+import com.example.imageStorage.dto.GetAllReportsRes;
 import com.example.imageStorage.dto.ProfilePicDTO;
 import com.example.imageStorage.dto.ReportDTO;
 
@@ -41,6 +43,11 @@ public class ImageController {
     @GetMapping("/getReport/{id}")
     public ReportDTO getReport(@PathVariable int id) {
         return imageService.getReport(id);
+    }
+
+    @PostMapping("/getAllReports")
+    public GetAllReportsRes getAllReports(@RequestBody GetAllReportsReq req) {
+        return imageService.getAllReports(req);
     }
 
     @GetMapping("/getAnnotation/{id}")
