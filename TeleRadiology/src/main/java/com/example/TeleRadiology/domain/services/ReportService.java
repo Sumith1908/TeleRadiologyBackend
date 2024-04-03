@@ -55,9 +55,30 @@ public class ReportService {
     }
 
     public GiveConsentResult giveConsent(GiveConsentReq req) {
-        OtpEntity otp = otpDao.findByPatientIdId(req.getPatientId()).orElseThrow(
+
+        GiveConsentResult res = new GiveConsentResult();
+
+        if(verifyOTP(req.getPatientId(),req.getOtp())) {
+            int viewerId = reportRepo.giveConsent(req.getDoctorId(), req.getReportId(), req.getPatientId());
+            res.setSuccess(1);
+            res.setViewerId(viewerId);
+        }
+         return res;
+    }
+
+    public int deleteConsent(RemoveConsentReq removeConsentReq) {
+
+        if(verifyOTP(removeConsentReq.getPatientId(),removeConsentReq.getOtp())) {
+            reportRepo.removeConsent(removeConsentReq);
+        }
+
+        return 0;
+    }
+
+    private boolean verifyOTP(int patientId,int sentOtp) {
+        OtpEntity otp = otpDao.findByPatientIdId(patientId).orElseThrow(
                 () -> new NoOtpException("Wrong Otp"));
-        if (otp.getOtp() != req.getOtp()) {
+        if (otp.getOtp() != sentOtp) {
             throw new NoOtpException("Wrong Otp");
         }
         LocalDateTime time = otp.getTime();
@@ -67,17 +88,8 @@ public class ReportService {
         if (minutesDifference > 15) {
             throw new NoOtpException("Otp Expired");
         }
-        GiveConsentResult res = new GiveConsentResult();
-        int viewerId = reportRepo.giveConsent(req.getDoctorId(), req.getReportId(), req.getPatientId());
-        res.setSuccess(1);
-        res.setViewerId(viewerId);
-        return res;
-    }
 
-    public int deleteConsent(RemoveConsentReq removeConsentReq) {
-        reportRepo.removeConsent(removeConsentReq);
-
-        return 0;
+         return true;
     }
 
     private ConsentResult mapToDtoConsent(Consent cons) {

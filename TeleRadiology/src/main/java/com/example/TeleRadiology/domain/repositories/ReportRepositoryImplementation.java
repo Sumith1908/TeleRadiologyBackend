@@ -75,7 +75,9 @@ public class ReportRepositoryImplementation implements ReportRepository {
 
     @Transactional
     public int removeConsent(RemoveConsentReq removeConsentReq) {
-        consentDao.deleteByReportIdIdAndViewerIdId(removeConsentReq.getReportId(),removeConsentReq.getViewerId());
+        DoctorEntity doc = docDao.findById(removeConsentReq.getDoctorId()).orElseThrow(
+                () -> new DoctoNotFoundException("No such doctor"));
+        consentDao.deleteByReportIdIdAndViewerIdId(removeConsentReq.getReportId(),doc.getUserId().getId());
         return 0;
     }
     @Override
