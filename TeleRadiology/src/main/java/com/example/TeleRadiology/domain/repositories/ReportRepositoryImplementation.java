@@ -58,12 +58,18 @@ public class ReportRepositoryImplementation implements ReportRepository {
     }
 
     public int uploadPatientReport(UploadRequest upreq) {
+
+        ReportEntity repEnt = null;
         if (!patDao.existsByEmail(upreq.getPatEmail()))
             throw new PatientNotFoundException("No such patient");
         else
-            repDao.save(mapToRepEntity(upreq));
+            repEnt = repDao.save(mapToRepEntity(upreq));
 
-        return mapToRepEntity(upreq).getId();
+        if (repEnt != null) {
+            return repEnt.getId();
+        } else {
+            throw new GlobalException("Unable to save");
+        }
     }
 
     public List<Consent> getViewers(int id) {
@@ -75,9 +81,10 @@ public class ReportRepositoryImplementation implements ReportRepository {
 
     @Transactional
     public int removeConsent(RemoveConsentReq removeConsentReq) {
-        consentDao.deleteByReportIdIdAndViewerIdId(removeConsentReq.getReportId(),removeConsentReq.getViewerId());
+        consentDao.deleteByReportIdIdAndViewerIdId(removeConsentReq.getReportId(), removeConsentReq.getViewerId());
         return 0;
     }
+
     @Override
     public String setOtp(int otp, int id) {
         PatientEntity pat = patDao.findById(id).orElse(null);
