@@ -6,6 +6,8 @@ import lombok.Data;
 public class RemoveConsentReq {
 
     private int reportId;
-    private int viewerId;
+    private int doctorId;
+    private int patientId;
+    private int otp;
 
 }
