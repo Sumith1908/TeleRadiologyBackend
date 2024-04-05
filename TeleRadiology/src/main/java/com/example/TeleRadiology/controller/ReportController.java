@@ -77,4 +77,11 @@ public class ReportController {
 
         return 0;
     }
+
+    @PostMapping("/getConsentPatients")
+    public List<Consent> getConsentPatients(@RequestBody int viewId) {
+        List <Consent> conPat=new ArrayList<>();
+        conPat=repService.getConsentPat(viewId);
+        return conPat;
+    }
 }

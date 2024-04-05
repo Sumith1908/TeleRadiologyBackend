@@ -92,6 +92,11 @@ public class ReportService {
          return true;
     }
 
+    public List<Consent> getConsentPat(int viewId) {
+        List<Consent> conPat=reportRepo.getConsentPatients(viewId);
+        return conPat;
+    }
+
     private ConsentResult mapToDtoConsent(Consent cons) {
         ConsentResult consRes = new ConsentResult();
         LocalDate currentDate = LocalDate.now();
