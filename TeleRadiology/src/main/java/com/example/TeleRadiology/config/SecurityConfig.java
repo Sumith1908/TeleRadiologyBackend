@@ -28,8 +28,8 @@ public class SecurityConfig {
                         // .requestMatchers("/teleRadiology/createPatientCred").permitAll()
                         // .requestMatchers("/teleRadiology/otpVerification/*").permitAll()
                         // .requestMatchers("/test").authenticated()
-                        .anyRequest().authenticated());
-        // .anyRequest().permitAll());
+                        // .anyRequest().authenticated());
+                        .anyRequest().permitAll());
         http.httpBasic(Customizer.withDefaults());
 
         http.addFilterBefore(jwtFilter, BasicAuthenticationFilter.class);
