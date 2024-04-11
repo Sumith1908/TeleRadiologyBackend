@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import com.example.TeleRadiology.domain.services.EmailOtpService;
 import com.example.TeleRadiology.domain.services.ReportService;
 import com.example.TeleRadiology.domain.model.Consent;
+import com.example.TeleRadiology.domain.model.Report;
 import com.example.TeleRadiology.dto.ConsentRequest;
 import com.example.TeleRadiology.dto.ConsentResult;
+import com.example.TeleRadiology.dto.GetConsentReportReq;
 import com.example.TeleRadiology.dto.DetailsRequest;
 import com.example.TeleRadiology.dto.GiveConsentReq;
 import com.example.TeleRadiology.dto.GiveConsentResult;
@@ -85,5 +87,12 @@ public class ReportController {
         List <Patient> conPat=new ArrayList<>();
         conPat=repService.getConsentPat(id);
         return conPat;
+    }
+
+    @PostMapping("/getConsentReports")
+    public List<Report> getConsentReports(@RequestBody GetConsentReportReq getConsentReportReq) {
+        List<Report> consentedReports = new ArrayList<>();
+        consentedReports = repService.getReports(getConsentReportReq);
+        return consentedReports;
     }
 }

@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.HashSet;
 
 import com.example.TeleRadiology.domain.model.Patient;
+import com.example.TeleRadiology.dto.GetConsentReportReq;
 import org.springframework.stereotype.Component;
 
 import com.example.TeleRadiology.data.dao.ConsentDao;
@@ -141,6 +142,19 @@ public class ReportRepositoryImplementation implements ReportRepository {
         Optional.ofNullable(consentDao.save(consent)).orElseThrow(
                 () -> new GlobalException("Failed to save"));
         return doc.getUserId().getId();
+    }
+
+    public List<Report> getConsentedReports(GetConsentReportReq getConsentReportReq) {
+        int patientId = getConsentReportReq.getPatientID();
+        int doctorId = getConsentReportReq.getDoctorID();
+        List<ConsentEntity> conEnt = new ArrayList<>();
+        List<Report> reports = new ArrayList<>();
+        conEnt=consentDao.findAllByPatientIdIdAndViewerIdId(patientId, doctorId).orElseThrow(
+                () -> new GlobalException("Reports Not Found"));
+        for(int i=0;i<conEnt.size();i++) {
+            reports.add(mapToDomainReportEntity(conEnt.get(i).getReportId()));
+        }
+        return reports;
     }
 
     public ReportEntity mapToRepEntity(UploadRequest upreq) {
