@@ -5,7 +5,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.HashSet;
 
+import com.example.TeleRadiology.domain.model.Patient;
 import org.springframework.stereotype.Component;
 
 import com.example.TeleRadiology.data.dao.ConsentDao;
@@ -106,11 +108,21 @@ public class ReportRepositoryImplementation implements ReportRepository {
         return pat.getEmail();
     }
 
-    public List<Consent> getConsentPatients(int viewerId) {
+    public List<Patient> getConsentPatients(int viewerId) {
         List<ConsentEntity> conEnt=new ArrayList<>();
+        HashSet<Patient> patEnt=new HashSet<>();
+        List<Patient> patients=new ArrayList<>();
+
         conEnt=consentDao.findAllByViewerIdId(viewerId).orElseThrow(
                 () -> new GlobalException("Reports Not Found"));
-        return mapAllToDomainConsentEntity(conEnt);
+
+        for(int i=0;i<conEnt.size();i++) {
+            patEnt.add(mapToDomainPatientEntity(conEnt.get(i).getPatientId()));
+        }
+
+        patients.addAll(patEnt);
+
+         return patients;
     }
 
     public int giveConsent(int doctorId, int reportId, int patientId) {
@@ -188,5 +200,36 @@ public class ReportRepositoryImplementation implements ReportRepository {
         cons.setConsentDate(consEnt.getConsentDate());
 
         return cons;
+    }
+
+    private Patient mapToDomainPatientEntity(PatientEntity patEnt) {
+        Patient pat = new Patient();
+        pat.setId(patEnt.getId());
+        pat.setUserId(patEnt.getUserId().getId());
+        pat.setFirstName(patEnt.getFirstName());
+        pat.setMiddleName(patEnt.getMiddleName());
+        pat.setLastName(patEnt.getLastName());
+        pat.setDateOfBirth(patEnt.getDateOfBirth());
+        pat.setGender(patEnt.getGender());
+        pat.setAddress(patEnt.getAddress());
+        pat.setCity(patEnt.getCity());
+        pat.setState(patEnt.getState());
+        pat.setPinCode(patEnt.getPinCode());
+        pat.setEmail(patEnt.getEmail());
+        pat.setPhoneNumber(patEnt.getPhoneNumber());
+        pat.setEmergencyContact(patEnt.getEmergencyContact());
+        pat.setBloodGroup(patEnt.getBloodGroup());
+        pat.setHeight(patEnt.getHeight());
+        pat.setWeight(patEnt.getWeight());
+        pat.setProfilePhoto(patEnt.getProfilePhoto());
+        pat.setAllergies(patEnt.getAllergies());
+        pat.setChronicDiseases(patEnt.getChronicDiseases());
+        pat.setCurrentMedication(patEnt.getCurrentMedication());
+        pat.setDrinkingHabits(patEnt.getDrinkingHabits());
+        pat.setFoodPreferences(patEnt.getFoodPreferences());
+        pat.setPastMedication(patEnt.getPastMedication());
+        pat.setSmokingHabits(patEnt.getSmokingHabits());
+
+        return pat;
     }
 }
