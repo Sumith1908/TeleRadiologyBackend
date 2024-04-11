@@ -21,4 +21,6 @@ public interface ReportRepository {
     public List<Consent> getViewers(int id);
 
     public int removeConsent(RemoveConsentReq removeConsentReq);
+
+    public List<Consent> getConsentPatients(int viewId);
 }

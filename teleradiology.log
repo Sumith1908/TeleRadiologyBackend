@@ -1,24 +1,63 @@
-2024-04-04T00:50:16.638+05:30  WARN 19176 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=13m49s174ms904µs400ns).
-2024-04-04T10:52:51.453+05:30  WARN 19176 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=9h44m34s113ms803µs600ns).
-2024-04-04T11:17:27.445+05:30  INFO 28112 --- [main] c.e.T.TeleRadiologyApplication           : Starting TeleRadiologyApplication using Java 17.0.5 with PID 28112 (D:\VS_Code\VS_Code_general_Workspace\IIITB\HAD\Backend\TeleRadiology\target\classes started by Sumith Hegde in D:\VS_Code\VS_Code_general_Workspace\IIITB\HAD\Backend)
-2024-04-04T11:17:27.458+05:30  INFO 28112 --- [main] c.e.T.TeleRadiologyApplication           : No active profile set, falling back to 1 default profile: "default"
-2024-04-04T11:17:30.778+05:30  INFO 28112 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-04-04T11:17:31.144+05:30  INFO 28112 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 307 ms. Found 13 JPA repository interfaces.
-2024-04-04T11:17:33.366+05:30  INFO 28112 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
-2024-04-04T11:17:33.398+05:30  INFO 28112 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2024-04-04T11:17:33.401+05:30  INFO 28112 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.19]
-2024-04-04T11:17:33.633+05:30  INFO 28112 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2024-04-04T11:17:33.636+05:30  INFO 28112 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6020 ms
-2024-04-04T11:17:34.192+05:30  INFO 28112 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-04-04T11:17:34.394+05:30  INFO 28112 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
-2024-04-04T11:17:34.547+05:30  INFO 28112 --- [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2024-04-04T11:17:35.172+05:30  INFO 28112 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-04-04T11:17:35.246+05:30  INFO 28112 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2024-04-04T11:17:36.286+05:30  INFO 28112 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@46e388ec
-2024-04-04T11:17:36.293+05:30  INFO 28112 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2024-04-04T11:17:39.260+05:30  INFO 28112 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2024-04-04T11:17:39.270+05:30  INFO 28112 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-04-04T11:17:41.318+05:30  WARN 28112 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-04-04T11:17:42.200+05:30  INFO 28112 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2fda92e0, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@535adf36, org.springframework.security.web.context.SecurityContextHolderFilter@5e445ffe, org.springframework.security.web.header.HeaderWriterFilter@38224635, org.springframework.security.web.authentication.logout.LogoutFilter@18baee88, com.example.TeleRadiology.jwt.JwtFilter@1d06f16f, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@1b9cfc19, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2a9fd482, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7ca2319f, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4ea4290f, org.springframework.security.web.access.ExceptionTranslationFilter@78ca8258, org.springframework.security.web.access.intercept.AuthorizationFilter@685e5967]
-2024-04-04T11:17:42.851+05:30  INFO 28112 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path ''
-2024-04-04T11:17:42.887+05:30  INFO 28112 --- [main] c.e.T.TeleRadiologyApplication           : Started TeleRadiologyApplication in 16.715 seconds (process running for 17.985)
+<<<<<<< HEAD
+2024-04-05T01:20:24.865+05:30  INFO 19992 --- [main] c.e.T.TeleRadiologyApplication           : Starting TeleRadiologyApplication using Java 21.0.1 with PID 19992 (D:\TeleRadiologyBackend\TeleRadiology\target\classes started by SOUVIK GHOSH in D:\TeleRadiologyBackend)
+2024-04-05T01:20:24.867+05:30  INFO 19992 --- [main] c.e.T.TeleRadiologyApplication           : No active profile set, falling back to 1 default profile: "default"
+2024-04-05T01:20:26.412+05:30  INFO 19992 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-04-05T01:20:26.510+05:30  INFO 19992 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 90 ms. Found 13 JPA repository interfaces.
+2024-04-05T01:20:27.140+05:30  INFO 19992 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-04-05T01:20:27.160+05:30  INFO 19992 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-04-05T01:20:27.161+05:30  INFO 19992 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.19]
+2024-04-05T01:20:27.246+05:30  INFO 19992 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-04-05T01:20:27.247+05:30  INFO 19992 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2330 ms
+2024-04-05T01:20:27.535+05:30  INFO 19992 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-04-05T01:20:27.634+05:30  INFO 19992 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2024-04-05T01:20:27.681+05:30  INFO 19992 --- [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-04-05T01:20:28.034+05:30  INFO 19992 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-04-05T01:20:28.069+05:30  INFO 19992 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-04-05T01:20:28.600+05:30  INFO 19992 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@120411ec
+2024-04-05T01:20:28.603+05:30  INFO 19992 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-04-05T01:20:29.972+05:30  INFO 19992 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-04-05T01:20:30.276+05:30  INFO 19992 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-04-05T01:20:31.200+05:30  WARN 19992 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-04-05T01:20:31.631+05:30  INFO 19992 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@665574fb, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3eb7ff78, org.springframework.security.web.context.SecurityContextHolderFilter@2553fbd0, org.springframework.security.web.header.HeaderWriterFilter@650d5a3d, org.springframework.security.web.authentication.logout.LogoutFilter@12f32f99, com.example.TeleRadiology.jwt.JwtFilter@4c19d42e, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@54519d74, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@20a434a8, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7ecca48, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6b83ec49, org.springframework.security.web.access.ExceptionTranslationFilter@1ef8f7e6, org.springframework.security.web.access.intercept.AuthorizationFilter@73bb782d]
+2024-04-05T01:20:32.024+05:30  INFO 19992 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path ''
+2024-04-05T01:20:32.034+05:30  INFO 19992 --- [main] c.e.T.TeleRadiologyApplication           : Started TeleRadiologyApplication in 7.653 seconds (process running for 9.949)
+2024-04-05T01:21:23.127+05:30  INFO 19992 --- [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-04-05T01:21:23.128+05:30  INFO 19992 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-04-05T01:21:23.132+05:30  INFO 19992 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
+2024-04-05T02:48:45.342+05:30  INFO 19992 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-04-05T02:48:45.357+05:30  INFO 19992 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-04-05T02:48:45.371+05:30  INFO 19992 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+=======
+2024-04-05T01:13:35.206+05:30  INFO 21020 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-04-05T01:13:35.220+05:30  INFO 21020 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-04-05T01:13:35.228+05:30  INFO 21020 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-04-05T11:20:11.832+05:30  INFO 17912 --- [main] c.e.T.TeleRadiologyApplication           : Starting TeleRadiologyApplication using Java 17.0.5 with PID 17912 (D:\VS_Code\VS_Code_general_Workspace\IIITB\HAD\Backend\TeleRadiology\target\classes started by Sumith Hegde in D:\VS_Code\VS_Code_general_Workspace\IIITB\HAD\Backend)
+2024-04-05T11:20:11.958+05:30  INFO 17912 --- [main] c.e.T.TeleRadiologyApplication           : No active profile set, falling back to 1 default profile: "default"
+2024-04-05T11:20:14.522+05:30  INFO 17912 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-04-05T11:20:14.872+05:30  INFO 17912 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 306 ms. Found 13 JPA repository interfaces.
+2024-04-05T11:20:16.809+05:30  INFO 17912 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-04-05T11:20:16.877+05:30  INFO 17912 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-04-05T11:20:16.880+05:30  INFO 17912 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.19]
+2024-04-05T11:20:17.090+05:30  INFO 17912 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-04-05T11:20:17.092+05:30  INFO 17912 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4969 ms
+2024-04-05T11:20:17.597+05:30  INFO 17912 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-04-05T11:20:17.773+05:30  INFO 17912 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2024-04-05T11:20:17.863+05:30  INFO 17912 --- [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-04-05T11:20:18.421+05:30  INFO 17912 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-04-05T11:20:18.483+05:30  INFO 17912 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-04-05T11:20:19.270+05:30  INFO 17912 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6caa4dc5
+2024-04-05T11:20:19.276+05:30  INFO 17912 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-04-05T11:20:22.125+05:30  INFO 17912 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-04-05T11:20:22.619+05:30  INFO 17912 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-04-05T11:20:24.344+05:30  WARN 17912 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-04-05T11:20:25.133+05:30  INFO 17912 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@33f3ebfc, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5cb3cfef, org.springframework.security.web.context.SecurityContextHolderFilter@19565b5, org.springframework.security.web.header.HeaderWriterFilter@56afbace, org.springframework.security.web.authentication.logout.LogoutFilter@2c4eda3a, com.example.TeleRadiology.jwt.JwtFilter@27a09971, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@4bc49d70, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@407ff25f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3ba8fbc8, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@eb77241, org.springframework.security.web.access.ExceptionTranslationFilter@5bd191c2, org.springframework.security.web.access.intercept.AuthorizationFilter@6441cff1]
+2024-04-05T11:20:25.808+05:30  INFO 17912 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path ''
+2024-04-05T11:20:25.844+05:30  INFO 17912 --- [main] c.e.T.TeleRadiologyApplication           : Started TeleRadiologyApplication in 15.124 seconds (process running for 16.156)
+2024-04-05T11:56:13.452+05:30  INFO 17912 --- [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-04-05T11:56:13.797+05:30  INFO 17912 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-04-05T11:56:13.803+05:30  INFO 17912 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
+2024-04-05T13:25:26.922+05:30  WARN 17912 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=20m5s481ms752µs200ns).
+2024-04-05T14:18:20.482+05:30  INFO 17912 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-04-05T14:18:20.500+05:30  INFO 17912 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-04-05T14:18:20.508+05:30  INFO 17912 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+>>>>>>> 35b96bee2bbfaab7c77c1e58bb172e4ac2437232

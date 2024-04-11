@@ -106,6 +106,13 @@ public class ReportRepositoryImplementation implements ReportRepository {
         return pat.getEmail();
     }
 
+    public List<Consent> getConsentPatients(int viewerId) {
+        List<ConsentEntity> conEnt=new ArrayList<>();
+        conEnt=consentDao.findAllByViewerIdId(viewerId).orElseThrow(
+                () -> new GlobalException("Reports Not Found"));
+        return mapAllToDomainConsentEntity(conEnt);
+    }
+
     public int giveConsent(int doctorId, int reportId, int patientId) {
         DoctorEntity doc = docDao.findById(doctorId).orElseThrow(
                 () -> new DoctoNotFoundException("No such doctor"));

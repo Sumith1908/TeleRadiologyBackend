@@ -52,7 +52,7 @@ public class ImageStorageService {
     }
 
     public boolean addReport(String image, int id) {
-        authenticate();
+        // authenticate();
         ReportDocument repDoc = new ReportDocument();
         repDoc.setReport(image);
         repDoc.setReportId(id);
@@ -62,14 +62,14 @@ public class ImageStorageService {
     }
 
     public ReportDTO getReport(int id) {
-        authenticate();
+        // authenticate();
         ReportDocument repDoc = repDao.findByReportId(id).orElseThrow(
                 () -> new FailedToRetrieveException("Failed to find entity from MongoDB"));
         return mapToDTOReportDocument(repDoc);
     }
 
     public boolean addAnnotatedReport(String image, int id) {
-        authenticate();
+        // authenticate();
         AnnotationDocument annDoc = new AnnotationDocument();
         annDoc.setAnnotation(image);
         annDoc.setAnnotationId(id);
@@ -79,21 +79,21 @@ public class ImageStorageService {
     }
 
     public AnnotatedReportDTO getAnnotation(int id) {
-        authenticate();
+        // authenticate();
         AnnotationDocument annDoc = annDao.findByAnnotationId(id).orElseThrow(
                 () -> new FailedToRetrieveException("Failed to find entity from MongoDB"));
         return mapToDTOAnnotationDocument(annDoc);
     }
 
     public ProfilePicDTO getProfilePic(int id) {
-        authenticate();
+        // authenticate();
         ProfilePicDocument profileDoc = profileDao.findByUserId(id).orElseThrow(
                 () -> new FailedToRetrieveException("Failed to find entity from MongoDB"));
         return mapToDTOProfilePicDocument(profileDoc);
     }
 
     public GetAllReportsRes getAllReports(GetAllReportsReq req) {
-        authenticate();
+        // authenticate();
         GetAllReportsRes res = new GetAllReportsRes();
         res.setReports(new ArrayList<>());
         for (Integer reportId : req.getReportIds()) {
@@ -105,7 +105,7 @@ public class ImageStorageService {
     }
 
     public boolean addProfilePic(String image, int id) {
-        authenticate();
+        // authenticate();
         ProfilePicDocument profilePic = new ProfilePicDocument();
         profilePic.setProfilePic(image);
         profilePic.setUserId(id);

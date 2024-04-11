@@ -24,7 +24,7 @@ public class SecurityConfig {
         http.csrf(config -> config.disable());
         http.authorizeHttpRequests(
                 configure -> configure
-                        // .requestMatchers("/teleRadiology/loginCredentials").permitAll()
+                        .requestMatchers("/teleRadiology/loginCredentials").permitAll()
                         // .requestMatchers("/teleRadiology/createPatientCred").permitAll()
                         // .requestMatchers("/teleRadiology/otpVerification/*").permitAll()
                         // .requestMatchers("/test").authenticated()
