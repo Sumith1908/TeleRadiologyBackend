@@ -3,13 +3,16 @@ package com.example.TeleRadiology.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.TeleRadiology.domain.model.Patient;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.TeleRadiology.domain.services.EmailOtpService;
 import com.example.TeleRadiology.domain.services.ReportService;
 import com.example.TeleRadiology.domain.model.Consent;
+import com.example.TeleRadiology.domain.model.Report;
 import com.example.TeleRadiology.dto.ConsentRequest;
 import com.example.TeleRadiology.dto.ConsentResult;
+import com.example.TeleRadiology.dto.GetConsentReportReq;
 import com.example.TeleRadiology.dto.DetailsRequest;
 import com.example.TeleRadiology.dto.GiveConsentReq;
 import com.example.TeleRadiology.dto.GiveConsentResult;
@@ -78,10 +81,18 @@ public class ReportController {
         return 0;
     }
 
-    @PostMapping("/getConsentPatients")
-    public List<Consent> getConsentPatients(@RequestBody int viewId) {
-        List <Consent> conPat=new ArrayList<>();
-        conPat=repService.getConsentPat(viewId);
+    @GetMapping("/getConsentPatients/{id}")
+    public List<Patient> getConsentPatients(@PathVariable("id") int id) {
+        //int viewerId=viewId.intValue();
+        List <Patient> conPat=new ArrayList<>();
+        conPat=repService.getConsentPat(id);
         return conPat;
+    }
+
+    @PostMapping("/getConsentReports")
+    public List<Report> getConsentReports(@RequestBody GetConsentReportReq getConsentReportReq) {
+        List<Report> consentedReports = new ArrayList<>();
+        consentedReports = repService.getReports(getConsentReportReq);
+        return consentedReports;
     }
 }

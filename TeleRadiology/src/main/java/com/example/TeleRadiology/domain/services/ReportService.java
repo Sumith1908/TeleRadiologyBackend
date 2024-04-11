@@ -12,9 +12,11 @@ import com.example.TeleRadiology.data.dao.OtpDao;
 import com.example.TeleRadiology.data.entities.OtpEntity;
 import com.example.TeleRadiology.domain.model.Consent;
 import com.example.TeleRadiology.domain.model.Report;
+import com.example.TeleRadiology.domain.model.Patient;
 import com.example.TeleRadiology.domain.repositories.ReportRepository;
 import com.example.TeleRadiology.dto.ConsentResult;
 import com.example.TeleRadiology.dto.GiveConsentReq;
+import com.example.TeleRadiology.dto.GetConsentReportReq;
 import com.example.TeleRadiology.dto.GiveConsentResult;
 import com.example.TeleRadiology.dto.ReportResult;
 import com.example.TeleRadiology.dto.UploadRequest;
@@ -30,6 +32,7 @@ public class ReportService {
 
     private final ReportRepository reportRepo;
     private final OtpDao otpDao;
+    private final ChatService chatService;
 
     public List<ReportResult> getAllReportsOfPatient(int id) {
         List<Report> reports = reportRepo.getReportsOfPatient(id);
@@ -49,8 +52,8 @@ public class ReportService {
     }
 
     public List<Consent> getReportViewers(int reportId) {
-        List <Consent> ConsentList=new ArrayList<>();
-        ConsentList=reportRepo.getViewers(reportId);
+        List<Consent> ConsentList = new ArrayList<>();
+        ConsentList = reportRepo.getViewers(reportId);
         return ConsentList;
     }
 
@@ -58,24 +61,25 @@ public class ReportService {
 
         GiveConsentResult res = new GiveConsentResult();
 
-        if(verifyOTP(req.getPatientId(),req.getOtp())) {
+        if (verifyOTP(req.getPatientId(), req.getOtp())) {
             int viewerId = reportRepo.giveConsent(req.getDoctorId(), req.getReportId(), req.getPatientId());
             res.setSuccess(1);
             res.setViewerId(viewerId);
+            chatService.addChat(req.getDoctorId(), req.getPatientId(), req.getReportId());
         }
-         return res;
+        return res;
     }
 
     public int deleteConsent(RemoveConsentReq removeConsentReq) {
 
-        if(verifyOTP(removeConsentReq.getPatientId(),removeConsentReq.getOtp())) {
+        if (verifyOTP(removeConsentReq.getPatientId(), removeConsentReq.getOtp())) {
             reportRepo.removeConsent(removeConsentReq);
         }
 
         return 0;
     }
 
-    private boolean verifyOTP(int patientId,int sentOtp) {
+    private boolean verifyOTP(int patientId, int sentOtp) {
         OtpEntity otp = otpDao.findByPatientIdId(patientId).orElseThrow(
                 () -> new NoOtpException("Wrong Otp"));
         if (otp.getOtp() != sentOtp) {
@@ -89,12 +93,18 @@ public class ReportService {
             throw new NoOtpException("Otp Expired");
         }
 
-         return true;
+        return true;
     }
 
-    public List<Consent> getConsentPat(int viewId) {
-        List<Consent> conPat=reportRepo.getConsentPatients(viewId);
+    public List<Patient> getConsentPat(int viewId) {
+        List<Patient> conPat=reportRepo.getConsentPatients(viewId);
         return conPat;
+    }
+
+    public List<Report> getReports(GetConsentReportReq getConsentReportReq) {
+        List<Report> consentedReports = new ArrayList<Report>();
+        consentedReports = reportRepo.getConsentedReports(getConsentReportReq);
+        return consentedReports;
     }
 
     private ConsentResult mapToDtoConsent(Consent cons) {
