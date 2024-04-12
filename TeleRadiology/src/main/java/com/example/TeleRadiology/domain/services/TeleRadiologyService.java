@@ -1,6 +1,7 @@
 package com.example.TeleRadiology.domain.services;
 
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,27 @@ import lombok.RequiredArgsConstructor;
 public class TeleRadiologyService {
     private final TeleRadiologyRepository teleRep;
 
-    public static String hashPassword(String password) {
+    private String generateSalt() {
+        int length = 16;
+        String saltChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
+        SecureRandom random = new SecureRandom();
+
+        byte[] saltBytes = new byte[length];
+
+        random.nextBytes(saltBytes);
+
+        StringBuilder salt = new StringBuilder();
+
+        for (int i = 0; i < length; i++) {
+            int index = Math.abs(random.nextInt()) % saltChars.length();
+            salt.append(saltChars.charAt(index));
+        }
+
+        return salt.toString();
+    }
+
+    private String hashPassword(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(password.getBytes());
@@ -38,8 +59,9 @@ public class TeleRadiologyService {
     public CredentialsResult checkCredentials(String email, String role, String password) {
         Credentials cred = teleRep.checkLoginCredentials(email, role);
         CredentialsResult credRes = new CredentialsResult();
+        String salt = teleRep.getSalt(cred.getId());
         credRes.setUser(cred.getId());
-        if (!cred.getPassword().equals(hashPassword(password))) {
+        if (!cred.getPassword().equals(hashPassword(password + salt))) {
             credRes.setPassword(0);
             throw new WrongPasswordException("wrong password");
         } else {
@@ -50,9 +72,11 @@ public class TeleRadiologyService {
 
     public CredentialsResult addPatient(CredentialsRequest cred) {
         CredentialsResult credRes = new CredentialsResult();
-        cred.setPassword(hashPassword(cred.getPassword()));
+        String salt = generateSalt();
+        cred.setPassword(hashPassword(cred.getPassword() + salt));
         credRes.setUser(teleRep.addPatient(cred));
         credRes.setPassword(1);
+        teleRep.addSalt(credRes.getUser(), salt);
         return credRes;
     }
 
