@@ -12,8 +12,8 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "annotation_notification")
-public class AnnotationNotificationEntity {
+@Table(name = "notifications")
+public class NotificationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -24,11 +24,16 @@ public class AnnotationNotificationEntity {
     private DoctorEntity doctorId;
 
     @ManyToOne
+    @JoinColumn(name = "reciver_id")
+    private CredentialsEntity reciverId;
+
+    @ManyToOne
     @JoinColumn(name = "radiologist_id")
     private RadiologistEntity radiologistId;
 
     @ManyToOne
     @JoinColumn(name = "report_id")
     private ReportEntity reportId;
+
 
 }

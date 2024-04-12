@@ -12,9 +12,11 @@ import com.example.TeleRadiology.data.dao.OtpDao;
 import com.example.TeleRadiology.data.entities.OtpEntity;
 import com.example.TeleRadiology.domain.model.Consent;
 import com.example.TeleRadiology.domain.model.Report;
+import com.example.TeleRadiology.domain.model.Patient;
 import com.example.TeleRadiology.domain.repositories.ReportRepository;
 import com.example.TeleRadiology.dto.ConsentResult;
 import com.example.TeleRadiology.dto.GiveConsentReq;
+import com.example.TeleRadiology.dto.GetConsentReportReq;
 import com.example.TeleRadiology.dto.GiveConsentResult;
 import com.example.TeleRadiology.dto.ReportResult;
 import com.example.TeleRadiology.dto.UploadRequest;
@@ -94,9 +96,15 @@ public class ReportService {
         return true;
     }
 
-    public List<Consent> getConsentPat(int viewId) {
-        List<Consent> conPat = reportRepo.getConsentPatients(viewId);
+    public List<Patient> getConsentPat(int viewId) {
+        List<Patient> conPat=reportRepo.getConsentPatients(viewId);
         return conPat;
+    }
+
+    public List<Report> getReports(GetConsentReportReq getConsentReportReq) {
+        List<Report> consentedReports = new ArrayList<Report>();
+        consentedReports = reportRepo.getConsentedReports(getConsentReportReq);
+        return consentedReports;
     }
 
     private ConsentResult mapToDtoConsent(Consent cons) {
