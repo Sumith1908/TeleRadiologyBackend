@@ -93,7 +93,7 @@ public class ImageStorageService {
     }
 
     public GetAllReportsRes getAllReports(GetAllReportsReq req) {
-        // authenticate();
+        authenticate();
         GetAllReportsRes res = new GetAllReportsRes();
         res.setReports(new ArrayList<>());
         for (Integer reportId : req.getReportIds()) {
