@@ -45,6 +45,12 @@ public class DetailsService {
         doctorList=detRep.getDoctors();
         return doctorList;
     }
+
+    public List<Radiologist> getListOfRadiologists() {
+        List<Radiologist> radiologistList=new ArrayList<>();
+        radiologistList=detRep.getRadiologists();
+        return radiologistList;
+    }
     public List<Patient> getListOfPatients(){
         List <Patient> patientList=new ArrayList<>();
         patientList=detRep.getPatients();

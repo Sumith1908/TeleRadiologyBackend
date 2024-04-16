@@ -12,4 +12,5 @@ public interface ConsentDao extends JpaRepository<ConsentEntity, Integer> {
     Optional<List<ConsentEntity>> findAllByReportIdId(int reportId);
     void deleteByReportIdIdAndViewerIdId(int reportId, int viewerId);
     Optional<List<ConsentEntity>> findAllByViewerIdId(int viewerId);
+    Optional<List<ConsentEntity>> findAllByPatientIdIdAndViewerIdId(int patientId, int viewerId);
 }

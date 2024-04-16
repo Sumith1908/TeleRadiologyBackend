@@ -4,8 +4,10 @@ import org.springframework.stereotype.Component;
 
 import com.example.TeleRadiology.data.dao.CredentialsDao;
 import com.example.TeleRadiology.data.dao.RoleDao;
+import com.example.TeleRadiology.data.dao.SaltDao;
 import com.example.TeleRadiology.data.entities.CredentialsEntity;
 import com.example.TeleRadiology.data.entities.RoleEntity;
+import com.example.TeleRadiology.data.entities.SaltEntity;
 import com.example.TeleRadiology.domain.model.Credentials;
 import com.example.TeleRadiology.dto.CredentialsRequest;
 import com.example.TeleRadiology.exception.GlobalException;
@@ -18,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class TeleRadiologyRepositoryImplementation implements TeleRadiologyRepository {
     private final CredentialsDao credDao;
     private final RoleDao roleDao;
+    private final SaltDao saltDao;
 
     @Override
     public Credentials checkLoginCredentials(String email, String role) {
@@ -52,6 +55,20 @@ public class TeleRadiologyRepositoryImplementation implements TeleRadiologyRepos
         CredentialsEntity newUser = credDao.save(mapToCredEntity(cred));
 
         return newUser.getId();
+    }
+
+    public void addSalt(int id, String salt) {
+        SaltEntity saltEnt = new SaltEntity();
+        CredentialsEntity user = credDao.findById(id).orElse(null);
+        saltEnt.setUserId(user);
+        saltEnt.setSalt(salt);
+        saltDao.save(saltEnt);
+    }
+
+    public String getSalt(int id) {
+        SaltEntity salt = saltDao.findByUserIdId(id).orElseThrow(
+                () -> new UserNotFoundException("No such User"));
+        return salt.getSalt();
     }
 
     public CredentialsEntity mapToCredEntity(CredentialsRequest cred) {
