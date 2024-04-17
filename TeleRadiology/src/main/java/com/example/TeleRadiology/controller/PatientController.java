@@ -5,7 +5,6 @@ import com.example.TeleRadiology.domain.services.PatientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/teleRadiology")
-@CrossOrigin(originPatterns = "*localhost*")
+// @CrossOrigin(origins = "*http://localhost:3000*")
 public class PatientController {
     private final PatientService patService;
 
@@ -23,5 +22,17 @@ public class PatientController {
     public Boolean getPatient(@RequestBody Patient pat) {
         patService.addPatient(pat);
         return true;
+    }
+
+    @GetMapping("/test")
+    public String testGet() {
+
+        return "Get Test";
+    }
+
+    @PostMapping("/test")
+    public String testPost() {
+
+        return "Post Test";
     }
 }

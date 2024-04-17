@@ -17,7 +17,7 @@ public class EmailOtpService {
     public void sendEmailOtp(String sub, int otp, int id) {
         String to = rep.setOtp(otp, id);
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("hegdesumit1908@gmail.com");
+        message.setFrom("projectt575@gmail.com");
         message.setTo(to);
         message.setText("Your otp for consent aproval is " + Integer.toString(otp));
         message.setSubject(sub);

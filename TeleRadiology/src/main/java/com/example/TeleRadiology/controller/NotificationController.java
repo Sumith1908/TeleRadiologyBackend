@@ -21,15 +21,16 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/teleRadiology")
 @RequiredArgsConstructor
-@CrossOrigin(originPatterns = "*localhost*")
+// @CrossOrigin(originPatterns = "*localhost*")
 public class NotificationController {
- private final NotificationService notService;
- @GetMapping("/getNotifications/{id}")
+    private final NotificationService notService;
+
+    @GetMapping("/getNotifications/{id}")
     public NotificationsRes getNotifications(@PathVariable int id) {
-        NotificationsRes res=new NotificationsRes();
+        NotificationsRes res = new NotificationsRes();
         res.setNotifications(notService.geNotifications(id));
         return res;
-       
+
     }
-    
+
 }

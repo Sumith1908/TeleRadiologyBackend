@@ -22,12 +22,11 @@ import com.example.TeleRadiology.dto.UploadRequest;
 import com.example.TeleRadiology.dto.UploadResult;
 import com.example.TeleRadiology.dto.RemoveConsentReq;
 
-
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/teleRadiology")
-@CrossOrigin(originPatterns = "*localhost*")
+// @CrossOrigin(originPatterns = "*localhost*")
 @RequiredArgsConstructor
 public class ReportController {
     private final ReportService repService;
@@ -46,7 +45,7 @@ public class ReportController {
         return repService.giveConsent(consentReq);
     }
 
-    @GetMapping("/otpVerification/{id}")
+    @PostMapping("/otpVerification/{id}")
     public void verifyOtp(@PathVariable("id") int id) {
         int otp = (int) (Math.random() * 900000) + 100000;
         email.sendEmailOtp("OTP verification", otp, id);
@@ -83,9 +82,9 @@ public class ReportController {
 
     @GetMapping("/getConsentPatients/{id}")
     public List<Patient> getConsentPatients(@PathVariable("id") int id) {
-        //int viewerId=viewId.intValue();
-        List <Patient> conPat=new ArrayList<>();
-        conPat=repService.getConsentPat(id);
+        // int viewerId=viewId.intValue();
+        List<Patient> conPat = new ArrayList<>();
+        conPat = repService.getConsentPat(id);
         return conPat;
     }
 

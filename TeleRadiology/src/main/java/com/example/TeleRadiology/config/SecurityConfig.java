@@ -30,7 +30,7 @@ public class SecurityConfig {
                         // .requestMatchers("/test").authenticated()
                         // .anyRequest().authenticated());
                         .anyRequest().permitAll());
-        http.httpBasic(Customizer.withDefaults());
+        // http.httpBasic(Customizer.withDefaults());
 
         http.addFilterBefore(jwtFilter, BasicAuthenticationFilter.class);
         return http.build();

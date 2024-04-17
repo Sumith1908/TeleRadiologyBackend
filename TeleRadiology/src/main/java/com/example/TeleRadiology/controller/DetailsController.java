@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/teleRadiology")
 @RequiredArgsConstructor
-@CrossOrigin(originPatterns = "*localhost*")
+// @CrossOrigin(originPatterns = "*localhost*")
 public class DetailsController {
     private final DetailsService detService;
 
@@ -50,17 +50,18 @@ public class DetailsController {
         return lab;
     }
 
-    @GetMapping("/getAllDoctors")
+    @PostMapping("/getAllDoctors")
     public List<Doctor> getAllDoctors() {
-        List <Doctor> doctorList=new ArrayList<>();
-        doctorList=detService.getListOfDoctors();
+        List<Doctor> doctorList = new ArrayList<>();
+        doctorList = detService.getListOfDoctors();
 
         return doctorList;
     }
-    @GetMapping("/getAllPatients")
+
+    @PostMapping("/getAllPatients")
     public List<Patient> getAllPatients() {
-        List <Patient> patientList=new ArrayList<>();
-        patientList=detService.getListOfPatients();
+        List<Patient> patientList = new ArrayList<>();
+        patientList = detService.getListOfPatients();
 
         return patientList;
     }
