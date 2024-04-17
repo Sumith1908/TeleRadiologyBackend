@@ -16,6 +16,7 @@ import com.example.TeleRadiology.dto.PatientResult;
 import com.example.TeleRadiology.dto.RadiologistResult;
 import com.example.TeleRadiology.domain.model.Doctor;
 import com.example.TeleRadiology.domain.model.Patient;
+import com.example.TeleRadiology.domain.model.Radiologist;
 
 import lombok.RequiredArgsConstructor;
 
@@ -51,11 +52,20 @@ public class DetailsController {
     }
 
     @PostMapping("/getAllDoctors")
+    @PostMapping("/getAllDoctors")
     public List<Doctor> getAllDoctors() {
         List<Doctor> doctorList = new ArrayList<>();
         doctorList = detService.getListOfDoctors();
 
         return doctorList;
+    }
+
+    @GetMapping("/getAllRadiologists")
+    public List<Radiologist> getAllRadiologists() {
+        List<Radiologist> radiologistList = new ArrayList<>();
+        radiologistList = detService.getListOfRadiologists();
+
+        return radiologistList;
     }
 
     @PostMapping("/getAllPatients")

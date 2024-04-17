@@ -60,6 +60,13 @@ public class DetailsRepositoryImplementation implements DetailsRepository {
         return mapAllToDomainDoctorEntity(doctorEntityList);
     }
 
+    public List<Radiologist> getRadiologists() {
+        List<RadiologistEntity> radiologistEntityList = new ArrayList<>();
+        radiologistEntityList = radDao.findAll();
+
+        return mapAllToDomainRadiologistEntity(radiologistEntityList);
+    }
+
     public List<Patient> getPatients() {
         List<PatientEntity> patientEntityList = new ArrayList<>();
         patientEntityList = patDao.findAll();
@@ -73,9 +80,17 @@ public class DetailsRepositoryImplementation implements DetailsRepository {
 
         for (DoctorEntity docEntity : doctorEntityList) {
             doctorList.add(mapToDomainDoctorEntity(docEntity));
-
         }
-        return doctorList;
+         return doctorList;
+    }
+
+    private List<Radiologist> mapAllToDomainRadiologistEntity(List<RadiologistEntity> radiologistEntityList) {
+        List<Radiologist> radaiologistList = new ArrayList<>();
+
+        for(RadiologistEntity radEntity : radiologistEntityList) {
+            radaiologistList.add(mapToDomainRadiologistEntity(radEntity));
+        }
+         return radaiologistList;
     }
 
     private List<Patient> mapAllToDomainPatientEntity(List<PatientEntity> patientEntityList) {

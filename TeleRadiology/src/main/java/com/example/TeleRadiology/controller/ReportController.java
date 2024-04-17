@@ -65,7 +65,7 @@ public class ReportController {
         return consRes;
     }
 
-    @GetMapping("/getReportViewers/{id}")
+    @PostMapping("/getReportViewers/{id}")
     public List<Consent> getViewers(@PathVariable("id") int id) {
         List<Consent> ConsentList = new ArrayList<>();
         ConsentList = repService.getReportViewers(id);
