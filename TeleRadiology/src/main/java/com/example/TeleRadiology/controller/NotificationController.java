@@ -35,7 +35,7 @@ public class NotificationController {
     }
 
     @PostMapping("/addNotification")
-    public Boolean addNotification(AddNotificationReq req) {
+    public Boolean addNotification(@RequestBody AddNotificationReq req) {
         notService.addNotification(req);
         return true;
     }

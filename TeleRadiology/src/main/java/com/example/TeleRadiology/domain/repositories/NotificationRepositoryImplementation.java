@@ -53,14 +53,14 @@ public class NotificationRepositoryImplementation implements NotificationReposit
 
     private NotificationEntity mapToEntityNotification(AddNotificationReq req) {
         NotificationEntity notEnt = new NotificationEntity();
-        PatientEntity patEnt = patientDao.findById(req.getPatientId()).orElse(null);
-        DoctorEntity docEnt = doctorDao.findById(req.getDoctorId()).orElse(null);
-        RadiologistEntity radEnt = radiologistDao.findById(req.getRadiologistId()).orElse(null);
-        ReportEntity repEnt = reportDao.findById(req.getReportId()).orElse(null);
-        CredentialsEntity credEnt = credentialsDao.findById(req.getReciverId()).orElse(null);
+        PatientEntity patEnt = patientDao.findById(req.getPatientId()).orElseThrow(()-> new GlobalException("Patient not found"));
+        DoctorEntity docEnt = doctorDao.findById(req.getDoctorId()).orElseThrow(()-> new GlobalException("Doctor not found"));
+        RadiologistEntity radEnt = radiologistDao.findById(req.getRadiologistId()).orElseThrow(()-> new GlobalException("Radiologist not found"));
+        ReportEntity repEnt = reportDao.findById(req.getReportId()).orElseThrow(()-> new GlobalException("Report not found"));
+        CredentialsEntity credEnt = credentialsDao.findById(req.getReciverId()).orElseThrow(()-> new GlobalException("Reciver not found"));
 
         notEnt.setDoctorId(docEnt);
-        notEnt.setPatiientId(patEnt);
+        notEnt.setPatientId(patEnt);
         notEnt.setReciverId(credEnt);
         notEnt.setReportId(repEnt);
         notEnt.setRadiologistId(radEnt);

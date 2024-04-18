@@ -21,7 +21,7 @@ public class NotificationEntity {
 
     @ManyToOne
     @JoinColumn(name = "patient_id")
-    private PatientEntity patiientId;
+    private PatientEntity patientId;
 
     @ManyToOne
     @JoinColumn(name = "doctor_id")
