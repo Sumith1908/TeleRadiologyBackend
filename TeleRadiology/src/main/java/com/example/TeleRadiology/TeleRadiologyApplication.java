@@ -14,16 +14,4 @@ public class TeleRadiologyApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TeleRadiologyApplication.class, args);
 	}
-
-	@Bean
-	public WebMvcConfigurer configurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**")
-						.allowedOrigins("*");
-			};
-		};
-	}
-
 }

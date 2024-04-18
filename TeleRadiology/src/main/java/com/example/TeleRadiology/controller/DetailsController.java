@@ -51,7 +51,7 @@ public class DetailsController {
         return lab;
     }
 
-    @PostMapping("/getAllDoctors")
+    @GetMapping("/getAllDoctors")
     public List<Doctor> getAllDoctors() {
         List<Doctor> doctorList = new ArrayList<>();
         doctorList = detService.getListOfDoctors();

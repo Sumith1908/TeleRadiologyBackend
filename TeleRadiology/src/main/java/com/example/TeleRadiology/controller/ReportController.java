@@ -45,10 +45,11 @@ public class ReportController {
         return repService.giveConsent(consentReq);
     }
 
-    @PostMapping("/otpVerification/{id}")
-    public void verifyOtp(@PathVariable("id") int id) {
+    @GetMapping("/otpVerification/{id}")
+    public Boolean verifyOtp(@PathVariable("id") int id) {
         int otp = (int) (Math.random() * 900000) + 100000;
         email.sendEmailOtp("OTP verification", otp, id);
+        return true;
     }
 
     @PostMapping("/getPatientReports")
@@ -65,7 +66,7 @@ public class ReportController {
         return consRes;
     }
 
-    @PostMapping("/getReportViewers/{id}")
+    @GetMapping("/getReportViewers/{id}")
     public List<Consent> getViewers(@PathVariable("id") int id) {
         List<Consent> ConsentList = new ArrayList<>();
         ConsentList = repService.getReportViewers(id);
