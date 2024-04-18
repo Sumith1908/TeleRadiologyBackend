@@ -39,8 +39,8 @@ public class ImageStorageService {
         Boolean authenticated = false;
         try {
             authenticated = webClient.get()
-                    .uri("http://localhost:8081/teleRadiology/authenticate")
-                    // .headers(headers -> headers.setBearerAuth(authToken))
+                    .uri("http://192.168.0.122:8081/teleRadiology/authenticate")
+                    .headers(headers -> headers.setBearerAuth(authToken))
                     .retrieve()
                     .bodyToMono(Boolean.class)
                     .block();
@@ -93,7 +93,7 @@ public class ImageStorageService {
     }
 
     public GetAllReportsRes getAllReports(GetAllReportsReq req) {
-        // authenticate();
+        authenticate();
         GetAllReportsRes res = new GetAllReportsRes();
         res.setReports(new ArrayList<>());
         for (Integer reportId : req.getReportIds()) {

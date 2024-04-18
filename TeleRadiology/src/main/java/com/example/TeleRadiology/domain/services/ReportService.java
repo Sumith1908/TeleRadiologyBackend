@@ -9,7 +9,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.TeleRadiology.data.dao.OtpDao;
+import com.example.TeleRadiology.data.dao.PatientDao;
 import com.example.TeleRadiology.data.entities.OtpEntity;
+import com.example.TeleRadiology.data.entities.PatientEntity;
 import com.example.TeleRadiology.domain.model.Consent;
 import com.example.TeleRadiology.domain.model.Report;
 import com.example.TeleRadiology.domain.model.Patient;
@@ -33,6 +35,7 @@ public class ReportService {
     private final ReportRepository reportRepo;
     private final OtpDao otpDao;
     private final ChatService chatService;
+    private final PatientDao patientDao;
 
     public List<ReportResult> getAllReportsOfPatient(int id) {
         List<Report> reports = reportRepo.getReportsOfPatient(id);
@@ -65,7 +68,10 @@ public class ReportService {
             int viewerId = reportRepo.giveConsent(req.getDoctorId(), req.getReportId(), req.getPatientId());
             res.setSuccess(1);
             res.setViewerId(viewerId);
-            chatService.addChat(req.getDoctorId(), req.getPatientId(), req.getReportId());
+            PatientEntity pat = patientDao.findById(req.getPatientId()).orElse(null);
+            if (pat != null) {
+                chatService.addChat(viewerId, pat.getUserId().getId(), req.getReportId());
+            }
         }
         return res;
     }
@@ -97,7 +103,7 @@ public class ReportService {
     }
 
     public List<Patient> getConsentPat(int viewId) {
-        List<Patient> conPat=reportRepo.getConsentPatients(viewId);
+        List<Patient> conPat = reportRepo.getConsentPatients(viewId);
         return conPat;
     }
 

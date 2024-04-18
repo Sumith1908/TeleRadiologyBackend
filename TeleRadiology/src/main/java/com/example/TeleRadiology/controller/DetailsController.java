@@ -16,13 +16,14 @@ import com.example.TeleRadiology.dto.PatientResult;
 import com.example.TeleRadiology.dto.RadiologistResult;
 import com.example.TeleRadiology.domain.model.Doctor;
 import com.example.TeleRadiology.domain.model.Patient;
+import com.example.TeleRadiology.domain.model.Radiologist;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/teleRadiology")
 @RequiredArgsConstructor
-@CrossOrigin(originPatterns = "*localhost*")
+// @CrossOrigin(originPatterns = "*localhost*")
 public class DetailsController {
     private final DetailsService detService;
 
@@ -52,15 +53,24 @@ public class DetailsController {
 
     @GetMapping("/getAllDoctors")
     public List<Doctor> getAllDoctors() {
-        List <Doctor> doctorList=new ArrayList<>();
-        doctorList=detService.getListOfDoctors();
+        List<Doctor> doctorList = new ArrayList<>();
+        doctorList = detService.getListOfDoctors();
 
         return doctorList;
     }
-    @GetMapping("/getAllPatients")
+
+    @GetMapping("/getAllRadiologists")
+    public List<Radiologist> getAllRadiologists() {
+        List<Radiologist> radiologistList = new ArrayList<>();
+        radiologistList = detService.getListOfRadiologists();
+
+        return radiologistList;
+    }
+
+    @PostMapping("/getAllPatients")
     public List<Patient> getAllPatients() {
-        List <Patient> patientList=new ArrayList<>();
-        patientList=detService.getListOfPatients();
+        List<Patient> patientList = new ArrayList<>();
+        patientList = detService.getListOfPatients();
 
         return patientList;
     }

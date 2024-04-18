@@ -17,6 +17,7 @@ public interface DetailsRepository {
 
     public List<Doctor> getDoctors();
 
+    public List<Radiologist> getRadiologists();
 
     public List<Patient> getPatients();
 }

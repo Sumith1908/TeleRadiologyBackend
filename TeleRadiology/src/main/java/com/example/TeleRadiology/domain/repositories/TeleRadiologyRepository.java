@@ -9,4 +9,8 @@ public interface TeleRadiologyRepository {
     public int addPatient(CredentialsRequest cred);
 
     public Credentials getUserByEmail(String email);
+
+    public void addSalt(int id, String salt);
+
+    public String getSalt(int id);
 }

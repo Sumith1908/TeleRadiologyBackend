@@ -19,18 +19,18 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain security(HttpSecurity http) throws Exception {
-
-        http.cors(config -> config.disable());
         http.csrf(config -> config.disable());
         http.authorizeHttpRequests(
                 configure -> configure
                         .requestMatchers("/teleRadiology/loginCredentials").permitAll()
-                        // .requestMatchers("/teleRadiology/createPatientCred").permitAll()
+                        .requestMatchers("/teleRadiology/createPatientCred").permitAll()
+                        // .requestMatchers("/teleRadiology/getPatient").authenticated()
+                        // .requestMatchers("/teleRadiology/getPatientReports").authenticated()
                         // .requestMatchers("/teleRadiology/otpVerification/*").permitAll()
                         // .requestMatchers("/test").authenticated()
-                        // .anyRequest().authenticated());
-                        .anyRequest().permitAll());
-        http.httpBasic(Customizer.withDefaults());
+                        .anyRequest().authenticated());
+        // .anyRequest().permitAll());
+        // http.httpBasic(Customizer.withDefaults());
 
         http.addFilterBefore(jwtFilter, BasicAuthenticationFilter.class);
         return http.build();
