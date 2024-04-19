@@ -20,6 +20,10 @@ public class NotificationEntity {
     private int id;
 
     @ManyToOne
+    @JoinColumn(name = "patient_id")
+    private PatientEntity patientId;
+
+    @ManyToOne
     @JoinColumn(name = "doctor_id")
     private DoctorEntity doctorId;
 

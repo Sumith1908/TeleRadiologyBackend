@@ -3,6 +3,8 @@ package com.example.TeleRadiology.domain.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.TeleRadiology.dto.AddNotificationReq;
+import com.example.TeleRadiology.dto.NotificationsRes;
 import org.springframework.stereotype.Service;
 
 import com.example.TeleRadiology.data.dao.DoctorDao;
@@ -48,5 +50,9 @@ public class NotificationService {
         return notification1;
 
     }
-    
+
+    public Boolean addNotification(AddNotificationReq req) {
+        notRepo.addNotification(req);
+        return true;
+    }
 }

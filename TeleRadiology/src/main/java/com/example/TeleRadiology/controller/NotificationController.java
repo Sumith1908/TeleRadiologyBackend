@@ -3,6 +3,7 @@ package com.example.TeleRadiology.controller;
 import javax.management.NotificationBroadcaster;
 import javax.management.remote.NotificationResult;
 
+import com.example.TeleRadiology.dto.AddNotificationReq;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +32,12 @@ public class NotificationController {
         res.setNotifications(notService.geNotifications(id));
         return res;
 
+    }
+
+    @PostMapping("/addNotification")
+    public Boolean addNotification(@RequestBody AddNotificationReq req) {
+        notService.addNotification(req);
+        return true;
     }
 
 }
