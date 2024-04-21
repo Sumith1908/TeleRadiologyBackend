@@ -49,7 +49,7 @@ public class NotificationService {
         if (rad != null)
             notification1.setRadiologist(rad.getFirstName() + " " + rad.getMiddleName() + " " + rad.getLastName());
         if (rep != null)
-            notification1.setDoctor(rep.getReportType());
+            notification1.setReport(rep.getReportType());
         return notification1;
 
     }
