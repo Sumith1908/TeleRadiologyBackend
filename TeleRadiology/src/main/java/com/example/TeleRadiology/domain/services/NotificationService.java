@@ -46,7 +46,7 @@ public class NotificationService {
         ReportEntity rep=repDao.findById(notification.getReportId()).orElse(null);
         if(doc!=null) notification1.setDoctor(doc.getFirstName()+" "+doc.getMiddleName()+" "+doc.getLastName());
         if(rad!=null) notification1.setRadiologist(rad.getFirstName()+" "+rad.getMiddleName()+" "+rad.getLastName());
-        if(rep!=null) notification1.setDoctor(rep.getReportType());
+        if(rep!=null) notification1.setReport(rep.getReportType());
         return notification1;
 
     }
