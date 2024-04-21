@@ -24,8 +24,9 @@ public class NotificationRepositoryImplementation implements NotificationReposit
     private final CredentialsDao credentialsDao;
 
     @Override
-    public List<Notification> geNotifications(int id) {
-        List<NotificationEntity> notifications = notDao.findAllByReciverIdId(id).orElse(null);
+    public List<Notification> geNotifications(int credId, int reportId) {
+        List<NotificationEntity> notifications = notDao.findAllByReciverIdIdAndReportIdId(credId, reportId)
+                .orElse(null);
         List<Notification> notifications1 = new ArrayList<>();
         if (notifications == null) {
             return new ArrayList<>();
@@ -53,11 +54,16 @@ public class NotificationRepositoryImplementation implements NotificationReposit
 
     private NotificationEntity mapToEntityNotification(AddNotificationReq req) {
         NotificationEntity notEnt = new NotificationEntity();
-        PatientEntity patEnt = patientDao.findById(req.getPatientId()).orElseThrow(()-> new GlobalException("Patient not found"));
-        DoctorEntity docEnt = doctorDao.findById(req.getDoctorId()).orElseThrow(()-> new GlobalException("Doctor not found"));
-        RadiologistEntity radEnt = radiologistDao.findById(req.getRadiologistId()).orElseThrow(()-> new GlobalException("Radiologist not found"));
-        ReportEntity repEnt = reportDao.findById(req.getReportId()).orElseThrow(()-> new GlobalException("Report not found"));
-        CredentialsEntity credEnt = credentialsDao.findById(req.getReciverId()).orElseThrow(()-> new GlobalException("Reciver not found"));
+        PatientEntity patEnt = patientDao.findById(req.getPatientId())
+                .orElseThrow(() -> new GlobalException("Patient not found"));
+        DoctorEntity docEnt = doctorDao.findById(req.getDoctorId())
+                .orElseThrow(() -> new GlobalException("Doctor not found"));
+        RadiologistEntity radEnt = radiologistDao.findById(req.getRadiologistId())
+                .orElseThrow(() -> new GlobalException("Radiologist not found"));
+        ReportEntity repEnt = reportDao.findById(req.getReportId())
+                .orElseThrow(() -> new GlobalException("Report not found"));
+        CredentialsEntity credEnt = credentialsDao.findById(req.getReciverId())
+                .orElseThrow(() -> new GlobalException("Reciver not found"));
 
         notEnt.setDoctorId(docEnt);
         notEnt.setPatientId(patEnt);

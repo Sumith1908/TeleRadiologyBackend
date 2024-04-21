@@ -28,25 +28,28 @@ public class NotificationService {
     private final DoctorDao docDao;
     private final ReportDao repDao;
     private final RadiologistDao radDao;
-    public List<NotificationDto>  geNotifications(int id) {
-        List<NotificationDto> notifications=new ArrayList<>();
-        List<Notification> notifi=notRepo.geNotifications(id);
+
+    public List<NotificationDto> geNotifications(int credId, int reportId) {
+        List<NotificationDto> notifications = new ArrayList<>();
+        List<Notification> notifi = notRepo.geNotifications(credId, reportId);
         for (Notification notif : notifi) {
             notifications.add(mapToDtoNotification(notif));
-            
-            
+
         }
         return notifications;
     }
-    private NotificationDto mapToDtoNotification (Notification notification)
-    {
-        NotificationDto notification1=new NotificationDto();
-        DoctorEntity doc=docDao.findById(notification.getDoctorId()).orElse(null);
-        RadiologistEntity rad=radDao.findById(notification.getRadiologistId()).orElse(null);
-        ReportEntity rep=repDao.findById(notification.getReportId()).orElse(null);
-        if(doc!=null) notification1.setDoctor(doc.getFirstName()+" "+doc.getMiddleName()+" "+doc.getLastName());
-        if(rad!=null) notification1.setRadiologist(rad.getFirstName()+" "+rad.getMiddleName()+" "+rad.getLastName());
-        if(rep!=null) notification1.setDoctor(rep.getReportType());
+
+    private NotificationDto mapToDtoNotification(Notification notification) {
+        NotificationDto notification1 = new NotificationDto();
+        DoctorEntity doc = docDao.findById(notification.getDoctorId()).orElse(null);
+        RadiologistEntity rad = radDao.findById(notification.getRadiologistId()).orElse(null);
+        ReportEntity rep = repDao.findById(notification.getReportId()).orElse(null);
+        if (doc != null)
+            notification1.setDoctor(doc.getFirstName() + " " + doc.getMiddleName() + " " + doc.getLastName());
+        if (rad != null)
+            notification1.setRadiologist(rad.getFirstName() + " " + rad.getMiddleName() + " " + rad.getLastName());
+        if (rep != null)
+            notification1.setDoctor(rep.getReportType());
         return notification1;
 
     }

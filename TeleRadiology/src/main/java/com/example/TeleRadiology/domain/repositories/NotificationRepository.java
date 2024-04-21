@@ -6,8 +6,8 @@ import com.example.TeleRadiology.domain.model.Notification;
 import com.example.TeleRadiology.dto.AddNotificationReq;
 
 public interface NotificationRepository {
-List<Notification> geNotifications(int id);
+    List<Notification> geNotifications(int credId, int reportId);
 
-Boolean addNotification(AddNotificationReq req);
-    
+    Boolean addNotification(AddNotificationReq req);
+
 }

@@ -1,22 +1,23 @@
 package com.example.TeleRadiology.controller;
 
-import java.util.*;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.TeleRadiology.domain.model.Doctor;
+import com.example.TeleRadiology.domain.model.Patient;
+import com.example.TeleRadiology.domain.model.Radiologist;
 import com.example.TeleRadiology.domain.services.DetailsService;
 import com.example.TeleRadiology.dto.DetailsRequest;
 import com.example.TeleRadiology.dto.DoctorResult;
 import com.example.TeleRadiology.dto.LabResult;
 import com.example.TeleRadiology.dto.PatientResult;
 import com.example.TeleRadiology.dto.RadiologistResult;
-import com.example.TeleRadiology.domain.model.Doctor;
-import com.example.TeleRadiology.domain.model.Patient;
-import com.example.TeleRadiology.domain.model.Radiologist;
 
 import lombok.RequiredArgsConstructor;
 

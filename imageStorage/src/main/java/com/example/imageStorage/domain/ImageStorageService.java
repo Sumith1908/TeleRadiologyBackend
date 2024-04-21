@@ -39,7 +39,7 @@ public class ImageStorageService {
         Boolean authenticated = false;
         try {
             authenticated = webClient.get()
-                    .uri("http://192.168.0.122:8081/teleRadiology/authenticate")
+                    .uri("http://localhost:8081/teleRadiology/authenticate")
                     .headers(headers -> headers.setBearerAuth(authToken))
                     .retrieve()
                     .bodyToMono(Boolean.class)
@@ -52,7 +52,7 @@ public class ImageStorageService {
     }
 
     public boolean addReport(String image, int id) {
-        // authenticate();
+        authenticate();
         ReportDocument repDoc = new ReportDocument();
         repDoc.setReport(image);
         repDoc.setReportId(id);
@@ -62,14 +62,14 @@ public class ImageStorageService {
     }
 
     public ReportDTO getReport(int id) {
-        // authenticate();
+        authenticate();
         ReportDocument repDoc = repDao.findByReportId(id).orElseThrow(
                 () -> new FailedToRetrieveException("Failed to find entity from MongoDB"));
         return mapToDTOReportDocument(repDoc);
     }
 
     public boolean addAnnotatedReport(String image, int id) {
-        // authenticate();
+        authenticate();
         AnnotationDocument annDoc = new AnnotationDocument();
         annDoc.setAnnotation(image);
         annDoc.setAnnotationId(id);
@@ -79,14 +79,14 @@ public class ImageStorageService {
     }
 
     public AnnotatedReportDTO getAnnotation(int id) {
-        // authenticate();
+        authenticate();
         AnnotationDocument annDoc = annDao.findByAnnotationId(id).orElseThrow(
                 () -> new FailedToRetrieveException("Failed to find entity from MongoDB"));
         return mapToDTOAnnotationDocument(annDoc);
     }
 
     public ProfilePicDTO getProfilePic(int id) {
-        // authenticate();
+        authenticate();
         ProfilePicDocument profileDoc = profileDao.findByUserId(id).orElseThrow(
                 () -> new FailedToRetrieveException("Failed to find entity from MongoDB"));
         return mapToDTOProfilePicDocument(profileDoc);
@@ -105,7 +105,7 @@ public class ImageStorageService {
     }
 
     public boolean addProfilePic(String image, int id) {
-        // authenticate();
+        authenticate();
         ProfilePicDocument profilePic = new ProfilePicDocument();
         profilePic.setProfilePic(image);
         profilePic.setUserId(id);

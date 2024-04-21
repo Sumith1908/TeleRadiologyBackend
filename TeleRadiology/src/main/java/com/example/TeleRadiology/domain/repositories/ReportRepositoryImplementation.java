@@ -3,13 +3,12 @@ package com.example.TeleRadiology.domain.repositories;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.HashSet;
 
-import com.example.TeleRadiology.domain.model.Patient;
-import com.example.TeleRadiology.dto.GetConsentReportReq;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.TeleRadiology.data.dao.ConsentDao;
 import com.example.TeleRadiology.data.dao.DoctorDao;
@@ -24,16 +23,17 @@ import com.example.TeleRadiology.data.entities.OtpEntity;
 import com.example.TeleRadiology.data.entities.PatientEntity;
 import com.example.TeleRadiology.data.entities.ReportEntity;
 import com.example.TeleRadiology.domain.model.Consent;
+import com.example.TeleRadiology.domain.model.Patient;
 import com.example.TeleRadiology.domain.model.Report;
-import com.example.TeleRadiology.dto.UploadRequest;
+import com.example.TeleRadiology.dto.GetConsentReportReq;
 import com.example.TeleRadiology.dto.RemoveConsentReq;
+import com.example.TeleRadiology.dto.UploadRequest;
 import com.example.TeleRadiology.exception.ConsentNotFoundException;
 import com.example.TeleRadiology.exception.DoctoNotFoundException;
 import com.example.TeleRadiology.exception.GlobalException;
 import com.example.TeleRadiology.exception.LabNotFoundException;
 import com.example.TeleRadiology.exception.PatientNotFoundException;
 import com.example.TeleRadiology.exception.ReportsNotFoundException;
-import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
@@ -110,20 +110,20 @@ public class ReportRepositoryImplementation implements ReportRepository {
     }
 
     public List<Patient> getConsentPatients(int viewerId) {
-        List<ConsentEntity> conEnt=new ArrayList<>();
-        HashSet<Patient> patEnt=new HashSet<>();
-        List<Patient> patients=new ArrayList<>();
+        List<ConsentEntity> conEnt = new ArrayList<>();
+        HashSet<Patient> patEnt = new HashSet<>();
+        List<Patient> patients = new ArrayList<>();
 
-        conEnt=consentDao.findAllByViewerIdId(viewerId).orElseThrow(
+        conEnt = consentDao.findAllByViewerIdId(viewerId).orElseThrow(
                 () -> new GlobalException("Reports Not Found"));
 
-        for(int i=0;i<conEnt.size();i++) {
+        for (int i = 0; i < conEnt.size(); i++) {
             patEnt.add(mapToDomainPatientEntity(conEnt.get(i).getPatientId()));
         }
 
         patients.addAll(patEnt);
 
-         return patients;
+        return patients;
     }
 
     public int giveConsent(int doctorId, int reportId, int patientId) {
@@ -149,9 +149,9 @@ public class ReportRepositoryImplementation implements ReportRepository {
         int doctorId = getConsentReportReq.getDoctorID();
         List<ConsentEntity> conEnt = new ArrayList<>();
         List<Report> reports = new ArrayList<>();
-        conEnt=consentDao.findAllByPatientIdIdAndViewerIdId(patientId, doctorId).orElseThrow(
+        conEnt = consentDao.findAllByPatientIdIdAndViewerIdId(patientId, doctorId).orElseThrow(
                 () -> new GlobalException("Reports Not Found"));
-        for(int i=0;i<conEnt.size();i++) {
+        for (int i = 0; i < conEnt.size(); i++) {
             reports.add(mapToDomainReportEntity(conEnt.get(i).getReportId()));
         }
         return reports;
