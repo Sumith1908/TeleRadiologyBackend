@@ -9,11 +9,10 @@ import com.example.TeleRadiology.dto.GetConsentReportReq;
 import com.example.TeleRadiology.dto.UploadRequest;
 import com.example.TeleRadiology.dto.RemoveConsentReq;
 
-
 public interface ReportRepository {
     public int uploadPatientReport(UploadRequest upreq);
 
-    public int giveConsent(int doctorId, int reportId, int patientId);
+    public int giveConsent(int doctorId, int reportId, int patientId, int radioId);
 
     public List<Report> getReportsOfPatient(int id);
 

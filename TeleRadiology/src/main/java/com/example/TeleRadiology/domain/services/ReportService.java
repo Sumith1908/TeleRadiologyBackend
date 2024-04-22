@@ -65,7 +65,8 @@ public class ReportService {
         GiveConsentResult res = new GiveConsentResult();
 
         if (verifyOTP(req.getPatientId(), req.getOtp())) {
-            int viewerId = reportRepo.giveConsent(req.getDoctorId(), req.getReportId(), req.getPatientId());
+            int viewerId = reportRepo.giveConsent(req.getDoctorId(), req.getReportId(), req.getPatientId(),
+                    req.getRadiologistId());
             res.setSuccess(1);
             res.setViewerId(viewerId);
             PatientEntity pat = patientDao.findById(req.getPatientId()).orElse(null);

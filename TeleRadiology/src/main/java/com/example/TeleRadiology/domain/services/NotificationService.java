@@ -44,12 +44,17 @@ public class NotificationService {
         DoctorEntity doc = docDao.findById(notification.getDoctorId()).orElse(null);
         RadiologistEntity rad = radDao.findById(notification.getRadiologistId()).orElse(null);
         ReportEntity rep = repDao.findById(notification.getReportId()).orElse(null);
-        if (doc != null)
+        if (doc != null) {
             notification1.setDoctor(doc.getFirstName() + " " + doc.getMiddleName() + " " + doc.getLastName());
-        if (rad != null)
+            notification1.setDoctorId(doc.getId());
+        }
+        if (rad != null) {
             notification1.setRadiologist(rad.getFirstName() + " " + rad.getMiddleName() + " " + rad.getLastName());
+            notification1.setRadiologistId(rad.getId());
+        }
         if (rep != null)
             notification1.setReport(rep.getReportType());
+        notification1.setId(notification.getId());
         return notification1;
 
     }

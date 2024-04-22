@@ -44,6 +44,7 @@ public class NotificationRepositoryImplementation implements NotificationReposit
         notification.setDoctorId(notEnt.getDoctorId().getId());
         notification.setRadiologistId(notEnt.getRadiologistId().getId());
         notification.setReportId(notEnt.getReportId().getId());
+        notification.setId(notEnt.getId());
         return notification;
     }
 

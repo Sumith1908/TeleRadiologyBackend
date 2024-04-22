@@ -19,6 +19,6 @@ public class Notification {
      private int doctorId;
      private int radiologistId;
      private int reportId;
+     private int id;
 
-    
 }

@@ -11,16 +11,20 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.TeleRadiology.data.dao.ConsentDao;
+import com.example.TeleRadiology.data.dao.CredentialsDao;
 import com.example.TeleRadiology.data.dao.DoctorDao;
 import com.example.TeleRadiology.data.dao.LabDao;
 import com.example.TeleRadiology.data.dao.OtpDao;
 import com.example.TeleRadiology.data.dao.PatientDao;
+import com.example.TeleRadiology.data.dao.RadiologistDao;
 import com.example.TeleRadiology.data.dao.ReportDao;
 import com.example.TeleRadiology.data.entities.ConsentEntity;
+import com.example.TeleRadiology.data.entities.CredentialsEntity;
 import com.example.TeleRadiology.data.entities.DoctorEntity;
 import com.example.TeleRadiology.data.entities.LabEntity;
 import com.example.TeleRadiology.data.entities.OtpEntity;
 import com.example.TeleRadiology.data.entities.PatientEntity;
+import com.example.TeleRadiology.data.entities.RadiologistEntity;
 import com.example.TeleRadiology.data.entities.ReportEntity;
 import com.example.TeleRadiology.domain.model.Consent;
 import com.example.TeleRadiology.domain.model.Patient;
@@ -34,6 +38,7 @@ import com.example.TeleRadiology.exception.GlobalException;
 import com.example.TeleRadiology.exception.LabNotFoundException;
 import com.example.TeleRadiology.exception.PatientNotFoundException;
 import com.example.TeleRadiology.exception.ReportsNotFoundException;
+import com.example.TeleRadiology.exception.UserNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -47,6 +52,8 @@ public class ReportRepositoryImplementation implements ReportRepository {
     private final DoctorDao docDao;
     private final LabDao labDao;
     private final OtpDao otpDao;
+    private final RadiologistDao radDao;
+    private final CredentialsDao credDao;
 
     public List<Report> getReportsOfPatient(int id) {
         List<ReportEntity> reportList = repDao.findAllByPatientIdId(id).orElseThrow(
@@ -126,22 +133,33 @@ public class ReportRepositoryImplementation implements ReportRepository {
         return patients;
     }
 
-    public int giveConsent(int doctorId, int reportId, int patientId) {
-        DoctorEntity doc = docDao.findById(doctorId).orElseThrow(
-                () -> new DoctoNotFoundException("No such doctor"));
+    public int giveConsent(int doctorId, int reportId, int patientId, int radioId) {
+        int userId = -1;
+        if (doctorId != -1) {
+            DoctorEntity doc = docDao.findById(doctorId).orElseThrow(
+                    () -> new DoctoNotFoundException("No such doctor"));
+            userId = doc.getUserId().getId();
+        }
+        if (radioId != -1) {
+            RadiologistEntity rad = radDao.findById(radioId).orElseThrow(
+                    () -> new DoctoNotFoundException("No such radiologist"));
+            userId = rad.getUserId().getId();
+        }
         ConsentEntity consent = new ConsentEntity();
         ReportEntity rep = repDao.findById(reportId).orElseThrow(
                 () -> new ReportsNotFoundException("No such Report"));
         PatientEntity pat = patDao.findById(patientId).orElseThrow(
                 () -> new PatientNotFoundException("No such patient"));
-        consent.setPatientId(pat);
-        consent.setViewerId(doc.getUserId());
+        CredentialsEntity cred = credDao.findById(userId).orElseThrow(
+                () -> new UserNotFoundException("No such user"));
+        consent.setViewerId(cred);
         consent.setReportId(rep);
+        consent.setPatientId(pat);
         LocalDate currentDate = LocalDate.now();
         consent.setConsentDate(currentDate);
         Optional.ofNullable(consentDao.save(consent)).orElseThrow(
                 () -> new GlobalException("Failed to save"));
-        return doc.getUserId().getId();
+        return userId;
     }
 
     public List<Report> getConsentedReports(GetConsentReportReq getConsentReportReq) {
