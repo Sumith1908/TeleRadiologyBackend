@@ -12,6 +12,7 @@ import com.example.TeleRadiology.domain.model.Notification;
 import com.example.TeleRadiology.exception.GlobalException;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -50,6 +51,12 @@ public class NotificationRepositoryImplementation implements NotificationReposit
     public Boolean addNotification(AddNotificationReq req) {
         notDao.save(mapToEntityNotification(req));
         return true;
+    }
+
+    @Transactional
+    public int deleteNotification(int id) {
+        notDao.deleteById(id);
+        return 1;
     }
 
     private NotificationEntity mapToEntityNotification(AddNotificationReq req) {
