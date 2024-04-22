@@ -63,4 +63,9 @@ public class NotificationService {
         notRepo.addNotification(req);
         return true;
     }
+
+    public int deleteNotification(int id) {
+        notRepo.deleteNotification(id);
+        return 1;
+    }
 }

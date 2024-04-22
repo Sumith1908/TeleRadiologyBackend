@@ -10,4 +10,6 @@ public interface NotificationRepository {
 
     Boolean addNotification(AddNotificationReq req);
 
+    int deleteNotification(int id);
+
 }
