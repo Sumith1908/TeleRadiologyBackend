@@ -33,26 +33,7 @@ public class ImageStorageService {
     private final ProfilePicDao profileDao;
     private final WebClient webClient;
 
-    private boolean authenticate() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String authToken = auth.getPrincipal().toString();
-        Boolean authenticated = false;
-        try {
-            authenticated = webClient.get()
-                    .uri("http://localhost:8081/teleRadiology/authenticate")
-                    .headers(headers -> headers.setBearerAuth(authToken))
-                    .retrieve()
-                    .bodyToMono(Boolean.class)
-                    .block();
-        } catch (Exception e) {
-            throw new GlobalException("Unauthorized");
-        }
-
-        return authenticated;
-    }
-
     public boolean addReport(String image, int id) {
-        authenticate();
         ReportDocument repDoc = new ReportDocument();
         repDoc.setReport(image);
         repDoc.setReportId(id);
@@ -62,14 +43,12 @@ public class ImageStorageService {
     }
 
     public ReportDTO getReport(int id) {
-        authenticate();
         ReportDocument repDoc = repDao.findByReportId(id).orElseThrow(
                 () -> new FailedToRetrieveException("Failed to find entity from MongoDB"));
         return mapToDTOReportDocument(repDoc);
     }
 
     public boolean addAnnotatedReport(String image, int id) {
-        authenticate();
         AnnotationDocument annDoc = new AnnotationDocument();
         annDoc.setAnnotation(image);
         annDoc.setAnnotationId(id);
@@ -79,21 +58,18 @@ public class ImageStorageService {
     }
 
     public AnnotatedReportDTO getAnnotation(int id) {
-        authenticate();
         AnnotationDocument annDoc = annDao.findByAnnotationId(id).orElseThrow(
                 () -> new FailedToRetrieveException("Failed to find entity from MongoDB"));
         return mapToDTOAnnotationDocument(annDoc);
     }
 
     public ProfilePicDTO getProfilePic(int id) {
-        authenticate();
         ProfilePicDocument profileDoc = profileDao.findByUserId(id).orElseThrow(
                 () -> new FailedToRetrieveException("Failed to find entity from MongoDB"));
         return mapToDTOProfilePicDocument(profileDoc);
     }
 
     public GetAllReportsRes getAllReports(GetAllReportsReq req) {
-        authenticate();
         GetAllReportsRes res = new GetAllReportsRes();
         res.setReports(new ArrayList<>());
         for (Integer reportId : req.getReportIds()) {
@@ -105,7 +81,6 @@ public class ImageStorageService {
     }
 
     public boolean addProfilePic(String image, int id) {
-        authenticate();
         ProfilePicDocument profilePic = new ProfilePicDocument();
         profilePic.setProfilePic(image);
         profilePic.setUserId(id);

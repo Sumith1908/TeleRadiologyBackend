@@ -18,10 +18,8 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityChain(HttpSecurity http) throws Exception {
-        // Disable Cross Site Request Forgery (CSRF)
         http.csrf(csrf -> csrf.disable());
 
-        // Disable Cross-Origin Resource Sharing (CORS)
         http.cors(cors -> cors.disable());
 
         http.authorizeHttpRequests(configurer -> configurer

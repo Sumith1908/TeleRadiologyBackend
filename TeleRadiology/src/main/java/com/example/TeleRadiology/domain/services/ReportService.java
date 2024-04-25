@@ -4,7 +4,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,8 @@ import com.example.TeleRadiology.domain.model.Report;
 import com.example.TeleRadiology.domain.model.Patient;
 import com.example.TeleRadiology.domain.repositories.ReportRepository;
 import com.example.TeleRadiology.dto.ConsentResult;
+import com.example.TeleRadiology.dto.GetAllReportsReq;
+import com.example.TeleRadiology.dto.GetAllReportsRes;
 import com.example.TeleRadiology.dto.GiveConsentReq;
 import com.example.TeleRadiology.dto.GetConsentReportReq;
 import com.example.TeleRadiology.dto.GiveConsentResult;
@@ -24,6 +29,7 @@ import com.example.TeleRadiology.dto.ReportResult;
 import com.example.TeleRadiology.dto.UploadRequest;
 import com.example.TeleRadiology.dto.UploadResult;
 import com.example.TeleRadiology.dto.RemoveConsentReq;
+import com.example.TeleRadiology.dto.ReportDTO;
 import com.example.TeleRadiology.exception.NoOtpException;
 
 import lombok.RequiredArgsConstructor;
@@ -36,10 +42,22 @@ public class ReportService {
     private final OtpDao otpDao;
     private final ChatService chatService;
     private final PatientDao patientDao;
+    private final ImageService imgService;
 
     public List<ReportResult> getAllReportsOfPatient(int id) {
         List<Report> reports = reportRepo.getReportsOfPatient(id);
-        return mapAllTodtoReports(reports);
+        List<ReportResult> reps = mapAllTodtoReports(reports);
+        List<Integer> ids = reps.stream().map(x -> x.getId()).collect(Collectors.toList());
+        GetAllReportsReq reqBody = new GetAllReportsReq();
+        reqBody.setReportIds(ids);
+        GetAllReportsRes reportImages = (GetAllReportsRes) imgService.callImageServerPost("/getAllReports", reqBody,
+                GetAllReportsRes.class);
+        Collections.sort(reps, Comparator.comparing(ReportResult::getId));
+        Collections.sort(reportImages.getReports(), Comparator.comparing(ReportDTO::getReportId));
+        for (int i = 0; i < reps.size(); i++) {
+            reps.get(i).setReport(reportImages.getReports().get(i).getReport());
+        }
+        return reps;
     }
 
     public ConsentResult checkConsent(int viewerId, int reportId) {

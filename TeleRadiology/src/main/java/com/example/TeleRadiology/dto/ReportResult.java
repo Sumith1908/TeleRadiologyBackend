@@ -8,6 +8,8 @@ import lombok.Data;
 public class ReportResult {
     private int id;
 
+    private String report = "";
+
     private String reportType;
 
     private int patientId;
