@@ -14,14 +14,22 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.example.TeleRadiology.data.dao.ValidTokensDao;
+import com.example.TeleRadiology.data.entities.ValidTokensEntity;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class JwtService {
+    private final ValidTokensDao tokenDao;
     Algorithm algorithm = Algorithm.HMAC256("secret");
+    // Algorithm algorithm = Algorithm.HMAC256("secret");
 
     // using authentication object to create token because already spring has it
     // we can also directly send user name and role to generateToken function
     public String generateToken(Authentication auth) {
+        ValidTokensEntity validToken = new ValidTokensEntity();
         String token = JWT.create()
                 .withIssuer("TeleRadiology")
                 .withClaim("email", auth.getName())
@@ -30,10 +38,18 @@ public class JwtService {
                 .withIssuedAt(new Date())
                 .withSubject("to authenticate")
                 .sign(algorithm);
+        System.out.println(token.length());
+        validToken.setToken(token);
+        tokenDao.save(validToken);
         return token;
     }
 
     public void validateToken(String token) {
+        ValidTokensEntity validToken = tokenDao.findByToken(token)
+                .orElse(null);
+        if (validToken == null) {
+            throw new RuntimeException("Invalid token");
+        }
         JWTVerifier verifier = JWT.require(algorithm)
                 .withIssuer("TeleRadiology")
                 .build();

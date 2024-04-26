@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import com.example.TeleRadiology.data.dao.CredentialsDao;
 import com.example.TeleRadiology.data.dao.RoleDao;
 import com.example.TeleRadiology.data.dao.SaltDao;
+import com.example.TeleRadiology.data.dao.ValidTokensDao;
 import com.example.TeleRadiology.data.entities.CredentialsEntity;
 import com.example.TeleRadiology.data.entities.RoleEntity;
 import com.example.TeleRadiology.data.entities.SaltEntity;
@@ -13,6 +14,7 @@ import com.example.TeleRadiology.dto.CredentialsRequest;
 import com.example.TeleRadiology.exception.GlobalException;
 import com.example.TeleRadiology.exception.UserNotFoundException;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -21,6 +23,7 @@ public class TeleRadiologyRepositoryImplementation implements TeleRadiologyRepos
     private final CredentialsDao credDao;
     private final RoleDao roleDao;
     private final SaltDao saltDao;
+    private final ValidTokensDao tokenDao;
 
     @Override
     public Credentials checkLoginCredentials(String email, String role) {
@@ -82,6 +85,15 @@ public class TeleRadiologyRepositoryImplementation implements TeleRadiologyRepos
         newCred.setRole(roleEntity);
 
         return newCred;
+    }
+
+    @Transactional
+    public void deleteToken(String token) {
+        try {
+            tokenDao.deleteByToken(token);
+        } catch (Exception e) {
+            throw new GlobalException("Could not delete token");
+        }
     }
 
     private Credentials mapToDomainCredentialsEntity(CredentialsEntity credEntity) {

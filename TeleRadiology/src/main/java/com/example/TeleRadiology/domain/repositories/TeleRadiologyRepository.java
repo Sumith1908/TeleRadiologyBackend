@@ -13,4 +13,6 @@ public interface TeleRadiologyRepository {
     public void addSalt(int id, String salt);
 
     public String getSalt(int id);
+
+    public void deleteToken(String token);
 }

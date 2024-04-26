@@ -2,13 +2,10 @@ package com.example.TeleRadiology.controller;
 
 import java.util.ArrayList;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.TeleRadiology.domain.services.TeleRadiologyService;
 import com.example.TeleRadiology.dto.CredentialsRequest;
 import com.example.TeleRadiology.dto.CredentialsResult;
+import com.example.TeleRadiology.dto.LogoutReq;
 import com.example.TeleRadiology.jwt.JwtService;
 
 import lombok.RequiredArgsConstructor;
@@ -26,7 +24,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 // @CrossOrigin(originPatterns = "*localhost*")
 public class TeleRadiologyController {
-    private static final Logger logger = LoggerFactory.getLogger(TeleRadiologyController.class);
+    // private static final Logger logger =
+    // LoggerFactory.getLogger(TeleRadiologyController.class);
     private final TeleRadiologyService teleRadService;
     private final JwtService jwt;
 
@@ -49,5 +48,10 @@ public class TeleRadiologyController {
     public CredentialsResult createPatientCred(@RequestBody CredentialsRequest cred) {
         CredentialsResult credRes = teleRadService.addPatient(cred);
         return credRes;
+    }
+
+    @PostMapping("/logout")
+    public void logout(@RequestBody LogoutReq req) {
+        teleRadService.deleteToken(req.getToken());
     }
 }

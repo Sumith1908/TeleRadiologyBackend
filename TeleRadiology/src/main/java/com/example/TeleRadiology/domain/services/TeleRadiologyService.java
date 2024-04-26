@@ -84,4 +84,8 @@ public class TeleRadiologyService {
         return teleRep.getUserByEmail(email);
     }
 
+    public void deleteToken(String token) {
+        teleRep.deleteToken(token);
+    }
+
 }
