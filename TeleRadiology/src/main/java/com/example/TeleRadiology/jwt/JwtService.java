@@ -38,7 +38,6 @@ public class JwtService {
                 .withIssuedAt(new Date())
                 .withSubject("to authenticate")
                 .sign(algorithm);
-        System.out.println(token.length());
         validToken.setToken(token);
         tokenDao.save(validToken);
         return token;
