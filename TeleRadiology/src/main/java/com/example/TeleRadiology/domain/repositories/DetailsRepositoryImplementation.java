@@ -124,6 +124,13 @@ public class DetailsRepositoryImplementation implements DetailsRepository {
         pat.setHeight(patEnt.getHeight());
         pat.setWeight(patEnt.getWeight());
         pat.setProfilePhoto(patEnt.getProfilePhoto());
+        pat.setAllergies(patEnt.getAllergies());
+        pat.setChronicDiseases(patEnt.getChronicDiseases());
+        pat.setCurrentMedication(patEnt.getCurrentMedication());
+        pat.setPastMedication(patEnt.getPastMedication());
+        pat.setSmokingHabits(patEnt.getSmokingHabits());
+        pat.setDrinkingHabits(patEnt.getDrinkingHabits());
+        pat.setFoodPreferences(patEnt.getFoodPreferences());
 
         return pat;
     }
