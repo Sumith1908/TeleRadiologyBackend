@@ -42,4 +42,18 @@ public class PatientResult {
 
     private String profilePhoto;
 
+    private String allergies;
+
+    private String currentMedication;
+
+    private String pastMedication;
+
+    private String chronicDiseases;
+
+    private String smokingHabits;
+
+    private String drinkingHabits;
+
+    private String foodPreferences;
+
 }

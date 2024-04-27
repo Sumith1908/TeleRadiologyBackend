@@ -101,6 +101,14 @@ public class DetailsService {
         patRes.setHeight(pat.getHeight());
         patRes.setWeight(pat.getWeight());
         patRes.setProfilePhoto(pat.getProfilePhoto());
+        patRes.setAllergies(pat.getAllergies());
+        patRes.setChronicDiseases(pat.getChronicDiseases());
+        patRes.setCurrentMedication(pat.getCurrentMedication());
+        patRes.setPastMedication(pat.getPastMedication());
+        patRes.setSmokingHabits(pat.getSmokingHabits());
+        patRes.setDrinkingHabits(pat.getDrinkingHabits());
+        patRes.setFoodPreferences(pat.getFoodPreferences());
+
         return patRes;
     }
 
