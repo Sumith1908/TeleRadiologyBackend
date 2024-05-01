@@ -1,17 +1,11 @@
 package com.example.TeleRadiology.controller;
 
 import com.example.TeleRadiology.domain.model.Doctor;
+import com.example.TeleRadiology.domain.model.Lab;
 import com.example.TeleRadiology.domain.model.Radiologist;
-import com.example.TeleRadiology.domain.services.DoctorService;
-import com.example.TeleRadiology.domain.services.RadiologistService;
-import com.example.TeleRadiology.domain.services.TeleRadiologyService;
-import com.example.TeleRadiology.dto.AddDoctorReq;
-import com.example.TeleRadiology.dto.AddRadiologistReq;
-import com.example.TeleRadiology.dto.CredentialsRequest;
-import com.example.TeleRadiology.dto.CredentialsResult;
+import com.example.TeleRadiology.domain.services.*;
+import com.example.TeleRadiology.dto.*;
 import org.springframework.web.bind.annotation.*;
-
-import com.example.TeleRadiology.domain.services.AdminService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,6 +18,7 @@ public class AdminController {
     private final TeleRadiologyService teleRadService;
     private final DoctorService doctorService;
     private final RadiologistService radioService;
+    private final LabService labService;
 
     @GetMapping(value = "/deactivateUser/{id}")
     public Boolean deactivateUser(@PathVariable int id) {
@@ -93,6 +88,34 @@ public class AdminController {
         res.setExperience(radio.getExperience());
         res.setHighestEducation(radio.getHighestEducation());
         res.setProfilePhoto(radio.getProfilePhoto());
+        return res;
+    }
+
+    @PostMapping(value = "/addLab")
+    public Boolean addLab(@RequestBody AddLabReq lab) {
+        CredentialsRequest credReq = new CredentialsRequest();
+        credReq = mapLabReqToCredReq(lab);
+        CredentialsResult credRes = teleRadService.addPatient(credReq);
+        labService.addLab(mapReqToLab(lab), credRes.getUser());
+        return true;
+    }
+
+    private CredentialsRequest mapLabReqToCredReq(@RequestBody AddLabReq lab) {
+        CredentialsRequest credReq = new CredentialsRequest();
+        credReq.setEmail(lab.getEmail());
+        credReq.setPassword(lab.getPassword());
+        credReq.setRole(lab.getRole());
+        return credReq;
+    }
+
+    private Lab mapReqToLab(@RequestBody AddLabReq lab) {
+        Lab res = new Lab();
+        res.setName(lab.getName());
+        res.setAddress(lab.getAddress());
+        res.setCity(lab.getCity());
+        res.setState(lab.getState());
+        res.setPinCode(lab.getPinCode());
+        res.setPhoneNumber(lab.getPhoneNumber());
         return res;
     }
 }
