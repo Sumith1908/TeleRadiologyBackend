@@ -21,7 +21,6 @@ public class NotificationController {
         NotificationsRes res = new NotificationsRes();
         res.setNotifications(notService.geNotifications(req.getCredId(), req.getReportId()));
         return res;
-
     }
 
     @PostMapping("/addNotification")

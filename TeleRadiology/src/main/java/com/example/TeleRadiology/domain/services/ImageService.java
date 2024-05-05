@@ -33,7 +33,7 @@ public class ImageService {
     public <T> T callImageServerPost(String path, GetAllReportsReq request, Class<T> responseType) {
         try {
             return webClient.post()
-                    .uri("http://localhost:8080/images" + path)
+                    .uri("http://192.168.0.122:8080/images" + path)
                     .contentType(MediaType.APPLICATION_JSON)
                     .bodyValue(request)
                     .retrieve()
