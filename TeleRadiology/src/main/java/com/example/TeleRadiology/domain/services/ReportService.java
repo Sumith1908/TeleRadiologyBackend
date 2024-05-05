@@ -47,6 +47,7 @@ public class ReportService {
     public List<ReportResult> getAllReportsOfPatient(int id) {
         List<Report> reports = reportRepo.getReportsOfPatient(id);
         List<ReportResult> reps = mapAllTodtoReports(reports);
+        // image req commented untill req
         // List<Integer> ids = reps.stream().map(x ->
         // x.getId()).collect(Collectors.toList());
         // GetAllReportsReq reqBody = new GetAllReportsReq();

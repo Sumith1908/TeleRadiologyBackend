@@ -11,6 +11,7 @@ import com.example.TeleRadiology.domain.repositories.DetailsRepository;
 import com.example.TeleRadiology.dto.DoctorResult;
 import com.example.TeleRadiology.dto.LabResult;
 import com.example.TeleRadiology.dto.PatientResult;
+import com.example.TeleRadiology.dto.ProfilePicDTO;
 import com.example.TeleRadiology.dto.RadiologistResult;
 
 import lombok.RequiredArgsConstructor;
@@ -19,10 +20,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class DetailsService {
     private final DetailsRepository detRep;
+    private final ImageService imgService;
 
     public PatientResult getPatient(int id) {
         Patient pat = detRep.getPatient(id);
-        return mapToDtoPatient(pat);
+        PatientResult patRes = mapToDtoPatient(pat);
+        ProfilePicDTO dto = imgService.callImageServerGet("/getProfilePic/" + Integer.toString(pat.getUserId()),
+                ProfilePicDTO.class);
+        patRes.setProfilePhoto(dto.getProfilePic());
+        return patRes;
     }
 
     public DoctorResult getDoctor(int id) {
@@ -40,20 +46,21 @@ public class DetailsService {
         return mapToDtoLabResult(lab);
     }
 
-    public List<Doctor> getListOfDoctors(){
-        List <Doctor> doctorList=new ArrayList<>();
-        doctorList=detRep.getDoctors();
+    public List<Doctor> getListOfDoctors() {
+        List<Doctor> doctorList = new ArrayList<>();
+        doctorList = detRep.getDoctors();
         return doctorList;
     }
 
     public List<Radiologist> getListOfRadiologists() {
-        List<Radiologist> radiologistList=new ArrayList<>();
-        radiologistList=detRep.getRadiologists();
+        List<Radiologist> radiologistList = new ArrayList<>();
+        radiologistList = detRep.getRadiologists();
         return radiologistList;
     }
-    public List<Patient> getListOfPatients(){
-        List <Patient> patientList=new ArrayList<>();
-        patientList=detRep.getPatients();
+
+    public List<Patient> getListOfPatients() {
+        List<Patient> patientList = new ArrayList<>();
+        patientList = detRep.getPatients();
         return patientList;
     }
 

@@ -9,4 +9,5 @@ public class DocRes {
     String name;
     int userId;
     List<Integer> reports;
+    String profileImage;
 }
