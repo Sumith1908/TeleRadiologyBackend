@@ -23,8 +23,11 @@ public class SecurityConfig {
                 configure -> configure
                         .requestMatchers("/teleRadiology/loginCredentials").permitAll()
                         .requestMatchers("/teleRadiology/createPatientCred").permitAll()
+                        .requestMatchers("/teleRadiology/checkEmail/*").permitAll()
+                        .requestMatchers("/teleRadiology/changePassword").permitAll()
                         .requestMatchers("/teleRadiology/download").permitAll()
-                        .requestMatchers("/teleRadiology/saveAnnotation").permitAll()
+                        .requestMatchers("/teleRadiology/otpVerification/*").permitAll()
+                        .requestMatchers("/teleRadiology/upload/*").authenticated()
                         // .requestMatchers("/teleRadiology/getPatient").authenticated()
                         // .requestMatchers("/teleRadiology/getPatientReports").authenticated()
                         // .requestMatchers("/teleRadiology/otpVerification/*").permitAll()

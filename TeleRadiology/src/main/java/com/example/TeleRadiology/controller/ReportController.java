@@ -1,10 +1,13 @@
 package com.example.TeleRadiology.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.example.TeleRadiology.domain.model.Patient;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.TeleRadiology.domain.services.EmailOtpService;
 import com.example.TeleRadiology.domain.services.ReportService;
@@ -21,6 +24,7 @@ import com.example.TeleRadiology.dto.ReportResult;
 import com.example.TeleRadiology.dto.UploadRequest;
 import com.example.TeleRadiology.dto.UploadResult;
 import com.example.TeleRadiology.dto.RemoveConsentReq;
+import org.springframework.beans.factory.annotation.Value;
 
 import lombok.RequiredArgsConstructor;
 

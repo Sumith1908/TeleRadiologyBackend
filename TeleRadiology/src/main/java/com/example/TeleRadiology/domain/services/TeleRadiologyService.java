@@ -3,6 +3,10 @@ package com.example.TeleRadiology.domain.services;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
+import com.example.TeleRadiology.data.dao.SaltDao;
+import com.example.TeleRadiology.data.entities.SaltEntity;
+import com.example.TeleRadiology.dto.ChangePasswordReq;
+import com.example.TeleRadiology.exception.UserNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.example.TeleRadiology.domain.model.Credentials;
@@ -18,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TeleRadiologyService {
     private final TeleRadiologyRepository teleRep;
+    private final SaltDao saltDao;
 
     private String generateSalt() {
         int length = 16;
@@ -80,6 +85,23 @@ public class TeleRadiologyService {
         return credRes;
     }
 
+    public Credentials checkEmail(String emailId) {
+        Credentials res=new Credentials();
+        res=teleRep.getUserByEmail(emailId);
+
+        return res;
+    }
+
+    public void changePassword(ChangePasswordReq changePasswordReq) {
+        SaltEntity saltEntity = new SaltEntity();
+        saltEntity=saltDao.findByUserIdId(changePasswordReq.getId()).orElseThrow(() -> new UserNotFoundException("No such User"));
+        String salt=saltEntity.getSalt();
+
+        String hashedPassword = hashPassword(changePasswordReq.getPassword()+salt);
+        changePasswordReq.setPassword(hashedPassword);
+
+        teleRep.changePassword(changePasswordReq);
+    }
     public Credentials getDoctorByEmail(String email) {
         return teleRep.getUserByEmail(email);
     }
@@ -87,5 +109,4 @@ public class TeleRadiologyService {
     public void deleteToken(String token) {
         teleRep.deleteToken(token);
     }
-
 }

@@ -1,5 +1,6 @@
 package com.example.TeleRadiology.domain.repositories;
 
+import com.example.TeleRadiology.dto.ChangePasswordReq;
 import org.springframework.stereotype.Component;
 
 import com.example.TeleRadiology.data.dao.CredentialsDao;
@@ -60,6 +61,16 @@ public class TeleRadiologyRepositoryImplementation implements TeleRadiologyRepos
         return newUser.getId();
     }
 
+    public void changePassword(ChangePasswordReq changePasswordReq) {
+
+        CredentialsEntity credentialsEntity = new CredentialsEntity();
+
+        credentialsEntity=credDao.findById(changePasswordReq.getId()).orElseThrow(() -> new UserNotFoundException("No such User"));
+        credentialsEntity.setPassword(changePasswordReq.getPassword());
+
+        credDao.save(credentialsEntity);
+    }
+
     public void addSalt(int id, String salt) {
         SaltEntity saltEnt = new SaltEntity();
         CredentialsEntity user = credDao.findById(id).orElse(null);
@@ -105,5 +116,4 @@ public class TeleRadiologyRepositoryImplementation implements TeleRadiologyRepos
         cred.setRole(credEntity.getRole().getRole());
         return cred;
     }
-
 }

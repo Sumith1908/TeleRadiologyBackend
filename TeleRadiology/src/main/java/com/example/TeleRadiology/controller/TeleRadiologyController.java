@@ -2,19 +2,18 @@ package com.example.TeleRadiology.controller;
 
 import java.util.ArrayList;
 
+import com.example.TeleRadiology.domain.model.Credentials;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.TeleRadiology.domain.services.TeleRadiologyService;
 import com.example.TeleRadiology.dto.CredentialsRequest;
 import com.example.TeleRadiology.dto.CredentialsResult;
 import com.example.TeleRadiology.dto.LogoutReq;
+import com.example.TeleRadiology.dto.ChangePasswordReq;
 import com.example.TeleRadiology.jwt.JwtService;
 
 import lombok.RequiredArgsConstructor;
@@ -48,6 +47,18 @@ public class TeleRadiologyController {
     public CredentialsResult createPatientCred(@RequestBody CredentialsRequest cred) {
         CredentialsResult credRes = teleRadService.addPatient(cred);
         return credRes;
+    }
+
+    @GetMapping(value = "/checkEmail/{id}")
+    public Credentials checkEmail(@PathVariable("id") String emailId) {
+        Credentials res=new Credentials();
+        res=teleRadService.checkEmail(emailId);
+        return res;
+    }
+
+    @PostMapping(value = "/changePassword")
+    public void changePassword(@RequestBody ChangePasswordReq changePasswordReq) {
+        teleRadService.changePassword(changePasswordReq);
     }
 
     @PostMapping("/logout")

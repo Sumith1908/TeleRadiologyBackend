@@ -12,4 +12,6 @@ public interface CredentialsDao extends JpaRepository<CredentialsEntity, Integer
     boolean existsByEmail(String email);
 
     Optional<CredentialsEntity> findByEmail(String email);
+
+    Optional<CredentialsEntity> findById(int id);
 }
