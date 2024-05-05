@@ -1,5 +1,6 @@
 package com.example.TeleRadiology.domain.services;
 
+import com.example.TeleRadiology.domain.repositories.TeleRadiologyRepository;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 public class EmailOtpService {
     private final JavaMailSender mailSender;
     private final ReportRepository rep;
+    private final TeleRadiologyRepository teleRadiologyRepository;
 
     public void sendEmailOtp(String sub, int otp, int id) {
         String to = rep.setOtp(otp, id);

@@ -17,7 +17,7 @@ public class OtpEntity {
     private int otp;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id")
+    @JoinColumn(name = "cred_id")
     private PatientEntity patientId;
 
     @Column(name = "time")

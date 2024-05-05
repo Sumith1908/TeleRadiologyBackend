@@ -1,12 +1,9 @@
 package com.example.TeleRadiology.domain.repositories;
 
+import com.example.TeleRadiology.data.dao.*;
 import com.example.TeleRadiology.dto.ChangePasswordReq;
 import org.springframework.stereotype.Component;
 
-import com.example.TeleRadiology.data.dao.CredentialsDao;
-import com.example.TeleRadiology.data.dao.RoleDao;
-import com.example.TeleRadiology.data.dao.SaltDao;
-import com.example.TeleRadiology.data.dao.ValidTokensDao;
 import com.example.TeleRadiology.data.entities.CredentialsEntity;
 import com.example.TeleRadiology.data.entities.RoleEntity;
 import com.example.TeleRadiology.data.entities.SaltEntity;
@@ -25,6 +22,7 @@ public class TeleRadiologyRepositoryImplementation implements TeleRadiologyRepos
     private final RoleDao roleDao;
     private final SaltDao saltDao;
     private final ValidTokensDao tokenDao;
+    private final OtpDao otpDao;
 
     @Override
     public Credentials checkLoginCredentials(String email, String role) {

@@ -3,6 +3,7 @@ package com.example.TeleRadiology.controller;
 import java.util.ArrayList;
 
 import com.example.TeleRadiology.domain.model.Credentials;
+import com.example.TeleRadiology.domain.services.EmailOtpService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,6 +27,7 @@ public class TeleRadiologyController {
     // private static final Logger logger =
     // LoggerFactory.getLogger(TeleRadiologyController.class);
     private final TeleRadiologyService teleRadService;
+    private final EmailOtpService email;
     private final JwtService jwt;
 
     @PostMapping("/loginCredentials")
