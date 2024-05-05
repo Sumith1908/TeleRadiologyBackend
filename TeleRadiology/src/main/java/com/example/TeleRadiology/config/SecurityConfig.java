@@ -24,7 +24,7 @@ public class SecurityConfig {
                         .requestMatchers("/teleRadiology/loginCredentials").permitAll()
                         .requestMatchers("/teleRadiology/createPatientCred").permitAll()
                         .requestMatchers("/teleRadiology/download").permitAll()
-                        .requestMatchers("/teleRadiology/saveAnnotation").permitAll()
+                        .requestMatchers("/teleRadiology/upload/*").authenticated()
                         // .requestMatchers("/teleRadiology/getPatient").authenticated()
                         // .requestMatchers("/teleRadiology/getPatientReports").authenticated()
                         // .requestMatchers("/teleRadiology/otpVerification/*").permitAll()
