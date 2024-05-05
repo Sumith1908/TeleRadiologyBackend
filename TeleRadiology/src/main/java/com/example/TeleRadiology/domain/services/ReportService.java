@@ -47,16 +47,19 @@ public class ReportService {
     public List<ReportResult> getAllReportsOfPatient(int id) {
         List<Report> reports = reportRepo.getReportsOfPatient(id);
         List<ReportResult> reps = mapAllTodtoReports(reports);
-        List<Integer> ids = reps.stream().map(x -> x.getId()).collect(Collectors.toList());
-        GetAllReportsReq reqBody = new GetAllReportsReq();
-        reqBody.setReportIds(ids);
-        GetAllReportsRes reportImages = (GetAllReportsRes) imgService.callImageServerPost("/getAllReports", reqBody,
-                GetAllReportsRes.class);
-        Collections.sort(reps, Comparator.comparing(ReportResult::getId));
-        Collections.sort(reportImages.getReports(), Comparator.comparing(ReportDTO::getReportId));
-        for (int i = 0; i < reps.size(); i++) {
-            reps.get(i).setReport(reportImages.getReports().get(i).getReport());
-        }
+        // List<Integer> ids = reps.stream().map(x ->
+        // x.getId()).collect(Collectors.toList());
+        // GetAllReportsReq reqBody = new GetAllReportsReq();
+        // reqBody.setReportIds(ids);
+        // GetAllReportsRes reportImages = (GetAllReportsRes)
+        // imgService.callImageServerPost("/getAllReports", reqBody,
+        // GetAllReportsRes.class);
+        // Collections.sort(reps, Comparator.comparing(ReportResult::getId));
+        // Collections.sort(reportImages.getReports(),
+        // Comparator.comparing(ReportDTO::getReportId));
+        // for (int i = 0; i < reps.size(); i++) {
+        // reps.get(i).setReport(reportImages.getReports().get(i).getReport());
+        // }
         return reps;
     }
 

@@ -31,12 +31,11 @@ public class FileController {
     @Value("${image.path}")
     private String imagePath;
 
-    @GetMapping("/download")
-    public ResponseEntity<byte[]> downloadFile() throws IOException {
-        System.out.println(imagePath.concat("/0002.dcm"));
+    @GetMapping("/download/{id}")
+    public ResponseEntity<byte[]> downloadFile(@PathVariable int id) throws IOException {
         // Path to the file you want to send
         Path filePath = Paths.get(
-                imagePath.concat("/0002.dcm"));
+                imagePath.concat("/" + Integer.toString(id) + ".dcm"));
         // Path filePath = Paths.get(imagePath + "/0002.dcm");
 
         // Load file as byte array
