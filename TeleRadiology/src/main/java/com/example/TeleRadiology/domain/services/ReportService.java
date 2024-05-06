@@ -15,17 +15,22 @@ import com.example.TeleRadiology.data.dao.OtpDao;
 import com.example.TeleRadiology.data.dao.PatientDao;
 import com.example.TeleRadiology.data.entities.OtpEntity;
 import com.example.TeleRadiology.data.entities.PatientEntity;
+import com.example.TeleRadiology.domain.model.AnnotatedImage;
 import com.example.TeleRadiology.domain.model.Consent;
 import com.example.TeleRadiology.domain.model.Report;
 import com.example.TeleRadiology.domain.model.Patient;
 import com.example.TeleRadiology.domain.repositories.ReportRepository;
+import com.example.TeleRadiology.dto.AnnotatedReportDTO;
 import com.example.TeleRadiology.dto.ConsentResult;
+import com.example.TeleRadiology.dto.GetAllAnnotationsRes;
 import com.example.TeleRadiology.dto.GetAllReportsReq;
 import com.example.TeleRadiology.dto.GetAllReportsRes;
+import com.example.TeleRadiology.dto.GetAnnotationsReq;
 import com.example.TeleRadiology.dto.GiveConsentReq;
 import com.example.TeleRadiology.dto.GetConsentReportReq;
 import com.example.TeleRadiology.dto.GiveConsentResult;
 import com.example.TeleRadiology.dto.ReportResult;
+import com.example.TeleRadiology.dto.SaveAnnotationReq;
 import com.example.TeleRadiology.dto.UploadRequest;
 import com.example.TeleRadiology.dto.UploadResult;
 import com.example.TeleRadiology.dto.RemoveConsentReq;
@@ -47,6 +52,7 @@ public class ReportService {
     public List<ReportResult> getAllReportsOfPatient(int id) {
         List<Report> reports = reportRepo.getReportsOfPatient(id);
         List<ReportResult> reps = mapAllTodtoReports(reports);
+        // image req commented untill req
         // List<Integer> ids = reps.stream().map(x ->
         // x.getId()).collect(Collectors.toList());
         // GetAllReportsReq reqBody = new GetAllReportsReq();
@@ -105,6 +111,41 @@ public class ReportService {
         }
 
         return 0;
+    }
+
+    public int uploadAnnotation(SaveAnnotationReq annotation) {
+        int radId = annotation.getRadUserId();
+        int docId = annotation.getDocUserId();
+        int user1 = Math.min(radId, docId);
+        int user2 = Math.max(radId, docId);
+        int reportId = annotation.getReportId();
+        int chatId = chatService.getChatId(user1, user2, reportId);
+        int annotationId = reportRepo.uploadAnnotation(chatId);
+        AnnotatedReportDTO annRep = new AnnotatedReportDTO();
+        annRep.setAnnotatedImage(annotation.getAnnotatedImage());
+        annRep.setAnnotationId(annotationId);
+        imgService.callImageServerPost("/uploadAnnotatedReport", annRep,
+                Boolean.class);
+        return annotationId;
+    }
+
+    public GetAllAnnotationsRes getAllAnnotations(GetAnnotationsReq req) {
+        int radId = req.getRadUserId();
+        int docId = req.getDocUserId();
+        int user1 = Math.min(radId, docId);
+        int user2 = Math.max(radId, docId);
+        int reportId = req.getReportId();
+        int chatId = chatService.getChatId(user1, user2, reportId);
+        List<AnnotatedImage> annotations = reportRepo.getAllAnnotations(chatId);
+        GetAllAnnotationsRes res = new GetAllAnnotationsRes();
+        List<AnnotatedReportDTO> list = new ArrayList<>();
+        for (AnnotatedImage annotatedImage : annotations) {
+            AnnotatedReportDTO dto = imgService.callImageServerGet("/getAnnotation/" + annotatedImage.getId(),
+                    AnnotatedReportDTO.class);
+            list.add(dto);
+        }
+        res.setAnnotations(list);
+        return res;
     }
 
     private boolean verifyOTP(int patientId, int sentOtp) {

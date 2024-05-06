@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.TeleRadiology.domain.model.Patient;
+import com.example.TeleRadiology.domain.services.AesService;
 import com.example.TeleRadiology.domain.services.PatientService;
 
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 // @CrossOrigin(origins = "*http://localhost:3000*")
 public class PatientController {
     private final PatientService patService;
+    private final AesService aes;
 
     @PostMapping("/addPatient")
     public Boolean getPatient(@RequestBody Patient pat) {
@@ -25,9 +27,8 @@ public class PatientController {
     }
 
     @GetMapping("/test")
-    public String testGet() {
-
-        return "Get Test";
+    public String testGet() throws Exception {
+        return aes.decrypt("iFYkB452yXNqoe0WE6SzwQ==");
     }
 
     @PostMapping("/test")

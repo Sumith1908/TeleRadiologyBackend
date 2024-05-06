@@ -6,10 +6,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.TeleRadiology.data.dao.AnnotatedImageDao;
+import com.example.TeleRadiology.data.dao.ChatDao;
 import com.example.TeleRadiology.data.dao.ConsentDao;
 import com.example.TeleRadiology.data.dao.CredentialsDao;
 import com.example.TeleRadiology.data.dao.DoctorDao;
@@ -18,6 +21,8 @@ import com.example.TeleRadiology.data.dao.OtpDao;
 import com.example.TeleRadiology.data.dao.PatientDao;
 import com.example.TeleRadiology.data.dao.RadiologistDao;
 import com.example.TeleRadiology.data.dao.ReportDao;
+import com.example.TeleRadiology.data.entities.AnnotatedImageEntity;
+import com.example.TeleRadiology.data.entities.ChatEntity;
 import com.example.TeleRadiology.data.entities.ConsentEntity;
 import com.example.TeleRadiology.data.entities.CredentialsEntity;
 import com.example.TeleRadiology.data.entities.DoctorEntity;
@@ -26,6 +31,7 @@ import com.example.TeleRadiology.data.entities.OtpEntity;
 import com.example.TeleRadiology.data.entities.PatientEntity;
 import com.example.TeleRadiology.data.entities.RadiologistEntity;
 import com.example.TeleRadiology.data.entities.ReportEntity;
+import com.example.TeleRadiology.domain.model.AnnotatedImage;
 import com.example.TeleRadiology.domain.model.Consent;
 import com.example.TeleRadiology.domain.model.Patient;
 import com.example.TeleRadiology.domain.model.Report;
@@ -54,6 +60,8 @@ public class ReportRepositoryImplementation implements ReportRepository {
     private final OtpDao otpDao;
     private final RadiologistDao radDao;
     private final CredentialsDao credDao;
+    private final AnnotatedImageDao annotationDao;
+    private final ChatDao chatDao;
 
     public List<Report> getReportsOfPatient(int id) {
         List<ReportEntity> reportList = repDao.findAllByPatientIdId(id).orElseThrow(
@@ -175,6 +183,15 @@ public class ReportRepositoryImplementation implements ReportRepository {
         return reports;
     }
 
+    public int uploadAnnotation(int chatId) {
+        AnnotatedImageEntity annotation = new AnnotatedImageEntity();
+        ChatEntity chat = chatDao.findById(chatId).orElseThrow(
+                () -> new GlobalException("No chat found"));
+        annotation.setChatId(chat);
+        AnnotatedImageEntity temp = annotationDao.save(annotation);
+        return temp.getId();
+    }
+
     public ReportEntity mapToRepEntity(UploadRequest upreq) {
 
         PatientEntity patEnt = patDao.findByEmail(upreq.getPatEmail());
@@ -191,6 +208,22 @@ public class ReportRepositoryImplementation implements ReportRepository {
         newRepEnt.setPatientId(patEnt);
 
         return newRepEnt;
+    }
+
+    @Override
+    public List<AnnotatedImage> getAllAnnotations(int chatId) {
+        List<AnnotatedImageEntity> annotations = annotationDao.findAllByChatIdId(chatId).orElseThrow(
+                () -> new GlobalException("No annotations found"));
+        List<AnnotatedImage> annotatedImages = annotations.stream().map(img -> mapToDomainAnnotatedImageEntity(img))
+                .collect(Collectors.toList());
+        return annotatedImages;
+    }
+
+    private AnnotatedImage mapToDomainAnnotatedImageEntity(AnnotatedImageEntity ent) {
+        AnnotatedImage annImg = new AnnotatedImage();
+        annImg.setId(ent.getId());
+        annImg.setChatId(ent.getChatId().getId());
+        return annImg;
     }
 
     private List<Report> mapAllToDomainReportEntity(List<ReportEntity> reportList) {

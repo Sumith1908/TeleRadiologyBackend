@@ -32,7 +32,7 @@ public class ImageController {
 
     @PostMapping("/uploadAnnotatedReport")
     public boolean addAnnotatedReport(@RequestBody AnnotatedReportDTO addRep) {
-        return imageService.addAnnotatedReport(addRep.getAnnotation(), addRep.getAnnotationId());
+        return imageService.addAnnotatedReport(addRep.getAnnotatedImage(), addRep.getAnnotationId());
     }
 
     @PostMapping("/uploadProfilePic")

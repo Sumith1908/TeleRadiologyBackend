@@ -30,12 +30,24 @@ public class ImageService {
 
     // return response;
     // }
-    public <T> T callImageServerPost(String path, GetAllReportsReq request, Class<T> responseType) {
+    public <T> T callImageServerPost(String path, Object request, Class<T> responseType) {
         try {
             return webClient.post()
-                    .uri("http://192.168.0.122:8080/images" + path)
+                    .uri("http://localhost:8080/images" + path)
                     .contentType(MediaType.APPLICATION_JSON)
                     .bodyValue(request)
+                    .retrieve()
+                    .bodyToMono(responseType)
+                    .block();
+        } catch (Exception e) {
+            throw new GlobalException("Failed to get response");
+        }
+    }
+
+    public <T> T callImageServerGet(String path, Class<T> responseType) {
+        try {
+            return webClient.get()
+                    .uri("http://localhost:8080/images" + path)
                     .retrieve()
                     .bodyToMono(responseType)
                     .block();

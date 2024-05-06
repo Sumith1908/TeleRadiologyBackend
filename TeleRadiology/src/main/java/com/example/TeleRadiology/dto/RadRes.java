@@ -9,4 +9,5 @@ public class RadRes {
     String name;
     int userId;
     List<Integer> reports;
+    String profileImage;
 }

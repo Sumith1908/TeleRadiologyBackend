@@ -5,7 +5,11 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.TeleRadiology.domain.repositories.ChatRepository;
+import com.example.TeleRadiology.dto.DocRes;
 import com.example.TeleRadiology.dto.GetChatsResult;
+import com.example.TeleRadiology.dto.PatientRes;
+import com.example.TeleRadiology.dto.ProfilePicDTO;
+import com.example.TeleRadiology.dto.RadRes;
 import com.example.TeleRadiology.domain.model.Message;
 import lombok.RequiredArgsConstructor;
 
@@ -13,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ChatService {
     private final ChatRepository chatRepo;
+    private final ImageService imgService;
 
     public List<Message> getMessages(int user1, int user2, int reportId) {
         if (user1 > user2) {
@@ -41,6 +46,31 @@ public class ChatService {
     }
 
     public GetChatsResult getChats(int userId) {
-        return chatRepo.getChats(userId);
+
+        GetChatsResult chats = chatRepo.getChats(userId);
+        // image req commented untill req
+        // for (PatientRes pat : chats.getPats()) {
+        // ProfilePicDTO dto = imgService.callImageServerGet("/getProfilePic/" +
+        // Integer.toString(pat.getUserId()),
+        // ProfilePicDTO.class);
+        // pat.setProfileImage(dto.getProfilePic());
+        // }
+        // for (DocRes doc : chats.getDocs()) {
+        // ProfilePicDTO dto = imgService.callImageServerGet("/getProfilePic/" +
+        // Integer.toString(doc.getUserId()),
+        // ProfilePicDTO.class);
+        // doc.setProfileImage(dto.getProfilePic());
+        // }
+        // for (RadRes rad : chats.getRads()) {
+        // ProfilePicDTO dto = imgService.callImageServerGet("/getProfilePic/" +
+        // Integer.toString(rad.getUserId()),
+        // ProfilePicDTO.class);
+        // rad.setProfileImage(dto.getProfilePic());
+        // }
+        return chats;
+    }
+
+    public int getChatId(int user1, int user2, int reportId) {
+        return chatRepo.getChatId(user1, user2, reportId);
     }
 }
