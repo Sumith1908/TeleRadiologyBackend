@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,7 @@ import com.example.TeleRadiology.data.entities.OtpEntity;
 import com.example.TeleRadiology.data.entities.PatientEntity;
 import com.example.TeleRadiology.data.entities.RadiologistEntity;
 import com.example.TeleRadiology.data.entities.ReportEntity;
+import com.example.TeleRadiology.domain.model.AnnotatedImage;
 import com.example.TeleRadiology.domain.model.Consent;
 import com.example.TeleRadiology.domain.model.Patient;
 import com.example.TeleRadiology.domain.model.Report;
@@ -206,6 +208,22 @@ public class ReportRepositoryImplementation implements ReportRepository {
         newRepEnt.setPatientId(patEnt);
 
         return newRepEnt;
+    }
+
+    @Override
+    public List<AnnotatedImage> getAllAnnotations(int chatId) {
+        List<AnnotatedImageEntity> annotations = annotationDao.findAllByChatIdId(chatId).orElseThrow(
+                () -> new GlobalException("No annotations found"));
+        List<AnnotatedImage> annotatedImages = annotations.stream().map(img -> mapToDomainAnnotatedImageEntity(img))
+                .collect(Collectors.toList());
+        return annotatedImages;
+    }
+
+    private AnnotatedImage mapToDomainAnnotatedImageEntity(AnnotatedImageEntity ent) {
+        AnnotatedImage annImg = new AnnotatedImage();
+        annImg.setId(ent.getId());
+        annImg.setChatId(ent.getChatId().getId());
+        return annImg;
     }
 
     private List<Report> mapAllToDomainReportEntity(List<ReportEntity> reportList) {

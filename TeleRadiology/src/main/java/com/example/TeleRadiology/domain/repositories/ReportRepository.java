@@ -30,4 +30,6 @@ public interface ReportRepository {
     public List<Report> getConsentedReports(GetConsentReportReq getConsentReportReq);
 
     public int uploadAnnotation(int chatId);
+
+    public List<AnnotatedImage> getAllAnnotations(int chatId);
 }

@@ -17,6 +17,8 @@ import com.example.TeleRadiology.dto.ConsentRequest;
 import com.example.TeleRadiology.dto.ConsentResult;
 import com.example.TeleRadiology.dto.GetConsentReportReq;
 import com.example.TeleRadiology.dto.DetailsRequest;
+import com.example.TeleRadiology.dto.GetAllAnnotationsRes;
+import com.example.TeleRadiology.dto.GetAnnotationsReq;
 import com.example.TeleRadiology.dto.GiveConsentReq;
 import com.example.TeleRadiology.dto.GiveConsentResult;
 import com.example.TeleRadiology.dto.ReportList;
@@ -107,7 +109,7 @@ public class ReportController {
     }
 
     @PostMapping("/getAllAnnotations")
-    public int getAllAnnotations(@RequestBody SaveAnnotationReq req) {
-        return repService.uploadAnnotation(req);
+    public GetAllAnnotationsRes getAllAnnotations(@RequestBody GetAnnotationsReq req) {
+        return repService.getAllAnnotations(req);
     }
 }

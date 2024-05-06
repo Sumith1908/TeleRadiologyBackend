@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.TeleRadiology.data.entities.AnnotatedImageEntity;
 
 public interface AnnotatedImageDao extends JpaRepository<AnnotatedImageEntity, Integer> {
-    // Optional<List<AnnotatedImageEntity>> findAllByChatIdId(int id);
+    Optional<List<AnnotatedImageEntity>> findAllByChatIdId(int id);
 }
