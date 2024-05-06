@@ -19,4 +19,6 @@ public class ReportResult {
     private LocalDate dateOfIssue;
 
     private String initialRemarks;
+
+    private int notification;
 }

@@ -18,4 +18,6 @@ public class Report {
     private LocalDate dateOfIssue;
 
     private String initialRemarks;
+
+    private int notification=0;
 }

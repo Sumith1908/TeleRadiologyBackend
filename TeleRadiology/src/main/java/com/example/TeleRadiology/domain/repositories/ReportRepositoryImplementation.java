@@ -7,17 +7,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.TeleRadiology.data.dao.*;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.TeleRadiology.data.dao.ConsentDao;
-import com.example.TeleRadiology.data.dao.CredentialsDao;
-import com.example.TeleRadiology.data.dao.DoctorDao;
-import com.example.TeleRadiology.data.dao.LabDao;
-import com.example.TeleRadiology.data.dao.OtpDao;
-import com.example.TeleRadiology.data.dao.PatientDao;
-import com.example.TeleRadiology.data.dao.RadiologistDao;
-import com.example.TeleRadiology.data.dao.ReportDao;
 import com.example.TeleRadiology.data.entities.ConsentEntity;
 import com.example.TeleRadiology.data.entities.CredentialsEntity;
 import com.example.TeleRadiology.data.entities.DoctorEntity;
@@ -54,6 +47,7 @@ public class ReportRepositoryImplementation implements ReportRepository {
     private final OtpDao otpDao;
     private final RadiologistDao radDao;
     private final CredentialsDao credDao;
+    private final NotificationDao notificationDao;
 
     public List<Report> getReportsOfPatient(int id) {
         List<ReportEntity> reportList = repDao.findAllByPatientIdId(id).orElseThrow(
@@ -99,13 +93,13 @@ public class ReportRepositoryImplementation implements ReportRepository {
 
     @Override
     public String setOtp(int otp, int id) {
-        PatientEntity pat = patDao.findById(id).orElse(null);
-        OtpEntity otpEnt = otpDao.findByPatientIdId(id).orElse(null);
+        CredentialsEntity credentialsEntity = credDao.findById(id).orElse(null);
+        OtpEntity otpEnt = otpDao.findByCredIdId(id).orElse(null);
         LocalDateTime time = LocalDateTime.now();
         if (otpEnt == null) {
             OtpEntity newOtpEntity = new OtpEntity();
             newOtpEntity.setOtp(otp);
-            newOtpEntity.setPatientId(pat);
+            newOtpEntity.setCredId(credentialsEntity);
             newOtpEntity.setTime(time);
             otpDao.save(newOtpEntity);
         } else {
@@ -113,7 +107,7 @@ public class ReportRepositoryImplementation implements ReportRepository {
             otpEnt.setTime(time);
             otpDao.save(otpEnt);
         }
-        return pat.getEmail();
+        return credentialsEntity.getEmail();
     }
 
     public List<Patient> getConsentPatients(int viewerId) {
@@ -205,6 +199,11 @@ public class ReportRepositoryImplementation implements ReportRepository {
 
     private Report mapToDomainReportEntity(ReportEntity reportEntity) {
         Report report = new Report();
+
+        if(notificationDao.existsByReportIdId(reportEntity.getId())) {
+            report.setNotification(1);
+        }
+
         report.setId(reportEntity.getId());
         report.setReportType(reportEntity.getReportType());
         report.setPatientId(reportEntity.getPatientId().getId());
