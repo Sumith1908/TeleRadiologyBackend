@@ -10,6 +10,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.TeleRadiology.data.dao.AnnotatedImageDao;
+import com.example.TeleRadiology.data.dao.ChatDao;
 import com.example.TeleRadiology.data.dao.ConsentDao;
 import com.example.TeleRadiology.data.dao.CredentialsDao;
 import com.example.TeleRadiology.data.dao.DoctorDao;
@@ -18,6 +20,8 @@ import com.example.TeleRadiology.data.dao.OtpDao;
 import com.example.TeleRadiology.data.dao.PatientDao;
 import com.example.TeleRadiology.data.dao.RadiologistDao;
 import com.example.TeleRadiology.data.dao.ReportDao;
+import com.example.TeleRadiology.data.entities.AnnotatedImageEntity;
+import com.example.TeleRadiology.data.entities.ChatEntity;
 import com.example.TeleRadiology.data.entities.ConsentEntity;
 import com.example.TeleRadiology.data.entities.CredentialsEntity;
 import com.example.TeleRadiology.data.entities.DoctorEntity;
@@ -54,6 +58,8 @@ public class ReportRepositoryImplementation implements ReportRepository {
     private final OtpDao otpDao;
     private final RadiologistDao radDao;
     private final CredentialsDao credDao;
+    private final AnnotatedImageDao annotationDao;
+    private final ChatDao chatDao;
 
     public List<Report> getReportsOfPatient(int id) {
         List<ReportEntity> reportList = repDao.findAllByPatientIdId(id).orElseThrow(
@@ -173,6 +179,15 @@ public class ReportRepositoryImplementation implements ReportRepository {
             reports.add(mapToDomainReportEntity(conEnt.get(i).getReportId()));
         }
         return reports;
+    }
+
+    public int uploadAnnotation(int chatId) {
+        AnnotatedImageEntity annotation = new AnnotatedImageEntity();
+        ChatEntity chat = chatDao.findById(chatId).orElseThrow(
+                () -> new GlobalException("No chat found"));
+        annotation.setChatId(chat);
+        AnnotatedImageEntity temp = annotationDao.save(annotation);
+        return temp.getId();
     }
 
     public ReportEntity mapToRepEntity(UploadRequest upreq) {

@@ -19,6 +19,7 @@ import com.example.TeleRadiology.domain.model.Consent;
 import com.example.TeleRadiology.domain.model.Report;
 import com.example.TeleRadiology.domain.model.Patient;
 import com.example.TeleRadiology.domain.repositories.ReportRepository;
+import com.example.TeleRadiology.dto.AnnotatedReportDTO;
 import com.example.TeleRadiology.dto.ConsentResult;
 import com.example.TeleRadiology.dto.GetAllReportsReq;
 import com.example.TeleRadiology.dto.GetAllReportsRes;
@@ -26,6 +27,7 @@ import com.example.TeleRadiology.dto.GiveConsentReq;
 import com.example.TeleRadiology.dto.GetConsentReportReq;
 import com.example.TeleRadiology.dto.GiveConsentResult;
 import com.example.TeleRadiology.dto.ReportResult;
+import com.example.TeleRadiology.dto.SaveAnnotationReq;
 import com.example.TeleRadiology.dto.UploadRequest;
 import com.example.TeleRadiology.dto.UploadResult;
 import com.example.TeleRadiology.dto.RemoveConsentReq;
@@ -106,6 +108,22 @@ public class ReportService {
         }
 
         return 0;
+    }
+
+    public int uploadAnnotation(SaveAnnotationReq annotation) {
+        int radId = annotation.getRadUserId();
+        int docId = annotation.getDocUserId();
+        int user1 = Math.min(radId, docId);
+        int user2 = Math.max(radId, docId);
+        int reportId = annotation.getReportId();
+        int chatId = chatService.getChatId(user1, user2, reportId);
+        int annotationId = reportRepo.uploadAnnotation(chatId);
+        AnnotatedReportDTO annRep = new AnnotatedReportDTO();
+        annRep.setAnnotatedImage(annotation.getAnnotatedImage());
+        annRep.setAnnotationId(annotationId);
+        imgService.callImageServerPost("/uploadAnnotatedReport", annRep,
+                Boolean.class);
+        return annotationId;
     }
 
     private boolean verifyOTP(int patientId, int sentOtp) {

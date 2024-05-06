@@ -2,6 +2,7 @@ package com.example.TeleRadiology.domain.repositories;
 
 import java.util.List;
 
+import com.example.TeleRadiology.domain.model.AnnotatedImage;
 import com.example.TeleRadiology.domain.model.Consent;
 import com.example.TeleRadiology.domain.model.Patient;
 import com.example.TeleRadiology.domain.model.Report;
@@ -27,4 +28,6 @@ public interface ReportRepository {
     public List<Patient> getConsentPatients(int viewId);
 
     public List<Report> getConsentedReports(GetConsentReportReq getConsentReportReq);
+
+    public int uploadAnnotation(int chatId);
 }

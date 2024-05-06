@@ -21,6 +21,7 @@ import com.example.TeleRadiology.dto.GiveConsentReq;
 import com.example.TeleRadiology.dto.GiveConsentResult;
 import com.example.TeleRadiology.dto.ReportList;
 import com.example.TeleRadiology.dto.ReportResult;
+import com.example.TeleRadiology.dto.SaveAnnotationReq;
 import com.example.TeleRadiology.dto.UploadRequest;
 import com.example.TeleRadiology.dto.UploadResult;
 import com.example.TeleRadiology.dto.RemoveConsentReq;
@@ -98,5 +99,15 @@ public class ReportController {
         List<Report> consentedReports = new ArrayList<>();
         consentedReports = repService.getReports(getConsentReportReq);
         return consentedReports;
+    }
+
+    @PostMapping("/uploadAnnotation")
+    public int uploadAnnotation(@RequestBody SaveAnnotationReq req) {
+        return repService.uploadAnnotation(req);
+    }
+
+    @PostMapping("/getAllAnnotations")
+    public int getAllAnnotations(@RequestBody SaveAnnotationReq req) {
+        return repService.uploadAnnotation(req);
     }
 }

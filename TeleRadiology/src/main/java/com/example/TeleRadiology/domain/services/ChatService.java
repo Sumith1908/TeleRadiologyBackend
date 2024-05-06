@@ -69,4 +69,8 @@ public class ChatService {
         // }
         return chats;
     }
+
+    public int getChatId(int user1, int user2, int reportId) {
+        return chatRepo.getChatId(user1, user2, reportId);
+    }
 }

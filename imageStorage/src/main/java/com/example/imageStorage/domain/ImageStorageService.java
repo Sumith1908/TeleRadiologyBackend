@@ -98,7 +98,7 @@ public class ImageStorageService {
 
     private AnnotatedReportDTO mapToDTOAnnotationDocument(AnnotationDocument annDoc) {
         AnnotatedReportDTO annDto = new AnnotatedReportDTO();
-        annDto.setAnnotation(annDoc.getAnnotation());
+        annDto.setAnnotatedImage(annDoc.getAnnotation());
         annDto.setAnnotationId(annDoc.getAnnotationId());
         return annDto;
     }

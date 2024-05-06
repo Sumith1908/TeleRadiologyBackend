@@ -1,4 +1,4 @@
-package com.example.imageStorage.dto;
+package com.example.TeleRadiology.dto;
 
 import lombok.Data;
 
