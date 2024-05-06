@@ -1,5 +1,6 @@
 package com.example.TeleRadiology.controller;
 
+import com.example.TeleRadiology.dto.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,13 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.TeleRadiology.domain.services.ChatService;
-import com.example.TeleRadiology.dto.AddChatReq;
-import com.example.TeleRadiology.dto.AddMessageReq;
-import com.example.TeleRadiology.dto.ChatReq;
-import com.example.TeleRadiology.dto.GetChatsResult;
-import com.example.TeleRadiology.dto.MessagesResult;
 
 import lombok.RequiredArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,6 +46,7 @@ public class ChatController {
     @GetMapping("/getChats/{id}")
     public GetChatsResult getChats(@PathVariable int id) {
         GetChatsResult res = chatService.getChats(id);
+
         return res;
     }
 

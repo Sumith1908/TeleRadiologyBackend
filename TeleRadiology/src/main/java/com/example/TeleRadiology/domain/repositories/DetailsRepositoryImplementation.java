@@ -1,6 +1,9 @@
 package com.example.TeleRadiology.domain.repositories;
 
 import java.util.*;
+
+import com.example.TeleRadiology.domain.services.AesService;
+import com.example.TeleRadiology.exception.GlobalException;
 import org.springframework.stereotype.Component;
 
 import com.example.TeleRadiology.data.dao.DoctorDao;
@@ -28,6 +31,7 @@ public class DetailsRepositoryImplementation implements DetailsRepository {
     private final DoctorDao docDao;
     private final RadiologistDao radDao;
     private final LabDao labDao;
+    private final AesService aesService;
 
     public Patient getPatient(int id) {
         PatientEntity patEnt = patDao.findByUserIdId(id).orElseThrow(
@@ -106,31 +110,36 @@ public class DetailsRepositoryImplementation implements DetailsRepository {
 
     private Patient mapToDomainPatientEntity(PatientEntity patEnt) {
         Patient pat = new Patient();
-        pat.setId(patEnt.getId());
-        pat.setUserId(patEnt.getUserId().getId());
-        pat.setFirstName(patEnt.getFirstName());
-        pat.setMiddleName(patEnt.getMiddleName());
-        pat.setLastName(patEnt.getLastName());
-        pat.setDateOfBirth(patEnt.getDateOfBirth());
-        pat.setGender(patEnt.getGender());
-        pat.setAddress(patEnt.getAddress());
-        pat.setCity(patEnt.getCity());
-        pat.setState(patEnt.getState());
-        pat.setPinCode(patEnt.getPinCode());
-        pat.setEmail(patEnt.getEmail());
-        pat.setPhoneNumber(patEnt.getPhoneNumber());
-        pat.setEmergencyContact(patEnt.getEmergencyContact());
-        pat.setBloodGroup(patEnt.getBloodGroup());
-        pat.setHeight(patEnt.getHeight());
-        pat.setWeight(patEnt.getWeight());
-        pat.setProfilePhoto(patEnt.getProfilePhoto());
-        pat.setAllergies(patEnt.getAllergies());
-        pat.setChronicDiseases(patEnt.getChronicDiseases());
-        pat.setCurrentMedication(patEnt.getCurrentMedication());
-        pat.setPastMedication(patEnt.getPastMedication());
-        pat.setSmokingHabits(patEnt.getSmokingHabits());
-        pat.setDrinkingHabits(patEnt.getDrinkingHabits());
-        pat.setFoodPreferences(patEnt.getFoodPreferences());
+        try {
+            pat.setId(patEnt.getId());
+            pat.setUserId(patEnt.getUserId().getId());
+            pat.setFirstName(patEnt.getFirstName());
+            pat.setMiddleName(patEnt.getMiddleName());
+            pat.setLastName(patEnt.getLastName());
+            pat.setDateOfBirth(patEnt.getDateOfBirth());
+            pat.setGender(patEnt.getGender());
+            pat.setAddress(patEnt.getAddress());
+            pat.setCity(patEnt.getCity());
+            pat.setState(patEnt.getState());
+            pat.setPinCode(patEnt.getPinCode());
+            pat.setEmail(patEnt.getEmail());
+            pat.setPhoneNumber(aesService.decrypt(patEnt.getPhoneNumber()));
+            pat.setEmergencyContact(aesService.decrypt(patEnt.getEmergencyContact()));
+            pat.setBloodGroup(patEnt.getBloodGroup());
+            pat.setHeight(patEnt.getHeight());
+            pat.setWeight(patEnt.getWeight());
+            pat.setProfilePhoto(patEnt.getProfilePhoto());
+            pat.setAllergies(aesService.decrypt(patEnt.getAllergies()));
+            pat.setChronicDiseases(aesService.decrypt(patEnt.getChronicDiseases()));
+            pat.setCurrentMedication(aesService.decrypt(patEnt.getCurrentMedication()));
+            pat.setPastMedication(aesService.decrypt(patEnt.getPastMedication()));
+            pat.setSmokingHabits(aesService.decrypt(patEnt.getSmokingHabits()));
+            pat.setDrinkingHabits(aesService.decrypt(patEnt.getDrinkingHabits()));
+            pat.setFoodPreferences(aesService.decrypt(patEnt.getFoodPreferences()));
+        }
+        catch (Exception e) {
+            throw new GlobalException(e.getMessage());
+        }
 
         return pat;
     }

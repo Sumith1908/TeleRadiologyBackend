@@ -18,7 +18,7 @@ public class OtpEntity {
 
     @ManyToOne
     @JoinColumn(name = "cred_id")
-    private PatientEntity patientId;
+    private CredentialsEntity credId;
 
     @Column(name = "time")
     private LocalDateTime time;
