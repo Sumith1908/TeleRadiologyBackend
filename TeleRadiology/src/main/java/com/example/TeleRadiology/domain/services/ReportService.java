@@ -117,7 +117,13 @@ public class ReportService {
 
     public int deleteConsent(RemoveConsentReq removeConsentReq) {
 
-        if (verifyOTP(removeConsentReq.getPatientId(), removeConsentReq.getOtp())) {
+        PatientEntity patientEntity=new PatientEntity();
+
+        patientEntity=patientDao.findById(removeConsentReq.getPatientId()).orElse(null);
+
+        int credId=patientEntity.getUserId().getId();
+
+        if (verifyOTP(credId, removeConsentReq.getOtp())) {
             reportRepo.removeConsent(removeConsentReq);
         }
 

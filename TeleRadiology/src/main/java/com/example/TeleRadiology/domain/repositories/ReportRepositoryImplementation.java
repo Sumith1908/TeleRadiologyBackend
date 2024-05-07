@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import com.example.TeleRadiology.data.dao.*;
 import com.example.TeleRadiology.domain.services.AesService;
+import com.example.TeleRadiology.exception.*;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.TeleRadiology.data.dao.AnnotatedImageDao;
@@ -39,13 +40,6 @@ import com.example.TeleRadiology.domain.model.Report;
 import com.example.TeleRadiology.dto.GetConsentReportReq;
 import com.example.TeleRadiology.dto.RemoveConsentReq;
 import com.example.TeleRadiology.dto.UploadRequest;
-import com.example.TeleRadiology.exception.ConsentNotFoundException;
-import com.example.TeleRadiology.exception.DoctoNotFoundException;
-import com.example.TeleRadiology.exception.GlobalException;
-import com.example.TeleRadiology.exception.LabNotFoundException;
-import com.example.TeleRadiology.exception.PatientNotFoundException;
-import com.example.TeleRadiology.exception.ReportsNotFoundException;
-import com.example.TeleRadiology.exception.UserNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -102,10 +96,22 @@ public class ReportRepositoryImplementation implements ReportRepository {
 
     @Transactional
     public int removeConsent(RemoveConsentReq removeConsentReq) {
-        DoctorEntity doc = docDao.findById(removeConsentReq.getDoctorId()).orElseThrow(
-                () -> new DoctoNotFoundException("No such doctor"));
-        consentDao.deleteByReportIdIdAndViewerIdId(removeConsentReq.getReportId(), doc.getUserId().getId());
-        return 0;
+        int credId=0;
+        if(removeConsentReq.getDoctorId()!=-1) {
+            DoctorEntity doctorEntity = new DoctorEntity();
+            doctorEntity = docDao.findById(removeConsentReq.getDoctorId()).orElseThrow(
+                    () -> new DoctoNotFoundException("No such doctor"));
+            credId=doctorEntity.getUserId().getId();
+        }
+        else {
+            RadiologistEntity radiologistEntity = new RadiologistEntity();
+            radiologistEntity = radDao.findById(removeConsentReq.getRadiologistId()).orElseThrow(
+                    () -> new RadiologistNotFoundException("Radiologist Not Found"));
+            credId=radiologistEntity.getUserId().getId();
+        }
+
+         consentDao.deleteByReportIdIdAndViewerIdId(removeConsentReq.getReportId(), credId);
+         return 0;
     }
 
     @Override
