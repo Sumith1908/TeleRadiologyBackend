@@ -1,7 +1,11 @@
 package com.example.TeleRadiology.domain.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.example.TeleRadiology.data.dao.ReportDao;
+import com.example.TeleRadiology.data.entities.ReportEntity;
+import com.example.TeleRadiology.domain.model.Report;
 import org.springframework.stereotype.Service;
 
 import com.example.TeleRadiology.domain.repositories.ChatRepository;
@@ -18,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class ChatService {
     private final ChatRepository chatRepo;
     private final ImageService imgService;
+    private final ReportDao reportDao;
 
     public List<Message> getMessages(int user1, int user2, int reportId) {
         if (user1 > user2) {
@@ -67,10 +72,40 @@ public class ChatService {
         // ProfilePicDTO.class);
         // rad.setProfileImage(dto.getProfilePic());
         // }
-        return chats;
+
+
+        List <DocRes> docResList = new ArrayList<>();
+        docResList=chats.getDocs();
+
+        for (DocRes docRes : docResList) {
+            List<Integer> reportsList=new ArrayList<>();
+            List<Report> reportsWithDetails=new ArrayList<>();
+            reportsList=docRes.getReports();
+            for(int reportId:reportsList) {
+                ReportEntity reportEntity=new ReportEntity();
+                reportEntity=reportDao.findById(reportId).orElse(null);
+                Report report=new Report();
+                report=mapToDomainReportEntity(reportEntity);
+                reportsWithDetails.add(report);
+            }
+             docRes.setReportsWithDetails(reportsWithDetails);
+        }
+         return chats;
     }
 
     public int getChatId(int user1, int user2, int reportId) {
         return chatRepo.getChatId(user1, user2, reportId);
+    }
+
+    private Report mapToDomainReportEntity(ReportEntity reportEntity) {
+        Report report = new Report();
+
+        report.setId(reportEntity.getId());
+        report.setReportType(reportEntity.getReportType());
+        report.setPatientId(reportEntity.getPatientId().getId());
+        report.setLabId(reportEntity.getLabId().getId());
+        report.setDateOfIssue(reportEntity.getDateOfIssue());
+        report.setInitialRemarks(reportEntity.getInitialRemarks());
+        return report;
     }
 }

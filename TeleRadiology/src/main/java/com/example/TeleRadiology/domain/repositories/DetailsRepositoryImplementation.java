@@ -1,16 +1,15 @@
 package com.example.TeleRadiology.domain.repositories;
 
 import java.util.*;
+
+import com.example.TeleRadiology.data.dao.*;
+import com.example.TeleRadiology.data.entities.*;
+import com.example.TeleRadiology.domain.services.AesService;
+import com.example.TeleRadiology.dto.DocAndRadio;
+import com.example.TeleRadiology.dto.RadiologistResult;
+import com.example.TeleRadiology.exception.GlobalException;
 import org.springframework.stereotype.Component;
 
-import com.example.TeleRadiology.data.dao.DoctorDao;
-import com.example.TeleRadiology.data.dao.LabDao;
-import com.example.TeleRadiology.data.dao.PatientDao;
-import com.example.TeleRadiology.data.dao.RadiologistDao;
-import com.example.TeleRadiology.data.entities.DoctorEntity;
-import com.example.TeleRadiology.data.entities.LabEntity;
-import com.example.TeleRadiology.data.entities.PatientEntity;
-import com.example.TeleRadiology.data.entities.RadiologistEntity;
 import com.example.TeleRadiology.domain.model.Doctor;
 import com.example.TeleRadiology.domain.model.Lab;
 import com.example.TeleRadiology.domain.model.Patient;
@@ -28,6 +27,8 @@ public class DetailsRepositoryImplementation implements DetailsRepository {
     private final DoctorDao docDao;
     private final RadiologistDao radDao;
     private final LabDao labDao;
+    private final ConsentDao consentDao;
+    private final AesService aesService;
 
     public Patient getPatient(int id) {
         PatientEntity patEnt = patDao.findByUserIdId(id).orElseThrow(
@@ -74,6 +75,77 @@ public class DetailsRepositoryImplementation implements DetailsRepository {
         return mapAllToDomainPatientEntity(patientEntityList);
     }
 
+    public List<DocAndRadio> getAllDocAndRadio(int reportId) {
+        List<DocAndRadio> docAndRadioList = new ArrayList<>();
+
+        findDoctors(reportId, docAndRadioList);
+        findRadiologists(reportId, docAndRadioList);
+
+        Collections.sort(docAndRadioList, (a, b) -> Integer.compare(b.getConsent(), a.getConsent()));
+
+        return docAndRadioList;
+    }
+
+    private void findDoctors(int reportId, List<DocAndRadio> docAndRadioList) {
+
+        List<DoctorEntity> doctorEntityList=new ArrayList<>();
+        doctorEntityList=docDao.findAll();
+
+        for(DoctorEntity docEnt:doctorEntityList) {
+            ConsentEntity consentEntity=new ConsentEntity();
+            consentEntity=consentDao.findByViewerIdIdAndReportIdId(docEnt.getUserId().getId(), reportId).orElse(null);
+
+            String name="";
+            if(docEnt.getMiddleName()==null) {
+                name = docEnt.getFirstName()+" "+docEnt.getLastName();
+            }
+            else {
+                name = docEnt.getFirstName()+" "+docEnt.getMiddleName()+" "+docEnt.getLastName();
+            }
+
+            DocAndRadio docAndRadio=new DocAndRadio();
+
+            docAndRadio.setName(name);
+            docAndRadio.setId(docEnt.getId());
+            docAndRadio.setCredId(docEnt.getUserId().getId());
+            docAndRadio.setRole("Doctor");
+            if(consentEntity!=null) {
+                docAndRadio.setConsent(1);
+            }
+
+             docAndRadioList.add(docAndRadio);
+        }
+    }
+
+    private void findRadiologists(int reportId, List<DocAndRadio> docAndRadioList) {
+        List<RadiologistEntity> radiologistEntityList=new ArrayList<>();
+        radiologistEntityList=radDao.findAll();
+        for(RadiologistEntity radiologistEntity:radiologistEntityList) {
+            ConsentEntity consentEntity=new ConsentEntity();
+            consentEntity=consentDao.findByViewerIdIdAndReportIdId(radiologistEntity.getUserId().getId(), reportId).orElse(null);
+
+            String name="";
+            if(radiologistEntity.getMiddleName()==null) {
+                name = radiologistEntity.getFirstName()+" "+radiologistEntity.getLastName();
+            }
+            else {
+                name = radiologistEntity.getFirstName()+" "+radiologistEntity.getMiddleName()+" "+radiologistEntity.getLastName();
+            }
+
+            DocAndRadio docAndRadio=new DocAndRadio();
+
+            docAndRadio.setName(name);
+            docAndRadio.setId(radiologistEntity.getId());
+            docAndRadio.setCredId(radiologistEntity.getUserId().getId());
+            docAndRadio.setRole("Radiologist");
+            if(consentEntity!=null) {
+                docAndRadio.setConsent(1);
+            }
+
+             docAndRadioList.add(docAndRadio);
+        }
+    }
+
     private List<Doctor> mapAllToDomainDoctorEntity(List<DoctorEntity> doctorEntityList) {
 
         List<Doctor> doctorList = new ArrayList<>();
@@ -106,31 +178,36 @@ public class DetailsRepositoryImplementation implements DetailsRepository {
 
     private Patient mapToDomainPatientEntity(PatientEntity patEnt) {
         Patient pat = new Patient();
-        pat.setId(patEnt.getId());
-        pat.setUserId(patEnt.getUserId().getId());
-        pat.setFirstName(patEnt.getFirstName());
-        pat.setMiddleName(patEnt.getMiddleName());
-        pat.setLastName(patEnt.getLastName());
-        pat.setDateOfBirth(patEnt.getDateOfBirth());
-        pat.setGender(patEnt.getGender());
-        pat.setAddress(patEnt.getAddress());
-        pat.setCity(patEnt.getCity());
-        pat.setState(patEnt.getState());
-        pat.setPinCode(patEnt.getPinCode());
-        pat.setEmail(patEnt.getEmail());
-        pat.setPhoneNumber(patEnt.getPhoneNumber());
-        pat.setEmergencyContact(patEnt.getEmergencyContact());
-        pat.setBloodGroup(patEnt.getBloodGroup());
-        pat.setHeight(patEnt.getHeight());
-        pat.setWeight(patEnt.getWeight());
-        pat.setProfilePhoto(patEnt.getProfilePhoto());
-        pat.setAllergies(patEnt.getAllergies());
-        pat.setChronicDiseases(patEnt.getChronicDiseases());
-        pat.setCurrentMedication(patEnt.getCurrentMedication());
-        pat.setPastMedication(patEnt.getPastMedication());
-        pat.setSmokingHabits(patEnt.getSmokingHabits());
-        pat.setDrinkingHabits(patEnt.getDrinkingHabits());
-        pat.setFoodPreferences(patEnt.getFoodPreferences());
+        try {
+            pat.setId(patEnt.getId());
+            pat.setUserId(patEnt.getUserId().getId());
+            pat.setFirstName(patEnt.getFirstName());
+            pat.setMiddleName(patEnt.getMiddleName());
+            pat.setLastName(patEnt.getLastName());
+            pat.setDateOfBirth(patEnt.getDateOfBirth());
+            pat.setGender(patEnt.getGender());
+            pat.setAddress(patEnt.getAddress());
+            pat.setCity(patEnt.getCity());
+            pat.setState(patEnt.getState());
+            pat.setPinCode(patEnt.getPinCode());
+            pat.setEmail(patEnt.getEmail());
+            pat.setPhoneNumber(aesService.decrypt(patEnt.getPhoneNumber()));
+            pat.setEmergencyContact(aesService.decrypt(patEnt.getEmergencyContact()));
+            pat.setBloodGroup(patEnt.getBloodGroup());
+            pat.setHeight(patEnt.getHeight());
+            pat.setWeight(patEnt.getWeight());
+            pat.setProfilePhoto(patEnt.getProfilePhoto());
+            pat.setAllergies(aesService.decrypt(patEnt.getAllergies()));
+            pat.setChronicDiseases(aesService.decrypt(patEnt.getChronicDiseases()));
+            pat.setCurrentMedication(aesService.decrypt(patEnt.getCurrentMedication()));
+            pat.setPastMedication(aesService.decrypt(patEnt.getPastMedication()));
+            pat.setSmokingHabits(aesService.decrypt(patEnt.getSmokingHabits()));
+            pat.setDrinkingHabits(aesService.decrypt(patEnt.getDrinkingHabits()));
+            pat.setFoodPreferences(aesService.decrypt(patEnt.getFoodPreferences()));
+        }
+        catch (Exception e) {
+            throw new GlobalException(e.getMessage());
+        }
 
         return pat;
     }

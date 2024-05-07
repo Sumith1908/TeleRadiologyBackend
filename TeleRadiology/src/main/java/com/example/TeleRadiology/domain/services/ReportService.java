@@ -9,6 +9,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.example.TeleRadiology.data.entities.CredentialsEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.TeleRadiology.data.dao.OtpDao;
@@ -91,7 +92,17 @@ public class ReportService {
 
         GiveConsentResult res = new GiveConsentResult();
 
-        if (verifyOTP(req.getPatientId(), req.getOtp())) {
+        PatientEntity patientEntity = new PatientEntity();
+
+        patientEntity=patientDao.findById(req.getPatientId()).orElse(null);
+
+        CredentialsEntity credentialsEntity = new CredentialsEntity();
+
+        credentialsEntity=patientEntity.getUserId();
+
+        int credId = credentialsEntity.getId();
+
+        if (verifyOTP(credId, req.getOtp())) {
             int viewerId = reportRepo.giveConsent(req.getDoctorId(), req.getReportId(), req.getPatientId(),
                     req.getRadiologistId());
             res.setSuccess(1);
@@ -106,7 +117,13 @@ public class ReportService {
 
     public int deleteConsent(RemoveConsentReq removeConsentReq) {
 
-        if (verifyOTP(removeConsentReq.getPatientId(), removeConsentReq.getOtp())) {
+        PatientEntity patientEntity=new PatientEntity();
+
+        patientEntity=patientDao.findById(removeConsentReq.getPatientId()).orElse(null);
+
+        int credId=patientEntity.getUserId().getId();
+
+        if (verifyOTP(credId, removeConsentReq.getOtp())) {
             reportRepo.removeConsent(removeConsentReq);
         }
 
@@ -148,8 +165,9 @@ public class ReportService {
         return res;
     }
 
-    private boolean verifyOTP(int patientId, int sentOtp) {
-        OtpEntity otp = otpDao.findByPatientIdId(patientId).orElseThrow(
+    public boolean verifyOTP(int credId, int sentOtp) {
+        OtpEntity otp = otpDao.findByCredIdId(credId).orElseThrow(
+
                 () -> new NoOtpException("Wrong Otp"));
         if (otp.getOtp() != sentOtp) {
             throw new NoOtpException("Wrong Otp");
@@ -199,6 +217,7 @@ public class ReportService {
 
     private ReportResult mapToDtoReportResult(Report report) {
         ReportResult reportResult = new ReportResult();
+        reportResult.setNotification(report.getNotification());
         reportResult.setId(report.getId());
         reportResult.setReportType(report.getReportType());
         reportResult.setPatientId(report.getPatientId());

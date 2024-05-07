@@ -8,9 +8,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.example.TeleRadiology.data.dao.*;
+import com.example.TeleRadiology.domain.services.AesService;
+import com.example.TeleRadiology.exception.*;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.example.TeleRadiology.data.dao.AnnotatedImageDao;
 import com.example.TeleRadiology.data.dao.ChatDao;
 import com.example.TeleRadiology.data.dao.ConsentDao;
@@ -38,13 +40,6 @@ import com.example.TeleRadiology.domain.model.Report;
 import com.example.TeleRadiology.dto.GetConsentReportReq;
 import com.example.TeleRadiology.dto.RemoveConsentReq;
 import com.example.TeleRadiology.dto.UploadRequest;
-import com.example.TeleRadiology.exception.ConsentNotFoundException;
-import com.example.TeleRadiology.exception.DoctoNotFoundException;
-import com.example.TeleRadiology.exception.GlobalException;
-import com.example.TeleRadiology.exception.LabNotFoundException;
-import com.example.TeleRadiology.exception.PatientNotFoundException;
-import com.example.TeleRadiology.exception.ReportsNotFoundException;
-import com.example.TeleRadiology.exception.UserNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -62,6 +57,8 @@ public class ReportRepositoryImplementation implements ReportRepository {
     private final CredentialsDao credDao;
     private final AnnotatedImageDao annotationDao;
     private final ChatDao chatDao;
+    private final NotificationDao notificationDao;
+    private final AesService aesService;
 
     public List<Report> getReportsOfPatient(int id) {
         List<ReportEntity> reportList = repDao.findAllByPatientIdId(id).orElseThrow(
@@ -99,21 +96,33 @@ public class ReportRepositoryImplementation implements ReportRepository {
 
     @Transactional
     public int removeConsent(RemoveConsentReq removeConsentReq) {
-        DoctorEntity doc = docDao.findById(removeConsentReq.getDoctorId()).orElseThrow(
-                () -> new DoctoNotFoundException("No such doctor"));
-        consentDao.deleteByReportIdIdAndViewerIdId(removeConsentReq.getReportId(), doc.getUserId().getId());
-        return 0;
+        int credId=0;
+        if(removeConsentReq.getDoctorId()!=-1) {
+            DoctorEntity doctorEntity = new DoctorEntity();
+            doctorEntity = docDao.findById(removeConsentReq.getDoctorId()).orElseThrow(
+                    () -> new DoctoNotFoundException("No such doctor"));
+            credId=doctorEntity.getUserId().getId();
+        }
+        else {
+            RadiologistEntity radiologistEntity = new RadiologistEntity();
+            radiologistEntity = radDao.findById(removeConsentReq.getRadiologistId()).orElseThrow(
+                    () -> new RadiologistNotFoundException("Radiologist Not Found"));
+            credId=radiologistEntity.getUserId().getId();
+        }
+
+         consentDao.deleteByReportIdIdAndViewerIdId(removeConsentReq.getReportId(), credId);
+         return 0;
     }
 
     @Override
     public String setOtp(int otp, int id) {
-        PatientEntity pat = patDao.findById(id).orElse(null);
-        OtpEntity otpEnt = otpDao.findByPatientIdId(id).orElse(null);
+        CredentialsEntity credentialsEntity = credDao.findById(id).orElse(null);
+        OtpEntity otpEnt = otpDao.findByCredIdId(id).orElse(null);
         LocalDateTime time = LocalDateTime.now();
         if (otpEnt == null) {
             OtpEntity newOtpEntity = new OtpEntity();
             newOtpEntity.setOtp(otp);
-            newOtpEntity.setPatientId(pat);
+            newOtpEntity.setCredId(credentialsEntity);
             newOtpEntity.setTime(time);
             otpDao.save(newOtpEntity);
         } else {
@@ -121,7 +130,7 @@ public class ReportRepositoryImplementation implements ReportRepository {
             otpEnt.setTime(time);
             otpDao.save(otpEnt);
         }
-        return pat.getEmail();
+        return credentialsEntity.getEmail();
     }
 
     public List<Patient> getConsentPatients(int viewerId) {
@@ -238,6 +247,11 @@ public class ReportRepositoryImplementation implements ReportRepository {
 
     private Report mapToDomainReportEntity(ReportEntity reportEntity) {
         Report report = new Report();
+
+        if(notificationDao.existsByReportIdId(reportEntity.getId())) {
+            report.setNotification(1);
+        }
+
         report.setId(reportEntity.getId());
         report.setReportType(reportEntity.getReportType());
         report.setPatientId(reportEntity.getPatientId().getId());
@@ -269,31 +283,36 @@ public class ReportRepositoryImplementation implements ReportRepository {
 
     private Patient mapToDomainPatientEntity(PatientEntity patEnt) {
         Patient pat = new Patient();
-        pat.setId(patEnt.getId());
-        pat.setUserId(patEnt.getUserId().getId());
-        pat.setFirstName(patEnt.getFirstName());
-        pat.setMiddleName(patEnt.getMiddleName());
-        pat.setLastName(patEnt.getLastName());
-        pat.setDateOfBirth(patEnt.getDateOfBirth());
-        pat.setGender(patEnt.getGender());
-        pat.setAddress(patEnt.getAddress());
-        pat.setCity(patEnt.getCity());
-        pat.setState(patEnt.getState());
-        pat.setPinCode(patEnt.getPinCode());
-        pat.setEmail(patEnt.getEmail());
-        pat.setPhoneNumber(patEnt.getPhoneNumber());
-        pat.setEmergencyContact(patEnt.getEmergencyContact());
-        pat.setBloodGroup(patEnt.getBloodGroup());
-        pat.setHeight(patEnt.getHeight());
-        pat.setWeight(patEnt.getWeight());
-        pat.setProfilePhoto(patEnt.getProfilePhoto());
-        pat.setAllergies(patEnt.getAllergies());
-        pat.setChronicDiseases(patEnt.getChronicDiseases());
-        pat.setCurrentMedication(patEnt.getCurrentMedication());
-        pat.setDrinkingHabits(patEnt.getDrinkingHabits());
-        pat.setFoodPreferences(patEnt.getFoodPreferences());
-        pat.setPastMedication(patEnt.getPastMedication());
-        pat.setSmokingHabits(patEnt.getSmokingHabits());
+        try {
+            pat.setId(patEnt.getId());
+            pat.setUserId(patEnt.getUserId().getId());
+            pat.setFirstName(patEnt.getFirstName());
+            pat.setMiddleName(patEnt.getMiddleName());
+            pat.setLastName(patEnt.getLastName());
+            pat.setDateOfBirth(patEnt.getDateOfBirth());
+            pat.setGender(patEnt.getGender());
+            pat.setAddress(patEnt.getAddress());
+            pat.setCity(patEnt.getCity());
+            pat.setState(patEnt.getState());
+            pat.setPinCode(patEnt.getPinCode());
+            pat.setEmail(patEnt.getEmail());
+            pat.setPhoneNumber(aesService.decrypt(patEnt.getPhoneNumber()));
+            pat.setEmergencyContact(aesService.decrypt(patEnt.getEmergencyContact()));
+            pat.setBloodGroup(patEnt.getBloodGroup());
+            pat.setHeight(patEnt.getHeight());
+            pat.setWeight(patEnt.getWeight());
+            pat.setProfilePhoto(patEnt.getProfilePhoto());
+            pat.setAllergies(aesService.decrypt(patEnt.getAllergies()));
+            pat.setChronicDiseases(aesService.decrypt(patEnt.getChronicDiseases()));
+            pat.setCurrentMedication(aesService.decrypt(patEnt.getCurrentMedication()));
+            pat.setDrinkingHabits(aesService.decrypt(patEnt.getDrinkingHabits()));
+            pat.setFoodPreferences(aesService.decrypt(patEnt.getFoodPreferences()));
+            pat.setPastMedication(aesService.decrypt(patEnt.getPastMedication()));
+            pat.setSmokingHabits(aesService.decrypt(patEnt.getSmokingHabits()));
+        }
+        catch (Exception e) {
+            throw new GlobalException(e.getMessage());
+        }
 
         return pat;
     }

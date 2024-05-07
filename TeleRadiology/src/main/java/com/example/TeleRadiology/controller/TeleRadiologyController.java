@@ -3,6 +3,9 @@ package com.example.TeleRadiology.controller;
 import java.util.ArrayList;
 
 import com.example.TeleRadiology.domain.model.Credentials;
+import com.example.TeleRadiology.domain.services.EmailOtpService;
+import com.example.TeleRadiology.domain.services.ReportService;
+import com.example.TeleRadiology.dto.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,10 +13,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.TeleRadiology.domain.services.TeleRadiologyService;
-import com.example.TeleRadiology.dto.CredentialsRequest;
-import com.example.TeleRadiology.dto.CredentialsResult;
-import com.example.TeleRadiology.dto.LogoutReq;
-import com.example.TeleRadiology.dto.ChangePasswordReq;
 import com.example.TeleRadiology.jwt.JwtService;
 
 import lombok.RequiredArgsConstructor;
@@ -26,6 +25,8 @@ public class TeleRadiologyController {
     // private static final Logger logger =
     // LoggerFactory.getLogger(TeleRadiologyController.class);
     private final TeleRadiologyService teleRadService;
+    private final ReportService reportService;
+    private final EmailOtpService email;
     private final JwtService jwt;
 
     @PostMapping("/loginCredentials")
@@ -59,6 +60,11 @@ public class TeleRadiologyController {
     @PostMapping(value = "/changePassword")
     public void changePassword(@RequestBody ChangePasswordReq changePasswordReq) {
         teleRadService.changePassword(changePasswordReq);
+    }
+
+    @PostMapping(value = "/verifyOtp")
+    public void verifyOtp(@RequestBody VerifyOtpReq verifyOtpReq) {
+        reportService.verifyOTP(verifyOtpReq.getCredId(), verifyOtpReq.getOtp());
     }
 
     @PostMapping("/logout")

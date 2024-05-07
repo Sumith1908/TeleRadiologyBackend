@@ -1,6 +1,8 @@
 package com.example.TeleRadiology.domain.services;
 
 import java.util.*;
+
+import com.example.TeleRadiology.dto.*;
 import org.springframework.stereotype.Service;
 
 import com.example.TeleRadiology.domain.model.Doctor;
@@ -8,11 +10,6 @@ import com.example.TeleRadiology.domain.model.Lab;
 import com.example.TeleRadiology.domain.model.Patient;
 import com.example.TeleRadiology.domain.model.Radiologist;
 import com.example.TeleRadiology.domain.repositories.DetailsRepository;
-import com.example.TeleRadiology.dto.DoctorResult;
-import com.example.TeleRadiology.dto.LabResult;
-import com.example.TeleRadiology.dto.PatientResult;
-import com.example.TeleRadiology.dto.ProfilePicDTO;
-import com.example.TeleRadiology.dto.RadiologistResult;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,6 +25,11 @@ public class DetailsService {
 //        ProfilePicDTO dto = imgService.callImageServerGet("/getProfilePic/" + Integer.toString(pat.getUserId()),
 //                ProfilePicDTO.class);
 //        patRes.setProfilePhoto(dto.getProfilePic());
+        // commented untill required
+        // ProfilePicDTO dto = imgService.callImageServerGet("/getProfilePic/" +
+        // Integer.toString(pat.getUserId()),
+        // ProfilePicDTO.class);
+        // patRes.setProfilePhoto(dto.getProfilePic());
         return patRes;
     }
 
@@ -62,6 +64,12 @@ public class DetailsService {
         List<Patient> patientList = new ArrayList<>();
         patientList = detRep.getPatients();
         return patientList;
+    }
+
+    public List<DocAndRadio> getAllDocAndRadio(int id) {
+        List<DocAndRadio> docAndRadioList=new ArrayList<>();
+        docAndRadioList=detRep.getAllDocAndRadio(id);
+        return docAndRadioList;
     }
 
     private DoctorResult mapToDtoDoctor(Doctor doc) {
