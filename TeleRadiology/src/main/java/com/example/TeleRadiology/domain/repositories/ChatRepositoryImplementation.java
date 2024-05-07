@@ -158,9 +158,16 @@ public class ChatRepositoryImplementation implements ChatRepository {
                 if (doc != null) {
                     DocRes res = new DocRes();
                     res.setUserId(doc.getUserId().getId());
-                    res.setName(doc.getFirstName() + " " + doc.getMiddleName() + " " + doc.getLastName());
-                    res.setReports(map.get(pair1.getId()));
-                    docs.add(res);
+                    String name="";
+                    if(doc.getMiddleName()==null) {
+                        name=doc.getFirstName()+" "+doc.getLastName();
+                    }
+                    else {
+                        name=doc.getFirstName()+" "+doc.getMiddleName()+" "+doc.getLastName();
+                    }
+                     res.setName(name);
+                     res.setReports(map.get(pair1.getId()));
+                     docs.add(res);
                 }
             }
             if (pair1.getRole().equals("ROLE_PATIENT")) {
@@ -168,9 +175,16 @@ public class ChatRepositoryImplementation implements ChatRepository {
                 if (pat != null) {
                     PatientRes res = new PatientRes();
                     res.setUserId(pat.getUserId().getId());
-                    res.setName(pat.getFirstName() + " " + pat.getMiddleName() + " " + pat.getLastName());
-                    res.setReports(map.get(pair1.getId()));
-                    pats.add(res);
+                    String name="";
+                    if(pat.getMiddleName()==null) {
+                        name=pat.getFirstName()+" "+pat.getLastName();
+                    }
+                    else {
+                        name=pat.getFirstName()+" "+pat.getMiddleName()+" "+pat.getLastName();
+                    }
+                     res.setName(name);
+                     res.setReports(map.get(pair1.getId()));
+                     pats.add(res);
                 }
             }
             if (pair1.getRole().equals("ROLE_RADIOLOGIST")) {
@@ -178,9 +192,16 @@ public class ChatRepositoryImplementation implements ChatRepository {
                 if (rad != null) {
                     RadRes res = new RadRes();
                     res.setUserId(rad.getUserId().getId());
-                    res.setName(rad.getFirstName() + " " + rad.getMiddleName() + " " + rad.getLastName());
-                    res.setReports(map.get(pair1.getId()));
-                    rads.add(res);
+                    String name="";
+                    if(rad.getMiddleName()==null) {
+                        name=rad.getFirstName()+" "+rad.getLastName();
+                    }
+                    else {
+                        name=rad.getFirstName()+" "+rad.getMiddleName()+" "+rad.getLastName();
+                    }
+                     res.setName(name);
+                     res.setReports(map.get(pair1.getId()));
+                     rads.add(res);
                 }
             }
         }

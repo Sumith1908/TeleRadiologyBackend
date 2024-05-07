@@ -22,6 +22,9 @@ public class DetailsService {
     public PatientResult getPatient(int id) {
         Patient pat = detRep.getPatient(id);
         PatientResult patRes = mapToDtoPatient(pat);
+//        ProfilePicDTO dto = imgService.callImageServerGet("/getProfilePic/" + Integer.toString(pat.getUserId()),
+//                ProfilePicDTO.class);
+//        patRes.setProfilePhoto(dto.getProfilePic());
         // commented untill required
         // ProfilePicDTO dto = imgService.callImageServerGet("/getProfilePic/" +
         // Integer.toString(pat.getUserId()),
