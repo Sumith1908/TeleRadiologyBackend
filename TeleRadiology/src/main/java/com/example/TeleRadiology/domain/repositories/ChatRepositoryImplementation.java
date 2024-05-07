@@ -153,7 +153,7 @@ public class ChatRepositoryImplementation implements ChatRepository {
         List<DocRes> docs = new ArrayList<>();
         List<RadRes> rads = new ArrayList<>();
         for (Pair1 pair1 : uniqueUsers) {
-            if (pair1.getRole().equals("ROLE_DOC")) {
+            if (pair1.getRole().equals("ROLE_DOCTOR")) {
                 DoctorEntity doc = docDao.findByUserIdId(pair1.id).orElse(null);
                 if (doc != null) {
                     DocRes res = new DocRes();

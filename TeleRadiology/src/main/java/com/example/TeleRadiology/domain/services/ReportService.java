@@ -9,7 +9,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.example.TeleRadiology.data.dao.DoctorDao;
 import com.example.TeleRadiology.data.entities.CredentialsEntity;
+import com.example.TeleRadiology.data.entities.DoctorEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.TeleRadiology.data.dao.OtpDao;
@@ -49,6 +51,7 @@ public class ReportService {
     private final ChatService chatService;
     private final PatientDao patientDao;
     private final ImageService imgService;
+    private final DoctorDao doctorDao;
 
     public List<ReportResult> getAllReportsOfPatient(int id) {
         List<Report> reports = reportRepo.getReportsOfPatient(id);
@@ -109,10 +112,17 @@ public class ReportService {
             res.setViewerId(viewerId);
             PatientEntity pat = patientDao.findById(req.getPatientId()).orElse(null);
             if (pat != null) {
-                chatService.addChat(viewerId, pat.getUserId().getId(), req.getReportId());
+                if(req.getRadiologistId()!=-1 && req.getDoctorId()!=-1) {
+                    DoctorEntity doctorEntity=new DoctorEntity();
+                    doctorEntity=doctorDao.findById(req.getDoctorId()).orElse(null);
+                    chatService.addChat(viewerId, doctorEntity.getUserId().getId(), req.getReportId());
+                }
+                else if(req.getRadiologistId()==-1 && req.getDoctorId()!=-1) {
+                    chatService.addChat(viewerId, pat.getUserId().getId(), req.getReportId());
+                }
             }
         }
-        return res;
+         return res;
     }
 
     public int deleteConsent(RemoveConsentReq removeConsentReq) {

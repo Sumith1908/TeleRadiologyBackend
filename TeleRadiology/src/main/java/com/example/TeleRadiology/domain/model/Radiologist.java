@@ -25,4 +25,6 @@ public class Radiologist {
 
     private String profilePhoto;
 
+    private int consent=0;
+
 }

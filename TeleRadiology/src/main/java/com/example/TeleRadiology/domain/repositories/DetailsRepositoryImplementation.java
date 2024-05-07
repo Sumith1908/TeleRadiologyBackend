@@ -29,6 +29,7 @@ public class DetailsRepositoryImplementation implements DetailsRepository {
     private final LabDao labDao;
     private final ConsentDao consentDao;
     private final AesService aesService;
+    private final NotificationDao notificationDao;
 
     public Patient getPatient(int id) {
         PatientEntity patEnt = patDao.findByUserIdId(id).orElseThrow(
@@ -85,6 +86,52 @@ public class DetailsRepositoryImplementation implements DetailsRepository {
 
         return docAndRadioList;
     }
+
+    public List<Radiologist> getRadiologistsForReport(int reportId) {
+        List<RadiologistEntity> radiologistEntityList=new ArrayList<>();
+        List<Radiologist> radiologistList=new ArrayList<>();
+        radiologistEntityList=radDao.findAll();
+
+        for(RadiologistEntity radiologistEntity:radiologistEntityList) {
+            Radiologist radiologist=new Radiologist();
+            radiologist=mapRadEntToRadDto(radiologistEntity, reportId);
+            radiologistList.add(radiologist);
+        }
+
+         return radiologistList;
+    }
+
+    private Radiologist mapRadEntToRadDto(RadiologistEntity radEnt, int reportId) {
+        ConsentEntity consentEntity=new ConsentEntity();
+        NotificationEntity notificationEntity=new NotificationEntity();
+
+        Radiologist rad = new Radiologist();
+
+        consentEntity = consentDao.findByViewerIdIdAndReportIdId(radEnt.getUserId().getId(), reportId).orElse(null);
+        notificationEntity = notificationDao.findByRadiologistIdIdAndReportIdId(radEnt.getId(), reportId).orElse(null);
+
+        if(consentEntity!=null) {
+            rad.setConsent(1);
+        }
+
+        if(notificationEntity!=null) {
+            rad.setConsent(2);
+        }
+
+        rad.setId(radEnt.getId());
+        rad.setUserId(radEnt.getUserId().getId());
+        rad.setFirstName(radEnt.getFirstName());
+        rad.setMiddleName(radEnt.getMiddleName());
+        rad.setLastName(radEnt.getLastName());
+        rad.setEmail(radEnt.getEmail());
+        rad.setPhoneNumber(radEnt.getPhoneNumber());
+        rad.setExperience(radEnt.getExperience());
+        rad.setHighestEducation(radEnt.getHighestEducation());
+        rad.setProfilePhoto(radEnt.getProfilePhoto());
+
+        return rad;
+    }
+
 
     private void findDoctors(int reportId, List<DocAndRadio> docAndRadioList) {
 
@@ -236,6 +283,7 @@ public class DetailsRepositoryImplementation implements DetailsRepository {
     }
 
     private Radiologist mapToDomainRadiologistEntity(RadiologistEntity radEnt) {
+        ConsentEntity consentEntity=new ConsentEntity();
         Radiologist rad = new Radiologist();
         rad.setId(radEnt.getId());
         rad.setUserId(radEnt.getUserId().getId());

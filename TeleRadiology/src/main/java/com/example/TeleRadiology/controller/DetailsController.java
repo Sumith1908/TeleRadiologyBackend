@@ -74,4 +74,11 @@ public class DetailsController {
         docAndRadioList=detService.getAllDocAndRadio(id);
         return docAndRadioList;
     }
+
+    @GetMapping("getRadiologists/{id}")
+    public List<Radiologist> getRadiologists(@PathVariable("id") int id) {
+        List<Radiologist> radiologistList=new ArrayList<>();
+        radiologistList=detService.getRadiologists(id);
+        return  radiologistList;
+    }
 }

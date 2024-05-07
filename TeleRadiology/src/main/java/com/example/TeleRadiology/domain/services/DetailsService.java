@@ -69,6 +69,12 @@ public class DetailsService {
         return docAndRadioList;
     }
 
+    public List<Radiologist> getRadiologists(int id) {
+       List<Radiologist> radiologistList=new ArrayList<>();
+       radiologistList=detRep.getRadiologistsForReport(id);
+       return  radiologistList;
+    }
+
     private DoctorResult mapToDtoDoctor(Doctor doc) {
         DoctorResult docRes = new DoctorResult();
         docRes.setId(doc.getId());

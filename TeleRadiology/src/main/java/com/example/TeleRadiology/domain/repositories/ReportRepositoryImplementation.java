@@ -152,16 +152,17 @@ public class ReportRepositoryImplementation implements ReportRepository {
 
     public int giveConsent(int doctorId, int reportId, int patientId, int radioId) {
         int userId = -1;
-        if (doctorId != -1) {
+        if (doctorId != -1 && radioId == -1) {
             DoctorEntity doc = docDao.findById(doctorId).orElseThrow(
                     () -> new DoctoNotFoundException("No such doctor"));
             userId = doc.getUserId().getId();
         }
-        if (radioId != -1) {
+        else {
             RadiologistEntity rad = radDao.findById(radioId).orElseThrow(
                     () -> new DoctoNotFoundException("No such radiologist"));
             userId = rad.getUserId().getId();
         }
+
         ConsentEntity consent = new ConsentEntity();
         ReportEntity rep = repDao.findById(reportId).orElseThrow(
                 () -> new ReportsNotFoundException("No such Report"));

@@ -23,4 +23,6 @@ public interface DetailsRepository {
     public List<Patient> getPatients();
 
     public List<DocAndRadio> getAllDocAndRadio(int id);
+
+    public List<Radiologist> getRadiologistsForReport(int id);
 }
