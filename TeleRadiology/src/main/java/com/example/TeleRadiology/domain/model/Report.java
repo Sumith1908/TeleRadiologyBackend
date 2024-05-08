@@ -20,4 +20,8 @@ public class Report {
     private String initialRemarks;
 
     private int notification=0;
+
+    private int patientAge=0;
+
+    private String patientBloodGroup="";
 }

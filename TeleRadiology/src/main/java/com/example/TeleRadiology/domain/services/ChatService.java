@@ -1,5 +1,7 @@
 package com.example.TeleRadiology.domain.services;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,6 +108,10 @@ public class ChatService {
         report.setLabId(reportEntity.getLabId().getId());
         report.setDateOfIssue(reportEntity.getDateOfIssue());
         report.setInitialRemarks(reportEntity.getInitialRemarks());
+        report.setPatientBloodGroup(reportEntity.getPatientId().getBloodGroup());
+        LocalDate currentDate = LocalDate.now();
+        Period period = Period.between(reportEntity.getPatientId().getDateOfBirth(), currentDate);
+        report.setPatientAge(period.getYears());
         return report;
     }
 }
