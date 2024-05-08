@@ -25,9 +25,6 @@ public class DetailsService {
     public PatientResult getPatient(int id) {
         Patient pat = detRep.getPatient(id);
         PatientResult patRes = mapToDtoPatient(pat);
-//        ProfilePicDTO dto = imgService.callImageServerGet("/getProfilePic/" + Integer.toString(pat.getUserId()),
-//                ProfilePicDTO.class);
-//        patRes.setProfilePhoto(dto.getProfilePic());
         // commented untill required
         // ProfilePicDTO dto = imgService.callImageServerGet("/getProfilePic/" +
         // Integer.toString(pat.getUserId()),
@@ -38,12 +35,22 @@ public class DetailsService {
 
     public DoctorResult getDoctor(int id) {
         Doctor doc = detRep.getDoctor(id);
-        return mapToDtoDoctor(doc);
+        DoctorResult docRes = mapToDtoDoctor(doc);
+        // ProfilePicDTO dto = imgService.callImageServerGet("/getProfilePic/" +
+        // Integer.toString(doc.getUserId()),
+        // ProfilePicDTO.class);
+        // docRes.setProfilePhoto(dto.getProfilePic());
+        return docRes;
     }
 
     public RadiologistResult getRadiologist(int id) {
         Radiologist rad = detRep.getRadiologist(id);
-        return mapToDtoRadiologist(rad);
+        RadiologistResult radRes = mapToDtoRadiologist(rad);
+        // ProfilePicDTO dto = imgService.callImageServerGet("/getProfilePic/" +
+        // Integer.toString(rad.getUserId()),
+        // ProfilePicDTO.class);
+        // radRes.setProfilePhoto(dto.getProfilePic());
+        return radRes;
     }
 
     public LabResult getLab(int id) {
@@ -70,15 +77,15 @@ public class DetailsService {
     }
 
     public List<DocAndRadio> getAllDocAndRadio(int id) {
-        List<DocAndRadio> docAndRadioList=new ArrayList<>();
-        docAndRadioList=detRep.getAllDocAndRadio(id);
+        List<DocAndRadio> docAndRadioList = new ArrayList<>();
+        docAndRadioList = detRep.getAllDocAndRadio(id);
         return docAndRadioList;
     }
 
     public List<Radiologist> getRadiologists(int id) {
-       List<Radiologist> radiologistList=new ArrayList<>();
-       radiologistList=detRep.getRadiologistsForReport(id);
-       return  radiologistList;
+        List<Radiologist> radiologistList = new ArrayList<>();
+        radiologistList = detRep.getRadiologistsForReport(id);
+        return radiologistList;
     }
 
     private DoctorResult mapToDtoDoctor(Doctor doc) {
