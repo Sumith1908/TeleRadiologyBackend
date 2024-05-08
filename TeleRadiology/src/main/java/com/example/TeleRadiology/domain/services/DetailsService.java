@@ -2,6 +2,8 @@ package com.example.TeleRadiology.domain.services;
 
 import java.util.*;
 
+import com.example.TeleRadiology.data.dao.NotificationDao;
+import com.example.TeleRadiology.data.entities.NotificationEntity;
 import com.example.TeleRadiology.dto.*;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class DetailsService {
     private final DetailsRepository detRep;
+    private final NotificationDao notificationDao;
     private final ImageService imgService;
 
     public PatientResult getPatient(int id) {
@@ -130,7 +133,13 @@ public class DetailsService {
         patRes.setDrinkingHabits(pat.getDrinkingHabits());
         patRes.setFoodPreferences(pat.getFoodPreferences());
 
-        return patRes;
+        NotificationEntity notificationEntity=new NotificationEntity();
+        notificationEntity=notificationDao.findByPatientIdId(pat.getId()).orElse(null);
+        if(notificationEntity!=null) {
+            patRes.setNotification(1);
+        }
+
+         return patRes;
     }
 
     private RadiologistResult mapToDtoRadiologist(Radiologist rad) {

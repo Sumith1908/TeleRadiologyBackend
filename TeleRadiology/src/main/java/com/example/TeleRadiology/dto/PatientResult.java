@@ -56,4 +56,6 @@ public class PatientResult {
 
     private String foodPreferences;
 
+    private int notification=0;
+
 }

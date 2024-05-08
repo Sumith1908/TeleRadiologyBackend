@@ -11,6 +11,7 @@ import com.example.TeleRadiology.data.entities.NotificationEntity;
 public interface NotificationDao extends JpaRepository<NotificationEntity, Integer> {
     java.util.Optional<List<NotificationEntity>> findAllByReciverIdIdAndReportIdId(int credId, int reportId);
     boolean existsByReportIdId(int reportId);
-
     Optional<NotificationEntity> findByRadiologistIdIdAndReportIdId(int radiologistId, int reportId);
+
+    Optional<NotificationEntity> findByPatientIdId(int patientId);
 }
