@@ -19,8 +19,10 @@ public class PatientRepositoryImplementation implements PatientRepository{
     private final AesService aesService;
 
     @Override
-    public void addPatient(Patient pat) {
-        patDao.save(mapToEntityPatient(pat));
+    public int addPatient(Patient pat) {
+        PatientEntity patientEntity=new PatientEntity();
+        patientEntity=patDao.save(mapToEntityPatient(pat));
+        return patientEntity.getUserId().getId();
     }
 
     private PatientEntity mapToEntityPatient(Patient pat) {

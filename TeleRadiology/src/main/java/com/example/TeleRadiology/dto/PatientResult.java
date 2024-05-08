@@ -58,4 +58,6 @@ public class PatientResult {
 
     private int notification=0;
 
+    private int credId;
+
 }

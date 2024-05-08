@@ -18,6 +18,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain security(HttpSecurity http) throws Exception {
+        http.requiresChannel(channel->channel.anyRequest().requiresSecure());
         http.csrf(config -> config.disable());
         http.authorizeHttpRequests(
                 configure -> configure

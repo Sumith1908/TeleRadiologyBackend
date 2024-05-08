@@ -26,30 +26,30 @@ public class DetailsService {
         Patient pat = detRep.getPatient(id);
         PatientResult patRes = mapToDtoPatient(pat);
         // commented untill required
-        // ProfilePicDTO dto = imgService.callImageServerGet("/getProfilePic/" +
-        // Integer.toString(pat.getUserId()),
-        // ProfilePicDTO.class);
-        // patRes.setProfilePhoto(dto.getProfilePic());
+         ProfilePicDTO dto = imgService.callImageServerGet("/getProfilePic/" +
+         Integer.toString(pat.getUserId()),
+         ProfilePicDTO.class);
+         patRes.setProfilePhoto(dto.getProfilePic());
         return patRes;
     }
 
     public DoctorResult getDoctor(int id) {
         Doctor doc = detRep.getDoctor(id);
         DoctorResult docRes = mapToDtoDoctor(doc);
-        // ProfilePicDTO dto = imgService.callImageServerGet("/getProfilePic/" +
-        // Integer.toString(doc.getUserId()),
-        // ProfilePicDTO.class);
-        // docRes.setProfilePhoto(dto.getProfilePic());
+//         ProfilePicDTO dto = imgService.callImageServerGet("/getProfilePic/" +
+//         Integer.toString(doc.getUserId()),
+//         ProfilePicDTO.class);
+//         docRes.setProfilePhoto(dto.getProfilePic());
         return docRes;
     }
 
     public RadiologistResult getRadiologist(int id) {
         Radiologist rad = detRep.getRadiologist(id);
         RadiologistResult radRes = mapToDtoRadiologist(rad);
-        // ProfilePicDTO dto = imgService.callImageServerGet("/getProfilePic/" +
-        // Integer.toString(rad.getUserId()),
-        // ProfilePicDTO.class);
-        // radRes.setProfilePhoto(dto.getProfilePic());
+//         ProfilePicDTO dto = imgService.callImageServerGet("/getProfilePic/" +
+//         Integer.toString(rad.getUserId()),
+//         ProfilePicDTO.class);
+//         radRes.setProfilePhoto(dto.getProfilePic());
         return radRes;
     }
 

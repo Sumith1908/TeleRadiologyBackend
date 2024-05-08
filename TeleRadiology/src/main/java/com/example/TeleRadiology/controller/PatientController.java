@@ -21,9 +21,9 @@ public class PatientController {
     private final AesService aes;
 
     @PostMapping("/addPatient")
-    public Boolean getPatient(@RequestBody Patient pat) {
-        patService.addPatient(pat);
-        return true;
+    public int getPatient(@RequestBody Patient pat) {
+        int credId=patService.addPatient(pat);
+        return credId;
     }
 
     @GetMapping("/test")

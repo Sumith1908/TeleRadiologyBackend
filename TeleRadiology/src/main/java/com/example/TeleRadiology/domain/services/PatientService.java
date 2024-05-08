@@ -10,7 +10,8 @@ import org.springframework.stereotype.Service;
 public class PatientService {
     private final PatientRepository patRepo;
 
-    public void addPatient (Patient pat) {
-        patRepo.addPatient(pat);
+    public int addPatient (Patient pat) {
+        int credId=patRepo.addPatient(pat);
+        return credId;
     }
 }
